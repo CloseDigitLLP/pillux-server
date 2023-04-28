@@ -1,0 +1,11 @@
+{
+    "apps": [
+        {
+            "name": "CloseDigit Server",
+            "script": "npm",
+            "args" : "start",
+            "node_args": "--max_old_space_size=4096",
+            "watch": ["config"]
+        }
+    ]
+}

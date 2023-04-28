@@ -1,0 +1,12 @@
+[
+    {
+        "path" : "/login",
+        "method" : "post",
+        "action" : "auth.login",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    }
+]

@@ -1,0 +1,56 @@
+{
+  "development": {
+    "username": "root",
+      "password": "RajanRV1212@",
+      "database": "test",
+      "host": "localhost",
+      "useReplica": false,
+      "dialect": "mysql",
+      "write": {
+        "username": "root",
+        "password": "RajanRV1212@",
+        "database": "test",
+        "host": "localhost",
+        "logging": false,
+        "consoleLogs": true,
+        "fileLogs": false
+      },
+      "read": [
+        {
+          "username": "cccsql",
+          "password": "ccc123",
+          "database": "psr_report_replica",
+          "host": "192.168.0.31"
+        }
+      ]
+  },
+  "production": {
+    "useReplica": true,
+    "dialect": "mysql",
+    "defaultConfig": {
+      "username": "cccsql",
+      "password": "ccc123",
+      "database": "psr_report",
+      "host": "192.168.0.31",
+      "logging": false
+    },
+    "write": [
+      {
+        "username": "cccsql",
+        "password": "ccc123",
+        "database": "psr_report",
+        "host": "192.168.0.31",
+        "logging": false
+      }
+    ],
+    "read": [
+      {
+        "username": "cccsql",
+        "password": "ccc123",
+        "database": "psr_report_replica",
+        "host": "192.168.0.31",
+        "logging": false
+      }
+    ]
+  }
+}

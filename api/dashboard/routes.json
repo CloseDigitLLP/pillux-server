@@ -1,0 +1,12 @@
+[
+    {
+        "path" : "/menu",
+        "method" : "get",
+        "action" : "dashboard.getAllUsers",
+        "public" : true,
+        "globalMiddlewares": ["middlewares/apiVerify.tokenVerification"],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    }
+]

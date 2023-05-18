@@ -5,7 +5,7 @@
         "action" : "auth.login",
         "public" : true,
         "globalMiddlewares": [],
-        "middlewares": [],
+        "middlewares": ["test.validateUser"],
         "pathFromRoot": false,
         "enabled": true
     }

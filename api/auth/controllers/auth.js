@@ -9,7 +9,7 @@ module.exports = {
         email,
         password
       );
-
+      console.log(user, "<=== after middleware");
       if (!user) {
         return res.status(404).send({
           message: "User not found",

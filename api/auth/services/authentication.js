@@ -6,7 +6,8 @@ module.exports = {
                     email,
                     password
                 },
-                attributes: ['email', 'username', 'roles']
+                attributes: ['email', 'username'],
+                include: [{ model: framework.models.roles, as: "usersRole", attributes: ['name']}]
             })
         } catch(error) {
             console.log(error)

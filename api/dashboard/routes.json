@@ -3,8 +3,8 @@
         "path" : "/menu",
         "method" : "get",
         "action" : "dashboard.getAllUsers",
-        "public" : true,
-        "globalMiddlewares": ["middlewares/apiVerify.tokenVerification"],
+        "public" : false,
+        "globalMiddlewares": [],
         "middlewares": [],
         "pathFromRoot": false,
         "enabled": true

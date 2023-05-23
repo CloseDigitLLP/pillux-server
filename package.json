@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "./node_modules/.bin/env-cmd -f ./.env node --max-old-space-size=4096 src/",
-    "dev": "./node_modules/.bin/env-cmd -f ./.env nodemon --ignore node_modules/ --ignore public/ src",
+    "dev": "env-cmd -f ./.env nodemon --ignore node_modules/ --ignore public/ src",
     "dev-old": "./node_modules/.bin/env-cmd -f ./.env nodemon --ignore node_modules/ --ignore public/ --max-old-space-size=4096 src"
   },
   "keywords": [],

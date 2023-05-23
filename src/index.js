@@ -1,3 +1,4 @@
+require('dotenv').config();
 global.framework={};
 require('../core/migration');
 require('../core/models');
@@ -38,7 +39,7 @@ app.use('/', [
   ]
 ])
 for(let key in routes.public){
-  app[routes.public[key].method](routes.public[key].path, routes.public[key].middleware || [], routes.public[key].action);
+  app[routes.public[key].method](routes.public[key].path, routes.public[key].middlewares || [], routes.public[key].action);
 }
 /* validate apis from here */
 for(let key in routes.protected){

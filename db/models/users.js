@@ -11,21 +11,35 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      users.belongsTo(models.roles,{foreignKey:"role_id",as:"usersRole"})
+      users.hasMany(models.planning_generals,{foreignKey:"instructor_id",as:"instructorGenerals"})
+      users.hasMany(models.reservation,{foreignKey:"instructor_id",as:"instructorReservation"})
+      users.hasMany(models.vehicles,{foreignKey:"instructor_id",as:"instructorVehicles"})
+      users.hasMany(models.repairs,{foreignKey:"instructor_id",as:"instructorRepairs"})
+      users.hasMany(models.penalties,{foreignKey:"instructor_id",as:"instructorPenalty"})
+      users.hasMany(models.report,{foreignKey:"instructor_id",as:"instructorReport"})
+      users.hasMany(models.user_group,{foreignKey:"user_id",as:"userId"})
+      users.hasMany(models.user_drivingschool,{foreignKey:"user_id",as:"userDrivingschool"})
+      users.hasMany(models.repair_document,{foreignKey:"instructor_id",as:"instructorRepirsDoc"})
+      users.hasMany(models.student_skill,{foreignKey:"instructor_id",as:"instructorStudentSkill"})
     }
   }
   users.init({
+    photo_id: DataTypes.STRING,
+    username: DataTypes.STRING,
+    username_canonical: DataTypes.STRING,
     email: DataTypes.STRING,
-    monthly_spent_limit: DataTypes.INTEGER,
-    daily_calories_threshold: DataTypes.INTEGER,
-    is_admin: DataTypes.BOOLEAN
+    email_canonical: DataTypes.STRING,
+    enabled: DataTypes.BOOLEAN,
+    salt: DataTypes.STRING,
+    password: DataTypes.STRING,
+    last_login: DataTypes.DATE,
+    confirmation_token: DataTypes.STRING,
+    password_requested_at: DataTypes.DATE,
+    role_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'users',
-    timestamps: true,
-    paranoid: true,
-    deletedAt: 'deleted_at',
-    createdAt: 'created_at',
-    updatedAt: 'updated_at'
   });
   return users;
 };

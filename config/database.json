@@ -1,15 +1,15 @@
 {
   "development": {
     "username": "root",
-      "password": "RajanRV1212@",
-      "database": "test",
+      "password": "aakash21##",
+      "database": "pillux_server",
       "host": "localhost",
       "useReplica": false,
       "dialect": "mysql",
       "write": {
         "username": "root",
-        "password": "RajanRV1212@",
-        "database": "test",
+        "password": "aakash21##",
+        "database": "pillux_server",
         "host": "localhost",
         "logging": false,
         "consoleLogs": true,
@@ -17,10 +17,10 @@
       },
       "read": [
         {
-          "username": "cccsql",
-          "password": "ccc123",
-          "database": "psr_report_replica",
-          "host": "192.168.0.31"
+          "username": "root",
+          "password": "aakash21##",
+          "database": "pillux_server",
+          "host": "localhost"
         }
       ]
   },

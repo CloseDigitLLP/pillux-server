@@ -10,10 +10,22 @@ module.exports = {
                     data: {}
                 })
             } else {
+                const data = students.map((student) => {
+                    return {
+                        id: student.id,
+                        gender: student.gender,
+                        lastname: student.lastname,
+                        firstname: student.firstname,
+                        mobile: student.mobile,
+                        address: student.address,
+                        neph: student.neph,
+                        date_code: student.date_code
+                    }
+                })
                 res.status(200).json({
                     message: '',
-                    error: 'false',
-                    data: students
+                    error: false,
+                    data: data
                 });
             }
         } catch (error) {

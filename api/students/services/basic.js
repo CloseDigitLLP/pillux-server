@@ -48,7 +48,14 @@ module.exports = {
                     'mobile',
                     'address',
                     'neph',
-                    'date_code'
+                    'date_code',
+                    'birthday',
+                    'department',
+                    'place_birthday',
+                    'email',
+                    'place_meet',
+                    'status',
+                    'drivingschool_id'
                 ],
                 where
             });

@@ -1,6 +1,6 @@
-module.exports={
-    getAllUsers:(req,res)=>{
-        let users=framework.models.users.findAll({});
+module.exports = {
+    getAllUsers: async (req, res) => {
+        let users = await framework.models.users.findAll({});
         res.json(users);
     }
 }

@@ -41,7 +41,7 @@ module.exports = {
                 //     }
                 // ],
                 attributes: [
-                    'id', 
+                    'id',
                     'gender',
                     'lastname',
                     'firstname',
@@ -55,7 +55,8 @@ module.exports = {
                     'email',
                     'place_meet',
                     'status',
-                    'drivingschool_id'
+                    'drivingschool_id',
+                    'docsType'
                 ],
                 where
             });
@@ -65,11 +66,81 @@ module.exports = {
         }
     },
     create: async (data) => {
+        const t = await framework.connection.transaction();
         try {
-            console.log(data), '<== data was to stored in database service file';
-            return await framework.models.students.create(data);
+            const {
+                photo_id,
+                gender,
+                lastname,
+                firstname,
+                birthday,
+                department,
+                place_birthday,
+                email,
+                mobile,
+                address,
+                place_meet,
+                neph,
+                status,
+                drivingschool_id,
+                date_code,
+                docsType,
+                docs
+            } = data;
+
+            const student = await framework.models.students.create(
+                {
+                    photo_id,
+                    gender,
+                    lastname,
+                    firstname,
+                    birthday,
+                    department,
+                    place_birthday,
+                    email,
+                    mobile,
+                    address,
+                    place_meet,
+                    neph,
+                    status,
+                    drivingschool_id: parseInt(drivingschool_id),
+                    date_code,
+                    docsType
+                },
+                { transaction: t }
+            );
+
+            const documentEntries = Object.entries(docs);
+            const studentDocEntries = documentEntries.map(([documentType, documentData]) => ({
+                type: documentType,
+                student_id: student.id,
+                document: {
+                    path: documentData.path,
+                    type: documentData.type
+                }
+            }));
+
+            const createdDocuments = await framework.models.document.bulkCreate(
+                studentDocEntries.map((entry) => entry.document),
+                { transaction: t }
+            );
+
+            const studentDocumentEntries = studentDocEntries.map((entry, index) => ({
+                student_id: student.id,
+                document_id: createdDocuments[index].id,
+                type: entry.type
+            }));
+
+            await framework.models.student_document.bulkCreate(studentDocumentEntries, {
+                transaction: t
+            });
+
+            await t.commit();
+
+            return student;
         } catch (error) {
             console.log("error =>", error);
+            await t.rollback();
             return Promise.reject(error);
         }
     },

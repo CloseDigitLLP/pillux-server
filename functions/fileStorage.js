@@ -5,10 +5,16 @@ const path = require('path');
 module.exports = {
   uploadFiles: (req, res, next) => {
     const uploadDir = 'uploads/students';
+    const dirs = uploadDir.split("/");
 
-    if (!fs.existsSync(uploadDir)) {
-      fs.mkdirSync(uploadDir);
-    }
+    dirs.forEach((dir, index) => {
+      const parentDir = dirs.slice(0, index).join("/");
+      const dirPath = `${parentDir}/${dir}`;
+
+      if (!fs.existsSync(dirPath)) {
+        fs.mkdirSync(dirPath);
+      }
+    });
 
     const storage = multer.diskStorage({
       destination: (req, file, cb) => {

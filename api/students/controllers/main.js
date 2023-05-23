@@ -74,13 +74,11 @@ module.exports = {
                 req.files.forEach((file) => {
                     console.log(file);
                     studentData.docs[file.fieldname] = {
-                        filename: file.filename,
                         path: file.path,
                         type: file.mimetype
                     };
                 });
             }
-            
             console.log(studentData, '<== before adding database, studentdata with filename and path');
             let newStudent = await framework.services.students.basic.create(studentData);
             console.log("response from service for create ==>", newStudent);

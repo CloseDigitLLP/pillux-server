@@ -36,7 +36,8 @@ module.exports = (sequelize, DataTypes) => {
     neph: DataTypes.STRING,
     status: DataTypes.STRING,
     drivingschool_id: DataTypes.INTEGER,
-    date_code: DataTypes.DATE
+    date_code: DataTypes.DATE,
+    docsType: DataTypes.STRING
   }, {
     sequelize,
     modelName: 'students',

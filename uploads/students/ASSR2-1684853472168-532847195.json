@@ -1,0 +1,64 @@
+{
+	"info": {
+		"_postman_id": "aa4181fa-619a-4e71-89da-7124251dc4eb",
+		"name": "poc",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "25100784"
+	},
+	"item": [
+		{
+			"name": "getallformdata",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": "http://localhost:3000/users/all"
+			},
+			"response": []
+		},
+		{
+			"name": "addformdata",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"testing\",\r\n  \"body\": \"Be the first to hear about exlusive deals, race schedules, and more!\",\r\n  \"textBoxText\": \"sagar@gmail.com\",\r\n  \"buttonText\": \"SIGN ME UP\",\r\n  \"icon\": \"https://creatives.attn.tv/spartan/Logo%3D1_c9cdee98.png\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/users/add"
+			},
+			"response": []
+		},
+		{
+			"name": "editFormdata",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"title\": \"Stay in \",\r\n  \"body\": \"Be the first to hear about exlusive deals, race schedules, and more!\",\r\n  \"textBoxText\": \"sagar@gmail.com\",\r\n  \"buttonText\": \"SIGN ME UP\",\r\n  \"icon\": \"https://creatives.attn.tv/spartan/Logo%3D1_c9cdee98.png\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": "http://localhost:3000/users/update/2"
+			},
+			"response": []
+		},
+		{
+			"name": "deleteFormData",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": "http://localhost:3000/users/delete/2"
+			},
+			"response": []
+		}
+	]
+}

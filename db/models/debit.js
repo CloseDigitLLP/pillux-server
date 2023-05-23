@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'debit',
+    modelName: 'debits',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

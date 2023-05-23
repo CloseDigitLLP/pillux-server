@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'reservation',
+    modelName: 'reservations',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     drivingschool_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'user_drivingschool',
+    modelName: 'user_drivingschools',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

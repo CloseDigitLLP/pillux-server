@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     instructor_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'repair_document',
+    modelName: 'repair_documents',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

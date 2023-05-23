@@ -28,7 +28,7 @@ module.exports = {
     single: async (req, res) => {
         try {
             let { id } = req.params;
-            let student = await framework.services.basic.fetch(id);
+            let student = await framework.services.students.basic.fetch(id);
             console.log("response from service for single ==>", student);
             if (!student) {
                 res.status(404).json({
@@ -54,8 +54,23 @@ module.exports = {
     },
     create: async (req, res) => {
         try {
-            let data = req.body;
-            let newStudent = await framework.services.basic.create(data);
+            let { studentData } = req.body;
+            studentData = JSON.parse(studentData);
+            if (req.files && req.files.length > 0) {
+                console.log("inside files students is ===>", studentData);
+                studentData.docs = {};
+                req.files.forEach((file) => {
+                    console.log(file);
+                    studentData.docs[file.fieldname] = {
+                        filename: file.filename,
+                        path: file.path,
+                        type: file.mimetype
+                    };
+                });
+            }
+            
+            console.log(studentData, '<== before adding database, studentdata with filename and path');
+            let newStudent = await framework.services.students.basic.create(studentData);
             console.log("response from service for create ==>", newStudent);
             if (!newStudent) {
                 res.status(400).json({
@@ -83,7 +98,7 @@ module.exports = {
         try {
             let { id } = req.params;
             let data = req.body;
-            let student = await framework.services.basic.update(id, data);
+            let student = await framework.services.students.basic.update(id, data);
             console.log("response from service for update ==>", student);
             if (!student) {
                 res.status(400).json({
@@ -110,7 +125,7 @@ module.exports = {
     delete: async (req, res) => {
         try {
             let { id } = req.params;
-            let student = await framework.services.basic.delete(id);
+            let student = await framework.services.students.basic.delete(id);
             console.log("response from service for delete ==>", student);
             if (!student) {
                 res.status(400).json({

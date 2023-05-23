@@ -26,7 +26,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'formula',
+    modelName: 'formulas',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

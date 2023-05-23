@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'alert_resolve',
+    modelName: 'alert_resolves',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

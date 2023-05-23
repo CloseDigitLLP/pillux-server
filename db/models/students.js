@@ -26,17 +26,17 @@ module.exports = (sequelize, DataTypes) => {
     gender: DataTypes.STRING,
     lastname: DataTypes.STRING,
     firstname: DataTypes.STRING,
-    birthday: DataTypes.STRING,
+    birthday: DataTypes.DATE,
     department: DataTypes.STRING,
     place_birthday: DataTypes.STRING,
     email: DataTypes.STRING,
-    mobile: DataTypes.INTEGER,
+    mobile: DataTypes.STRING,
     address: DataTypes.STRING,
     place_meet: DataTypes.STRING,
     neph: DataTypes.STRING,
     status: DataTypes.STRING,
     drivingschool_id: DataTypes.INTEGER,
-    date_code: DataTypes.STRING
+    date_code: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'students',

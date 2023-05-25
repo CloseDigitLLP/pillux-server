@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
     role: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'group',
+    modelName: 'groups',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

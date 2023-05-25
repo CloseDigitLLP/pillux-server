@@ -21,13 +21,13 @@ var umzug = new Umzug({
 umzug.pending().then(function (migrations) {
   if(migrations.length > 0){
       umzug.up().then(function()  {
-        framework.connection.sync()
-        .then(() => {
-          console.log('Migration complete!');
-        })
-        .catch(e => {
-          console.error('MODEL SYNC ERROR: ',e)
-        })
+        console.log('Migration complete!');
+        // framework.connection.sync()
+        // .then(() => {
+        // })
+        // .catch(e => {
+        //   console.error('MODEL SYNC ERROR: ',e)
+        // })
       }).catch(err => {
         console.error(err)
         // throw `Unable to perform migration due to ${err}`;

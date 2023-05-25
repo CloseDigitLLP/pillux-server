@@ -24,7 +24,7 @@ module.exports = (sequelize, DataTypes) => {
     secretary_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'student_formula',
+    modelName: 'student_formulas',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

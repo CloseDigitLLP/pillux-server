@@ -21,7 +21,7 @@ module.exports = (sequelize, DataTypes) => {
     document_id: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'penalty_document',
+    modelName: 'penalty_documents',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

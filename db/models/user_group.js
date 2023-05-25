@@ -20,7 +20,7 @@ module.exports = (sequelize, DataTypes) => {
     group_id: DataTypes.INTEGER
   }, {
     sequelize,
-    modelName: 'user_group',
+    modelName: 'user_groups',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

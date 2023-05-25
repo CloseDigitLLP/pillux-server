@@ -23,7 +23,7 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING
   }, {
     sequelize,
-    modelName: 'student_skill',
+    modelName: 'student_skills',
     timestamps: true,
     createdAt: 'created_at',
     updatedAt: 'updated_at'

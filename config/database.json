@@ -1,28 +1,28 @@
 {
   "development": {
     "username": "root",
+    "password": "root",
+    "database": "pillux_server",
+    "host": "localhost",
+    "useReplica": false,
+    "dialect": "mysql",
+    "write": {
+      "username": "root",
       "password": "root",
       "database": "pillux_server",
       "host": "localhost",
-      "useReplica": false,
-      "dialect": "mysql",
-      "write": {
+      "logging": false,
+      "consoleLogs": true,
+      "fileLogs": false
+    },
+    "read": [
+      {
         "username": "root",
         "password": "root",
         "database": "pillux_server",
-        "host": "localhost",
-        "logging": false,
-        "consoleLogs": true,
-        "fileLogs": false
-      },
-      "read": [
-        {
-          "username": "root",
-          "password": "root",
-          "database": "pillux_server",
-          "host": "localhost"
-        }
-      ]
+        "host": "localhost"
+      }
+    ]
   },
   "production": {
     "useReplica": true,

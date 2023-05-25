@@ -52,5 +52,8 @@
     "twilio": "^3.77.3",
     "umzug": "^2.3.0",
     "xmlhttprequest": "^1.8.0"
+  },
+  "devDependencies": {
+    "sequelize-cli": "^6.6.0"
   }
 }

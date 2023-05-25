@@ -26,7 +26,9 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     email: DataTypes.STRING,
     phone: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    status: DataTypes.STRING,
+    start_date: DataTypes.DATE,
+    valid_date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'driving_schools',

@@ -66,17 +66,20 @@ module.exports = {
         try {
             let { studentData } = req.body;
             studentData = JSON.parse(studentData);
+            let documentsToBulkCreate = []
+            let newStudent = await framework.services.students.basic.create(studentData);
             if (req.files && req.files.length > 0) {
-                studentData.docs = {};
                 req.files.forEach((file) => {
-                    console.log(file);
-                    studentData.docs[file.fieldname] = {
-                        path: file.path,
-                        type: file.mimetype
-                    };
+                    documentsToBulkCreate.push({
+                        student_id: newStudent.id,
+                        type: file.fieldname,
+                        documentStudent: {
+                            path: file.path,
+                            type: file.mimetype
+                        }
+                    })
                 });
             }
-            let newStudent = await framework.services.students.basic.create(studentData);
             if (!newStudent) {
                 res.status(400).json({
                     message: 'invalid data',
@@ -84,6 +87,7 @@ module.exports = {
                     data: {}
                 })
             } else {
+                await framework.services.students.updateStudent.updateFileUploads(documentsToBulkCreate);
                 res.status(200).json({
                     message: '',
                     error: false,
@@ -106,10 +110,10 @@ module.exports = {
             studentData = JSON.parse(studentData);
             let documentsToBulkCreate = []
             let documentsToBulkUpdate = []
-            for(let file of req.files) {
+            for (let file of req.files) {
                 const docName = file.fieldname
                 let existingDoc = studentData?.docs?.[docName]
-                if(existingDoc && existingDoc.id) {
+                if (existingDoc && existingDoc.id) {
                     documentsToBulkUpdate.push({
                         ...existingDoc,
                         documentStudent: {

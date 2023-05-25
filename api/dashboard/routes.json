@@ -1,0 +1,12 @@
+[
+    {
+        "path" : "/menu",
+        "method" : "get",
+        "action" : "dashboard.getAllUsers",
+        "public" : false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    }
+]

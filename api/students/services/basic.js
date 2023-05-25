@@ -3,43 +3,49 @@ module.exports = {
         try {
             if (id) { where.id = id }
             return await framework.models.students.findAll({
-                // include: [
-                //     'studentAlerts',
-                //     'studentDebit',
-                //     'drivingSchoolStudents',
-                //     'studentReservation',
-                //     'studentExams',
-                //     {
-                //         model: framework.models.student_skill,
-                //         as: "studentSkills",
-                //         include: [
-                //             {
-                //                 model: framework.models.skills,
-                //                 as: 'skillId'
-                //             }
-                //         ]
-                //     },
-                //     {
-                //         model: framework.models.student_document,
-                //         as: "studentDocument",
-                //         include: [
-                //             {
-                //                 model: framework.models.document,
-                //                 as: "documentStudent"
-                //             }
-                //         ]
-                //     },
-                //     {
-                //         model: framework.models.student_formula,
-                //         as: "studentFormula",
-                //         include: [
-                //             {
-                //                 model: framework.models.formula,
-                //                 as: 'formulaId',
-                //             }
-                //         ]
-                //     }
-                // ],
+                include: [
+                    // 'studentAlerts',
+                    // 'studentDebit',
+                    // 'studentReservation',
+                    // 'studentExams',
+                    // {
+                    //     model: framework.models.student_skill,
+                    //     as: "studentSkills",
+                    //     include: [
+                    //         {
+                    //             model: framework.models.skills,
+                    //             as: 'skillId'
+                    //         }
+                    //     ]
+                    // },
+                    {
+                        model: framework.models.student_document,
+                        as: "studentDocument",
+                        attributes: ['id','student_id','type','document_id'],
+                        include: [
+                            {
+                                model: framework.models.document,
+                                as: "documentStudent",
+                                attributes: ['id','path','type'],
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.driving_schools,
+                        as: "drivingSchoolStudents",
+                        attributes: ['id', 'name']
+                    }
+                    // {
+                    //     model: framework.models.student_formula,
+                    //     as: "studentFormula",
+                    //     include: [
+                    //         {
+                    //             model: framework.models.formula,
+                    //             as: 'formulaId',
+                    //         }
+                    //     ]
+                    // }
+                ],
                 attributes: [
                     'id',
                     'gender',
@@ -87,7 +93,7 @@ module.exports = {
                 docsType,
                 docs
             } = data;
-
+            
             const student = await framework.models.students.create(
                 {
                     photo_id,
@@ -103,7 +109,7 @@ module.exports = {
                     place_meet,
                     neph,
                     status,
-                    drivingschool_id: parseInt(drivingschool_id),
+                    drivingschool_id,
                     date_code,
                     docsType
                 },

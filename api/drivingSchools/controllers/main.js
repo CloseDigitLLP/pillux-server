@@ -12,9 +12,9 @@ module.exports = {
                 let data = drivingSchools.map((school) => ({
                     id: school.id,
                     name: school.name,
-                    status: school.status,
                     start_date: school.start_date,
-                    valid_date: school.valid_date
+                    valid_date: school.valid_date,
+                    enabled: school.enabled
                 })
                 )
                 res.status(200).json({

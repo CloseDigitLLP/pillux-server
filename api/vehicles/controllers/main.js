@@ -9,10 +9,16 @@ module.exports = {
                     data: {}
                 })
             } else {
+                let data = vehicles.map((vehicle) => ({
+                    id: vehicle?.id,
+                    name: vehicle?.name,
+                    immatriculation: vehicle?.immatriculation,
+                    instructor: vehicle?.instructorVehicles?.username
+                }))
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: vehicles
+                    data: data
                 });
             }
         } catch (error) {
@@ -38,7 +44,7 @@ module.exports = {
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: vehicle
+                    data: vehicle[0]
                 });
             }
         } catch (error) {

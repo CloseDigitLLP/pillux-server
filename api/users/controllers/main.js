@@ -67,6 +67,9 @@ module.exports = {
     create: async (req, res) => {
         try {
             let data = req.body;
+            let group = data.group || '';
+            let permissions = data.permissions || [];
+            let drivingSchoolUser = data.drivingSchoolUser || '';
             let user = await framework.services.users.basic.create(data);
             if (!user) {
                 res.status(400).json({
@@ -75,6 +78,12 @@ module.exports = {
                     data: {}
                 })
             } else {
+                await framework.services.users.updateUser.addUserGroup({group_id: group, user_id: user.id});
+                await framework.services.users.updateUser.addUserDrivingSchool({user_id: user.id, drivingschool_id: drivingSchoolUser})
+                let userPermissions = permissions?.map((perm) => ({
+                    permission_id: perm.id, user_id: user.id
+                }))
+                await framework.services.users.updateUser.addUpdateUserPermission(userPermissions)
                 res.status(200).json({
                     message: '',
                     error: false,

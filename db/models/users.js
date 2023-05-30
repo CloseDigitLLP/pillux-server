@@ -18,16 +18,17 @@ module.exports = (sequelize, DataTypes) => {
       users.hasMany(models.repairs,{foreignKey:"instructor_id",as:"instructorRepairs"})
       users.hasMany(models.penalties,{foreignKey:"instructor_id",as:"instructorPenalty"})
       users.hasMany(models.report,{foreignKey:"instructor_id",as:"instructorReport"})
-      users.hasMany(models.user_group,{foreignKey:"user_id",as:"userId"})
+      users.hasMany(models.user_group,{foreignKey:"user_id",as:"userGroup"})
       users.hasMany(models.user_drivingschool,{foreignKey:"user_id",as:"userDrivingschool"})
       users.hasMany(models.repair_document,{foreignKey:"instructor_id",as:"instructorRepirsDoc"})
       users.hasMany(models.student_skill,{foreignKey:"instructor_id",as:"instructorStudentSkill"})
+      users.hasMany(models.user_permissions, {foreignKey: "user_id",as: "userPermissions"})
     }
   }
   users.init({
     photo_id: DataTypes.STRING,
-    username: DataTypes.STRING,
-    username_canonical: DataTypes.STRING,
+    firstname: DataTypes.STRING,
+    lastname: DataTypes.STRING,
     email: DataTypes.STRING,
     email_canonical: DataTypes.STRING,
     enabled: DataTypes.BOOLEAN,

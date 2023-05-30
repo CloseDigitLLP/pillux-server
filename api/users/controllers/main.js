@@ -9,17 +9,20 @@ module.exports = {
                     data: {}
                 })
             } else {
-                let data = users.map((user) => ({
+                let data = users.map((user) => {
+                    let roles = [];
+                    user?.userGroup?.map((gp) => {
+                        roles.push(gp?.groupUser?.name) 
+                    })
+                    return {
                     id: user.id,
-                    username: user.username,
-                    email: user.email,
-                    usersRole: {
-                        id: user.usersRole.id,
-                        name: user.usersRole.name
-                    },
-                    userDrivingschool: { ...user.userDrivingschool}
-
-                }))
+                    firstname: user?.firstname,
+                    lastname: user?.lastname,
+                    email: user?.email,
+                    userGroup: roles?.join(', '),
+                    userDrivingschool: user?.userDrivingschool[0]?.drivingSchoolUser?.name,
+                }
+            })
                 res.status(200).json({
                     message: '',
                     error: false,

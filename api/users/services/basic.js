@@ -12,7 +12,7 @@ module.exports = {
                     {
                         model: framework.models.user_drivingschool,
                         as: 'userDrivingschool',
-                        attributes:['id','user_id', 'drivingschool_id'],
+                        attributes: ['id', 'user_id', 'drivingschool_id'],
                         include: [
                             {
                                 model: framework.models.driving_schools,
@@ -23,10 +23,34 @@ module.exports = {
                     },
                     {
                         model: framework.models.vehicles,
-                        as:'instructorVehicles',
-                        attributes: ['id','name','type','drivingschool_id','immatriculation']
-                    }
-                ], 
+                        as: 'instructorVehicles',
+                        attributes: ['id', 'name', 'type', 'drivingschool_id', 'immatriculation']
+                    },
+                    {
+                        model: framework.models.user_group,
+                        as: 'userGroup',
+                        attributes: ['id', 'user_id', 'group_id'],
+                        include: [
+                            {
+                                model: framework.models.group,
+                                as: 'groupUser',
+                                attributes: ['id', 'role', 'name'],
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.user_permissions,
+                        as: 'userPermissions',
+                        attributes: ['id','user_id','permission_id'],
+                        include: [
+                            {
+                                model: framework.models.permission,
+                                as: 'permissionUser',
+                                attributes: ['id', 'type']
+                            }
+                        ]
+                    },
+                ],
                 where
             });
         } catch (error) {

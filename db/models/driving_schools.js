@@ -25,8 +25,15 @@ module.exports = (sequelize, DataTypes) => {
   driving_schools.init({
     name: DataTypes.STRING,
     email: DataTypes.STRING,
-    phone: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    phone: DataTypes.STRING,
+    status: DataTypes.STRING,
+    start_date: DataTypes.DATE,
+    valid_date: DataTypes.DATE,
+    enabled: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    },
   }, {
     sequelize,
     modelName: 'driving_schools',

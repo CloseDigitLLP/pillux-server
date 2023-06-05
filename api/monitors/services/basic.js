@@ -6,12 +6,12 @@ module.exports = {
       if (id) {
         where.id = id;
       }
-      
+
       const currentMonthStart = "DATE_FORMAT(NOW(), '%Y-%m-01')";
-      const currentMonthEnd = "LAST_DAY(NOW())";
+      const currentMonthEnd = 'LAST_DAY(NOW())';
       const lastMonthStart = "DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01')";
-      const lastMonthEnd = "LAST_DAY(NOW() - INTERVAL 1 MONTH)";
-      
+      const lastMonthEnd = 'LAST_DAY(NOW() - INTERVAL 1 MONTH)';
+
       return await framework.models.planning_generals.findAll({
         attributes: [
           'instructor_id',
@@ -47,6 +47,21 @@ module.exports = {
           ...where,
         },
         group: ['instructor_id'],
+      });
+    } catch (error) {
+      console.log('error =>', error);
+      return Promise.reject(error);
+    }
+  },
+  create: async (data) => {
+    try {
+      
+      return await framework.models.users.bulkCreate(
+        [data],{
+        include:[{
+            as: "userDrivingschool",
+            model: framework.models.user_drivingschool
+        }]
       });
     } catch (error) {
       console.log('error =>', error);

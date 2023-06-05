@@ -8,5 +8,15 @@
         "middlewares": [],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/",
+        "method" : "post",
+        "action" : "main.create",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

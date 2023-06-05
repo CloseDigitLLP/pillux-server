@@ -24,5 +24,32 @@ module.exports={
                 data: error
             })
         }
-    }
+    },
+    create: async (req, res) => {
+        try {
+            let instructorData = req.body;
+            console.log(req.body);
+            let newInstructor = await framework.services.monitors.basic.create(instructorData)
+            if (!newInstructor) {
+                res.status(200).json({
+                    message: "",
+                    error: false,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: newInstructor
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
 }

@@ -3,9 +3,9 @@ module.exports = {
         try {
             let vehicles = await framework.services.vehicles.basic.fetch();
             if (!vehicles) {
-                res.status(404).json({
-                    message: 'no records found!',
-                    error: true,
+                res.status(200).json({
+                    message: '',
+                    error: false,
                     data: {}
                 })
             } else {

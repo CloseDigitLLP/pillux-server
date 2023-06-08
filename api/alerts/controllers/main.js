@@ -3,9 +3,9 @@ module.exports={
         try {
             let alerts = await framework.services.alerts.basic.fetch()
             if (!alerts.length) {
-                res.status(404).json({
-                    message: 'no records found!',
-                    error: true,
+                res.status(200).json({
+                    message: '',
+                    error: false,
                     data: {}
                 })
             } else {

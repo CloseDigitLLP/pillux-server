@@ -6,7 +6,7 @@ module.exports = {
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: {}
+                    data: []
                 })
             } else {
                 let data = vehicles.map((vehicle) => ({

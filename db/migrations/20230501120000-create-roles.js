@@ -28,9 +28,9 @@ module.exports = {
     });
 
     const defaultRoles = [
-      { name: 'Admin' },
-      { name: 'Secretory' },
-      { name: 'Monitors' }
+      { name: 'Gérants' },
+      { name: 'Moniteurs' },
+      { name: 'Secrétaires' }
     ];
 
     await queryInterface.bulkInsert('roles', defaultRoles, {});

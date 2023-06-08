@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      user_permissions.belongsTo(models.users, {foreignKey: "user_id",as: "userPermissions"})
-      user_permissions.belongsTo(models.permission, {foreignKey: "permission_id", as: "permissionUser"})
+      user_permissions.belongsTo(models.users, {foreignKey: "user_id",as: "userPermissions",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      user_permissions.belongsTo(models.permission, {foreignKey: "permission_id", as: "permissionUser",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   user_permissions.init({

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      permission.hasMany(models.user_permissions, {foreignKey: "permission_id", as: "permissionUser"})
+      permission.hasMany(models.user_permissions, {foreignKey: "permission_id", as: "permissionUser",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   permission.init({

@@ -12,12 +12,12 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       vehicles.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolVehicles"})
-      vehicles.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorVehicles"})
-      vehicles.hasMany(models.repairs,{foreignKey:"vehicle_id",as:"vehicleRepairs"})
-      vehicles.hasMany(models.penalties,{foreignKey:"vehicle_id",as:"vehiclePenalty"})
-      vehicles.hasMany(models.report,{foreignKey:"vehicle_id",as:"vehicleReport"})
-      vehicles.hasMany(models.repair_document,{foreignKey:"vehicle_id",as:"vehicleReportDoc"})
-      vehicles.hasMany(models.vehicle_images, {foreignKey: 'vehicle_id',as:'vehicleImage'})
+      vehicles.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorVehicles",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      vehicles.hasMany(models.repairs,{foreignKey:"vehicle_id",as:"vehicleRepairs",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      vehicles.hasMany(models.penalties,{foreignKey:"vehicle_id",as:"vehiclePenalty",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      vehicles.hasMany(models.report,{foreignKey:"vehicle_id",as:"vehicleReport",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      vehicles.hasMany(models.repair_document,{foreignKey:"vehicle_id",as:"vehicleReportDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      vehicles.hasMany(models.vehicle_images, {foreignKey: 'vehicle_id',as:'vehicleImage',onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   vehicles.init({

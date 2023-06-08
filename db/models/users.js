@@ -11,18 +11,18 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      users.belongsTo(models.roles,{foreignKey:"role_id",as:"usersRole"})
-      users.hasMany(models.planning_generals,{foreignKey:"instructor_id",as:"instructorGenerals"})
-      users.hasMany(models.reservation,{foreignKey:"instructor_id",as:"instructorReservation"})
-      users.hasMany(models.vehicles,{foreignKey:"instructor_id",as:"instructorVehicles"})
-      users.hasMany(models.repairs,{foreignKey:"instructor_id",as:"instructorRepairs"})
-      users.hasMany(models.penalties,{foreignKey:"instructor_id",as:"instructorPenalty"})
-      users.hasMany(models.report,{foreignKey:"instructor_id",as:"instructorReport"})
-      users.hasMany(models.user_group,{foreignKey:"user_id",as:"userGroup"})
-      users.hasMany(models.user_drivingschool,{foreignKey:"user_id",as:"userDrivingschool"})
-      users.hasMany(models.repair_document,{foreignKey:"instructor_id",as:"instructorRepirsDoc"})
-      users.hasMany(models.student_skill,{foreignKey:"instructor_id",as:"instructorStudentSkill"})
-      users.hasMany(models.user_permissions, {foreignKey: "user_id",as: "userPermissions"})
+      users.belongsTo(models.roles,{foreignKey:"role_id",as:"usersRole",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.planning_generals,{foreignKey:"instructor_id",as:"instructorGenerals",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.reservation,{foreignKey:"instructor_id",as:"instructorReservation",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.vehicles,{foreignKey:"instructor_id",as:"instructorVehicles",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.repairs,{foreignKey:"instructor_id",as:"instructorRepairs",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.penalties,{foreignKey:"instructor_id",as:"instructorPenalty",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.report,{foreignKey:"instructor_id",as:"instructorReport",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.user_group,{foreignKey:"user_id",as:"userGroup",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.user_drivingschool,{foreignKey:"user_id",as:"userDrivingschool",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.repair_document,{foreignKey:"instructor_id",as:"instructorRepirsDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.student_skill,{foreignKey:"instructor_id",as:"instructorStudentSkill",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.user_permissions, {foreignKey: "user_id",as: "userPermissions",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   users.init({

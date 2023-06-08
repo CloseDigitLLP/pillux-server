@@ -11,10 +11,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      planning_exams.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolExams"})
-      planning_exams.belongsTo(models.students,{foreignKey:"student_id",as:"studentExams"})
-      planning_exams.belongsTo(models.licences,{foreignKey:"licence_id",as:"licenceExams"})
-      planning_exams.hasOne(models.answers,{foreignKey:"event_id",as:"eventId"})
+      planning_exams.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      planning_exams.belongsTo(models.students,{foreignKey:"student_id",as:"studentExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      planning_exams.belongsTo(models.licences,{foreignKey:"licence_id",as:"licenceExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      planning_exams.hasOne(models.answers,{foreignKey:"event_id",as:"eventId",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   planning_exams.init({

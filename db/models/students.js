@@ -10,15 +10,15 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      students.hasMany(models.alerts, { foreignKey: "student_id", as: "studentAlerts" })
-      students.hasMany(models.debit, { foreignKey: "student_id", as: "studentDebit" })
-      students.belongsTo(models.driving_schools, { foreignKey: "drivingschool_id", as: "drivingSchoolStudents" })
-      students.hasMany(models.planning_secretarys, { foreignKey: "student_id", as: "studentSecretary" })
-      students.hasMany(models.reservation, { foreignKey: "student_id", as: "studentReservation" })
-      students.hasMany(models.planning_exams, { foreignKey: "student_id", as: "studentExams" })
-      students.hasMany(models.student_skill, { foreignKey: "student_id", as: "studentSkills" })
-      students.hasMany(models.student_document, { foreignKey: "student_id", as: "studentDocument" })
-      students.hasMany(models.student_formula, { foreignKey: "student_id", as: "studentFormula" })
+      students.hasMany(models.alerts, { foreignKey: "student_id", as: "studentAlerts" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.debit, { foreignKey: "student_id", as: "studentDebit",onDelete: "CASCADE", onUpdate: "CASCADE" })
+      students.belongsTo(models.driving_schools, { foreignKey: "drivingschool_id", as: "drivingSchoolStudents",onDelete: "CASCADE", onUpdate: "CASCADE" })
+      students.hasMany(models.planning_secretarys, { foreignKey: "student_id", as: "studentSecretary" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.reservation, { foreignKey: "student_id", as: "studentReservation" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.planning_exams, { foreignKey: "student_id", as: "studentExams" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.student_skill, { foreignKey: "student_id", as: "studentSkills" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.student_document, { foreignKey: "student_id", as: "studentDocument" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.student_formula, { foreignKey: "student_id", as: "studentFormula" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   students.init({

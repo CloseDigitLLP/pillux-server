@@ -10,12 +10,24 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       user_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"users",
+          key:"id"
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       permission_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"permissions",
+          key:"id"
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
-      create_At: {
+      created_At: {
         allowNull: false,
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
@@ -25,6 +37,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       }
+    },{
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   async down(queryInterface, Sequelize) {

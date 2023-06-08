@@ -14,7 +14,9 @@ module.exports = {
         references:{
           model:"student_formulas",
           key:"id"
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       mode: {
         type: Sequelize.INTEGER
@@ -29,7 +31,9 @@ module.exports = {
         type: Sequelize.INTEGER,references:{
           model: 'planning_secretarys',
           key:"id"
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       created_at: {
         allowNull: false,
@@ -41,6 +45,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
+    },{
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   async down(queryInterface, Sequelize) {

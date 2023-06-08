@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      debit.belongsTo(models.students,{foreignKey:"student_id",as:"studentDebit"})
-      debit.hasOne(models.debit_resolve,{foreignKey:"debit_id",as:"debitId"})
+      debit.belongsTo(models.students,{foreignKey:"student_id",as:"studentDebit",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      debit.hasOne(models.debit_resolve,{foreignKey:"debit_id",as:"debitId",onDelete: "CASCADE", onUpdate: "CASCADE"})
 
     }
   }

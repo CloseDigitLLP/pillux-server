@@ -53,7 +53,9 @@ module.exports = {
         references:{
           model:"driving_schools",
           key:"id"
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       date_code: {
         type: Sequelize.STRING
@@ -68,6 +70,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
+    },{
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   async down(queryInterface, Sequelize) {

@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      answers.belongsTo(models.planning_exams,{foreignKey:"event_id",as:"eventId"})
+      answers.belongsTo(models.planning_exams,{foreignKey:"event_id",as:"eventId",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   answers.init({

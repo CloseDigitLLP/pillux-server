@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      user_group.belongsTo(models.users,{foreignKey:"user_id",as:"userGroup"})
-      user_group.belongsTo(models.group,{foreignKey:"group_id",as:"groupUser"})
+      user_group.belongsTo(models.users,{foreignKey:"user_id",as:"userGroup",onDelete: "CASCADE", onUpdate: "CASCADE",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      user_group.belongsTo(models.group,{foreignKey:"group_id",as:"groupUser",onDelete: "CASCADE", onUpdate: "CASCADE",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   user_group.init({

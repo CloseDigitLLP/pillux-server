@@ -10,8 +10,8 @@ module.exports = (sequelize, DataTypes) => {
      * The `models/index` file will call this method automatically.
      */
     static associate(models) {
-      skills.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolSkills"})
-      skills.hasMany(models.student_skill,{foreignKey:"skill_id",as:"skillId"})
+      skills.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolSkills",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      skills.hasMany(models.student_skill,{foreignKey:"skill_id",as:"skillId",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   skills.init({

@@ -11,9 +11,9 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      report.belongsTo(models.vehicles,{foreignKey:"vehicle_id",as:"vehicleReport"})
-      report.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorReport"})
-      report.hasMany(models.report_document,{foreignKey:"report_id",as:"reportId"})
+      report.belongsTo(models.vehicles,{foreignKey:"vehicle_id",as:"vehicleReport",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      report.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorReport",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      report.hasMany(models.report_document,{foreignKey:"report_id",as:"reportId",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   report.init({

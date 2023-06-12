@@ -61,7 +61,8 @@ module.exports = {
         type: Sequelize.STRING
       },
       status: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM('pending', 'approved', 'rejected'),
+        defaultValue: 'pending'
       },
       motif: {
         type: Sequelize.INTEGER

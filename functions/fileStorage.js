@@ -9,8 +9,8 @@ module.exports = {
 
     dirs.forEach((dir, index) => {
       const parentDir = dirs.slice(0, index).join("/");
-      const dirPath = `${parentDir}/${dir}`;
-
+      let dirPath = `${parentDir}/${dir}`;
+      dirPath = path.join(__dirname, '../', dirPath);
       if (!fs.existsSync(dirPath)) {
         fs.mkdirSync(dirPath);
       }

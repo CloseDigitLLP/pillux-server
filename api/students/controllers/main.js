@@ -3,10 +3,10 @@ module.exports = {
         try {
             let students = await framework.services.students.basic.fetch();
             if (!students) {
-                res.status(404).json({
-                    message: 'no records found!',
-                    error: true,
-                    data: {}
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: []
                 })
             } else {
                 const data = students.map((student) => {

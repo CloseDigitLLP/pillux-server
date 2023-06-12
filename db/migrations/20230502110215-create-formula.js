@@ -31,7 +31,7 @@ module.exports = {
       time_validity: {
         type: Sequelize.INTEGER
       },
-      tine_relance: {
+      time_relance: {
         type: Sequelize.INTEGER
       },
       status: {

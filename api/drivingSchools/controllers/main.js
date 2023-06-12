@@ -3,10 +3,10 @@ module.exports = {
         try {
             let drivingSchools = await framework.services.drivingSchools.basic.fetch();
             if (!drivingSchools.length) {
-                res.status(404).json({
-                    message: 'no records found!',
-                    error: true,
-                    data: {}
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: []
                 })
             } else {
                 let data = drivingSchools.map((school) => ({

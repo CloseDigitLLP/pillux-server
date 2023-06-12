@@ -22,7 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     hour: DataTypes.INTEGER,
     type: DataTypes.STRING,
     time_validity: DataTypes.INTEGER,
-    tine_relance: DataTypes.INTEGER,
+    time_relance: DataTypes.INTEGER,
     status: DataTypes.STRING
   }, {
     sequelize,

@@ -3,10 +3,10 @@ module.exports = {
         try {
             let debits=await framework.services.debits.basic.fetch();
             if(!debits.length){
-                res.status(404).json({
-                    message: 'no records found!',
-                    error: true,
-                    data: {}
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: []
                 })
             }else{
                 let data=debits;

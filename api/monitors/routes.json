@@ -15,7 +15,7 @@
         "action" : "main.create",
         "public" : true,
         "globalMiddlewares": [],
-        "middlewares": [],
+        "middlewares": ["validation.create"],
         "pathFromRoot": false,
         "enabled": true
     }

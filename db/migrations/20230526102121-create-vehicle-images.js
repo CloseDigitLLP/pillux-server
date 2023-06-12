@@ -10,7 +10,13 @@ module.exports = {
         type: Sequelize.INTEGER
       },
       vehicle_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
+        references:{
+          model:"vehicles",
+          key:"id"
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       path: {
         type: Sequelize.STRING
@@ -28,6 +34,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       }
+    },{
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   async down(queryInterface, Sequelize) {

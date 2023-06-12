@@ -14,7 +14,9 @@ module.exports = {
         references: {
           model: "students",
           key: "id"
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       type: {
         type: Sequelize.STRING
@@ -35,6 +37,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
+    },{
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
   },
   async down(queryInterface, Sequelize) {

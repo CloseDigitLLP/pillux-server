@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      repair_document.belongsTo(models.vehicles,{foreignKey:"vehicle_id",as:"vehicleReportDoc"})
-      repair_document.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorRepirsDoc"})
+      repair_document.belongsTo(models.vehicles,{foreignKey:"vehicle_id",as:"vehicleReportDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      repair_document.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorRepirsDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   repair_document.init({

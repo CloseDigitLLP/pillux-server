@@ -11,15 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      driving_schools.hasMany(models.students,{foreignKey:"drivingschool_id",as:"drivingSchoolStudents"})
-      driving_schools.hasMany(models.skills,{foreignKey:"drivingschool_id",as:"drivingSchoolSkills"})
-      driving_schools.hasMany(models.emails,{foreignKey:"drivingschool_id",as:"drivingSchoolEmails"})
-      driving_schools.hasOne(models.settings,{foreignKey:"drivingschool_id",as:"drivingSchoolSettings"})
-      driving_schools.hasOne(models.formula,{foreignKey:"drivingschool_id",as:"drivingSchoolFormula"})
-      driving_schools.hasMany(models.planning_secretarys,{foreignKey:"drivingschool_id",as:"drivingSchoolSecreatrys"})
-      driving_schools.hasMany(models.planning_exams,{foreignKey:"drivingschool_id",as:"drivingSchoolExams"})
-      driving_schools.hasMany(models.vehicles,{foreignKey:"drivingschool_id",as:"drivingSchoolVehicles"})
-      driving_schools.hasMany(models.user_drivingschool,{foreignKey:"drivingschool_id",as:"drivingSchoolUser"})
+      driving_schools.hasMany(models.students,{foreignKey:"drivingschool_id",as:"drivingSchoolStudents",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.skills,{foreignKey:"drivingschool_id",as:"drivingSchoolSkills",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.emails,{foreignKey:"drivingschool_id",as:"drivingSchoolEmails",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasOne(models.settings,{foreignKey:"drivingschool_id",as:"drivingSchoolSettings",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasOne(models.formula,{foreignKey:"drivingschool_id",as:"drivingSchoolFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.planning_secretarys,{foreignKey:"drivingschool_id",as:"drivingSchoolSecreatrys",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.planning_exams,{foreignKey:"drivingschool_id",as:"drivingSchoolExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.vehicles,{foreignKey:"drivingschool_id",as:"drivingSchoolVehicles",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.user_drivingschool,{foreignKey:"drivingschool_id",as:"drivingSchoolUser",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   driving_schools.init({

@@ -48,7 +48,9 @@ module.exports = {
         references:{
           model:'roles',
           key:"id"
-        }
+        },
+        onUpdate: 'cascade',
+        onDelete: 'cascade'
       },
       created_at: {
         allowNull: false,
@@ -60,6 +62,9 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
+    },{
+      charset: 'utf8', 
+      collate: 'utf8_general_ci',
     });
     await queryInterface.sequelize.query('CREATE TRIGGER hash_password BEFORE INSERT ON users FOR EACH ROW SET new.password = MD5(new.password);')
 

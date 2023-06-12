@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      formula.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolFormula"})
-      formula.hasMany(models.student_formula,{foreignKey:"formula_id",as:"formulaId"})
+      formula.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      formula.hasMany(models.student_formula,{foreignKey:"formula_id",as:"formulaId",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   formula.init({

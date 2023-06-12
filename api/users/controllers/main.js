@@ -10,17 +10,17 @@ module.exports = {
                 })
             } else {
                 let data = users.map((user) => {
-                    let roles = [];
-                    user?.userGroup?.map((gp) => {
-                        roles.push(gp?.groupUser?.name) 
+                    let drivingSchools = [];
+                    user?.userDrivingschool?.map((ds) => {
+                        drivingSchools.push(ds?.drivingSchoolUser?.name);
                     })
                     return {
                     id: user.id,
                     firstname: user?.firstname,
                     lastname: user?.lastname,
                     email: user?.email,
-                    userGroup: roles?.join(', '),
-                    userDrivingschool: user?.userDrivingschool[0]?.drivingSchoolUser?.name,
+                    userGroup: user?.usersRole?.name,
+                    userDrivingschool: drivingSchools?.join(', '),
                 }
             })
                 res.status(200).json({
@@ -67,6 +67,8 @@ module.exports = {
     create: async (req, res) => {
         try {
             let data = req.body;
+            let permissions = data.permissions || [];
+            let drivingSchoolUser = data.drivingSchoolUser || [];
             let user = await framework.services.users.basic.create(data);
             if (!user) {
                 res.status(400).json({
@@ -75,6 +77,15 @@ module.exports = {
                     data: {}
                 })
             } else {
+                let userPermissions = permissions?.map((perm) => ({
+                    permission_id: perm.id, user_id: user.id
+                }))
+                let userDrivingSchools = drivingSchoolUser?.map((school) => ({
+                    drivingschool_id: school.id,
+                    user_id: user.id,
+                }))
+                await framework.services.users.updateUser.addUpdateUserDrivingSchool(userDrivingSchools)
+                await framework.services.users.updateUser.addUpdateUserPermission(userPermissions)
                 res.status(200).json({
                     message: '',
                     error: false,
@@ -94,6 +105,10 @@ module.exports = {
         try {
             let { id } = req.params;
             let data = req.body;
+            let newAddPermission = data.newAddPermission || [];
+            let newAddSchool = data.newAddSchool || [];
+            let deletedSchool = data.deletedSchool || [];
+            let deletedPermission = data.deletedPermission || [];
             let user = await framework.services.users.basic.update(id, data);
             if (!user) {
                 res.status(400).json({
@@ -102,6 +117,12 @@ module.exports = {
                     data: {}
                 })
             } else {
+                let permissionsToUpdate = newAddPermission?.map((permission) => ({user_id: id, permission_id: permission.id}))
+                let drivingSchoolsToUpdate = newAddSchool?.map((school) => ({user_id: id, drivingschool_id: school.id}))
+                await framework.services.users.updateUser.addUpdateUserPermission(permissionsToUpdate);
+                await framework.services.users.updateUser.addUpdateUserDrivingSchool(drivingSchoolsToUpdate);
+                await framework.services.users.updateUser.deleteUserPermission(deletedPermission);
+                await framework.services.users.updateUser.deleteUserDrivingSchool(deletedSchool);
                 res.status(200).json({
                     message: '',
                     error: false,

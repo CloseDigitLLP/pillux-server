@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      debit_resolve.belongsTo(models.debit,{foreignKey:"debit_id",as:"debitId"})
-      debit_resolve.belongsTo(models.planning_secretarys,{foreignKey:"secretary_id",as:"secretaryDebit"})
+      debit_resolve.belongsTo(models.debit,{foreignKey:"debit_id",as:"debitId",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      debit_resolve.belongsTo(models.planning_secretarys,{foreignKey:"secretary_id",as:"secretaryDebit",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   debit_resolve.init({

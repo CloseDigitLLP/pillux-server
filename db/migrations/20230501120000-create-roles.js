@@ -22,7 +22,18 @@ module.exports = {
         type: Sequelize.DATE,
         defaultValue: Sequelize.literal('CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP'),
       },
+    }, {
+      charset: 'utf8',
+      collate: 'utf8_general_ci',
     });
+
+    const defaultRoles = [
+      { name: 'Gérants' },
+      { name: 'Moniteurs' },
+      { name: 'Secrétaires' }
+    ];
+
+    await queryInterface.bulkInsert('roles', defaultRoles, {});
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('roles');

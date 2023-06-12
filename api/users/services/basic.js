@@ -7,34 +7,40 @@ module.exports = {
                     {
                         model: framework.models.roles,
                         as: 'usersRole',
-                        attributes: ['id', 'name']
+                        attributes: ['id', 'name'],
+                        order: [['id', 'asc']]
                     },
                     {
                         model: framework.models.user_drivingschool,
                         as: 'userDrivingschool',
                         attributes: ['id', 'user_id', 'drivingschool_id'],
+                        order: [['id', 'asc']],
                         include: [
                             {
                                 model: framework.models.driving_schools,
                                 as: 'drivingSchoolUser',
-                                attributes: ['id', 'name']
+                                attributes: ['id', 'name'],
+                                order: [['id', 'asc']]
                             }
                         ]
                     },
                     {
                         model: framework.models.vehicles,
                         as: 'instructorVehicles',
-                        attributes: ['id', 'name', 'type', 'drivingschool_id', 'immatriculation']
+                        attributes: ['id', 'name', 'type', 'drivingschool_id', 'immatriculation'],
+                        order: [['id', 'asc']]
                     },
                     {
                         model: framework.models.user_group,
                         as: 'userGroup',
                         attributes: ['id', 'user_id', 'group_id'],
+                        order: [['id', 'asc']],
                         include: [
                             {
                                 model: framework.models.group,
                                 as: 'groupUser',
                                 attributes: ['id', 'role', 'name'],
+                                order: [['id', 'asc']]
                             }
                         ]
                     },
@@ -42,16 +48,19 @@ module.exports = {
                         model: framework.models.user_permissions,
                         as: 'userPermissions',
                         attributes: ['id','user_id','permission_id'],
+                        order: [['id', 'asc']],
                         include: [
                             {
                                 model: framework.models.permission,
                                 as: 'permissionUser',
-                                attributes: ['id', 'type']
+                                attributes: ['id', 'type'],
+                                order: [['id', 'asc']]
                             }
                         ]
                     },
                 ],
-                where
+                where,
+                order: [['id', 'asc']]
             });
         } catch (error) {
             console.log("error =>", error);

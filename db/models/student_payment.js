@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
   }
   student_payment.init({
     student_formula_id: DataTypes.INTEGER,
-    mode: DataTypes.INTEGER,
+    mode: DataTypes.STRING,
     amount: DataTypes.FLOAT,
     numberbankcheck: DataTypes.INTEGER,
     secretary_id: DataTypes.INTEGER

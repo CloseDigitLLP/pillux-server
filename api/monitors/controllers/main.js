@@ -28,13 +28,13 @@ module.exports={
     create: async (req, res) => {
         try {
             let instructorData = req.body;
-            console.log(req.body);
+
             let newInstructor = await framework.services.monitors.basic.create(instructorData)
             if (!newInstructor) {
-                res.status(200).json({
-                    message: "",
-                    error: false,
-                    data: {}
+                res.status(404).json({
+                    message: "Data can't be added",
+                    error: true,
+                    data: []
                 })
             } else {
                 res.status(200).json({

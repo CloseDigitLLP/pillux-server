@@ -7,7 +7,7 @@ module.exports = {
                     {
                         model: framework.models.users,
                         as: "instructorVehicles",
-                        attributes: [ "id", "username", "email", "enabled" ]
+                        attributes: [ "id", "firstname", "lastname", "email", "enabled" ]
                     }
                 ],
                 where

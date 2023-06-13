@@ -3,10 +3,10 @@ module.exports={
         try {
             let instructors= await framework.services.monitors.basic.fetch();
             if(!instructors.length){
-                res.status(404).json({
+                res.status(200).json({
                     message: 'no records found!',
-                    error: true,
-                    data: {}
+                    error: false,
+                    data: []
                 })
             }else{
                 let data=instructors;

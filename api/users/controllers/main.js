@@ -3,10 +3,10 @@ module.exports = {
         try {
             let users = await framework.services.users.basic.fetch();
             if (!users.length) {
-                res.status(404).json({
+                res.status(200).json({
                     message: 'no records found!',
-                    error: true,
-                    data: {}
+                    error: false,
+                    data: []
                 })
             } else {
                 let data = users.map((user) => {

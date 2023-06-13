@@ -3,17 +3,17 @@ module.exports = {
         try {
             let vehicles = await framework.services.vehicles.basic.fetch();
             if (!vehicles) {
-                res.status(404).json({
+                res.status(200).json({
                     message: 'no records found!',
-                    error: true,
-                    data: {}
+                    error: false,
+                    data: []
                 })
             } else {
                 let data = vehicles.map((vehicle) => ({
                     id: vehicle?.id,
                     name: vehicle?.name,
                     immatriculation: vehicle?.immatriculation,
-                    instructor: vehicle?.instructorVehicles?.username
+                    instructor: vehicle?.instructorVehicles?.firstname + " " + vehicle?.instructorVehicles?.lastname
                 }))
                 res.status(200).json({
                     message: '',

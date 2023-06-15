@@ -4,7 +4,7 @@ module.exports={
             let alerts = await framework.services.alerts.basic.fetch()
             if (!alerts.length) {
                 res.status(200).json({
-                    message: '',
+                    message: 'no records founds!',
                     error: false,
                     data: []
                 })

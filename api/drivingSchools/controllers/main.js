@@ -4,7 +4,7 @@ module.exports = {
             let drivingSchools = await framework.services.drivingSchools.basic.fetch();
             if (!drivingSchools.length) {
                 res.status(200).json({
-                    message: '',
+                    message: 'no records found!',
                     error: false,
                     data: []
                 })

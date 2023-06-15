@@ -4,7 +4,7 @@ module.exports={
             let instructors= await framework.services.monitors.basic.fetch();
             if(!instructors.length){
                 res.status(200).json({
-                    message: '',
+                    message: 'no records found!',
                     error: false,
                     data: []
                 })

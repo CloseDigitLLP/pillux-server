@@ -1,6 +1,6 @@
 {
     "storagePath": {
-        "path": "public/uploads",
+        "path": "uploads",
         "uploadToS3": false,
         "accessKeyId": "--",
         "secretAccessKey": "--",

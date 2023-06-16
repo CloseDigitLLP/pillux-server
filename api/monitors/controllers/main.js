@@ -9,11 +9,10 @@ module.exports={
                     data: []
                 })
             }else{
-                let data=instructors;
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: data
+                    data: instructors
                 });
             }
         } catch (error) {

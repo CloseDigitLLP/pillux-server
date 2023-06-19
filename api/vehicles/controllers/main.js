@@ -103,7 +103,7 @@ module.exports = {
                     data: {}
                 })
             } else {
-                await framework.services.updateVehicleImages.addUpdateImages(vehicleImages);
+                await framework.services.vehicles.updateVehicleImages.addUpdateImages(vehicleImages);
                 res.status(200).json({
                     message: '',
                     error: false,

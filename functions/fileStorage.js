@@ -4,7 +4,7 @@ const path = require('path');
 
 module.exports = {
   uploadFiles: (req, res, next) => {
-    const uploadDir = 'uploads/students';
+    const uploadDir = `uploads/${req.path}`;
     const dirs = uploadDir.split("/");
 
     dirs.forEach((dir, index) => {

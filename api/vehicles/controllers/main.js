@@ -56,36 +56,46 @@ module.exports = {
             })
         }
     },
-    types:async(req,res)=>{
+    types: async (req, res) => {
         try {
-            let vehicleTypes= await framework.services.vehicles.basic.typeList();
-            if(!vehicleTypes){
+            let vehicleTypes = await framework.services.vehicles.basic.typeList();
+            if (!vehicleTypes) {
                 res.status(200).json({
-                    message:'',
-                    error:false,
-                    data:[]
+                    message: '',
+                    error: false,
+                    data: []
                 })
-            }else{
+            } else {
                 res.status(200).json({
-                    message:'',
-                    error:false,
-                    data:vehicleTypes
+                    message: '',
+                    error: false,
+                    data: vehicleTypes
                 })
             }
         } catch (error) {
-            console.log("error is ==>",error);
+            console.log("error is ==>", error);
             res.status(500).json({
                 message: error?.message || "Internal Server Error.",
-                error:true,
-                data:error
+                error: true,
+                data: error
             })
         }
     },
     create: async (req, res) => {
         try {
             let { vehicleData } = req.body;
-
+            vehicleData = JSON.parse(vehicleData);
+            let vehicleImages = [];
             let newVehicle = await framework.services.vehicles.basic.create(vehicleData);
+            if (req.files && req.files.length > 0) {
+                req.files.forEach((file) => {
+                    vehicleImages.push({
+                        vehicle_id: newVehicle.id,
+                        path: file.path,
+                        type: file.mimetype
+                    })
+                })
+            }
             if (!newVehicle) {
                 res.status(400).json({
                     message: 'invalid data',
@@ -93,6 +103,7 @@ module.exports = {
                     data: {}
                 })
             } else {
+                await framework.services.updateVehicleImages.addUpdateImages(vehicleImages);
                 res.status(200).json({
                     message: '',
                     error: false,

@@ -19,7 +19,6 @@ module.exports = {
     },
     create: async (data) => {
         try {
-            
             const vehicle = await framework.models.vehicles.create(
                 data
             );

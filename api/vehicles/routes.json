@@ -48,5 +48,15 @@
         "middlewares": ["validation.delete"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/types",
+        "method" : "get",
+        "action" : "main.types",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

@@ -56,6 +56,31 @@ module.exports = {
             })
         }
     },
+    types:async(req,res)=>{
+        try {
+            let vehicleTypes= await framework.services.vehicles.basic.typeList();
+            if(!vehicleTypes){
+                res.status(200).json({
+                    message:'',
+                    error:false,
+                    data:[]
+                })
+            }else{
+                res.status(200).json({
+                    message:'',
+                    error:false,
+                    data:vehicleTypes
+                })
+            }
+        } catch (error) {
+            console.log("error is ==>",error);
+            res.status(500).json({
+                message: error?.message || "Internal Server Error.",
+                error:true,
+                data:error
+            })
+        }
+    },
     create: async (req, res) => {
         try {
             let { vehicleData } = req.body;

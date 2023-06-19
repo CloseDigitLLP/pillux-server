@@ -45,5 +45,15 @@ module.exports = {
             console.log("error =>", error);
             return Promise.reject(error);
         }
+    },
+    typeList:async()=>{
+        try {
+            return await framework.models.vehicle_types.findAll({
+                attributes:["id","type"]
+            });
+        } catch (error) {
+            console.log("error =>",error);
+            return Promise.reject(error);
+        }
     }
 }

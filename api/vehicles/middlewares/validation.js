@@ -27,8 +27,8 @@ module.exports = {
                 return res.status(400).json({ message: err.message, error: true, data: err })
             }
         })
-        let data = req.body;
-        if (Object.keys(data).length === 0) {
+        let { vehicleData } = req.body;
+        if (Object.keys(vehicleData).length === 0) {
             return res.status(400).json({
                 message: 'Invalid request',
                 error: true,

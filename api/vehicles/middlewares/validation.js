@@ -22,9 +22,9 @@ module.exports = {
         next();
     },
     create: (req, res, next) => {
-        framework.functions.fileStorage.uploadFiles()(req, res, (err) => {
+        framework.functions.fileStorage.uploadFiles(req)(req, res, (err) => {
             if (err) {
-                return res.status(400).json({ message: err.message, error: true, data: er })
+                return res.status(400).json({ message: err.message, error: true, data: err })
             }
         })
         let data = req.body;
@@ -40,7 +40,7 @@ module.exports = {
     update: (req, res, next) => {
         framework.functions.fileStorage.uploadFiles()(req, res, (err) => {
             if (err) {
-                return res.status(400).json({ message: err.message, error: true, data: er })
+                return res.status(400).json({ message: err.message, error: true, data: err })
             }
         })
         const { id } = req.params;

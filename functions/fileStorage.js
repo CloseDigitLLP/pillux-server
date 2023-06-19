@@ -3,8 +3,8 @@ const fs = require('fs');
 const path = require('path');
 
 module.exports = {
-  uploadFiles: (req) => {
-    const uploadDir = `uploads/${req.path}`;
+  uploadFiles: (pathToStore) => {
+    const uploadDir = pathToStore;
     const dirs = uploadDir.split("/");
 
     dirs.forEach((dir, index) => {

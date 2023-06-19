@@ -26,12 +26,12 @@ module.exports = {
         next();
     },
     create: (req, res, next) => {
-        framework.functions.fileStorage.uploadFiles(req)(req, res, (err) => {
+        framework.functions.fileStorage.uploadFiles('uploads/students')(req, res, (err) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
             let data = req.body;
-            if (!data) {
+            if (Object.keys(data).length === 0) {
                 return res.status(400).json({
                     message: 'Invalid request',
                     error: true,
@@ -44,7 +44,7 @@ module.exports = {
 
     },
     update: (req, res, next) => {
-        framework.functions.fileStorage.uploadFiles(req)(req,res, (err) => {
+        framework.functions.fileStorage.uploadFiles('uploads/students')(req,res, (err) => {
             console.log('coming here...')
             if(err) {
                 return res.status(400).json({ error: err.message });

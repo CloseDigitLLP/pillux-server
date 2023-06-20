@@ -35,7 +35,7 @@ module.exports = {
             let { id } = req.params;
             let vehicle = await framework.services.vehicles.basic.fetch(id);
             if (!vehicle) {
-                res.status(404).json({
+                res.status(200).json({
                     message: 'no record found!',
                     error: true,
                     data: {}

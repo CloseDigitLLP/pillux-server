@@ -123,8 +123,19 @@ module.exports = {
         try {
             let { id } = req.params;
             let { vehicleData } = req.body;
-
+            vehicleData = JSON.parse(vehicleData);
+            let vehicleImages = [];
+            let ids = vehicleData?.deletedImages || []; //array of deleted images id
             let vehicle = await framework.services.vehicles.basic.update(id, vehicleData);
+            if (req.files && req.files.length > 0) {
+                req.files.forEach((file) => {
+                    vehicleImages.push({
+                        vehicle_id: id,
+                        path: file.path,
+                        type: file.mimetype
+                    })
+                })
+            }
             if (!vehicle) {
                 res.status(400).json({
                     message: 'invalid data or record does not exists',
@@ -132,6 +143,8 @@ module.exports = {
                     data: {}
                 })
             } else {
+                await framework.services.vehicles.updateVehicleImages.deleteVehicleImaegs(ids);
+                await framework.services.vehicles.updateVehicleImages.addUpdateImages(vehicleImages);
                 res.status(200).json({
                     message: '',
                     error: false,

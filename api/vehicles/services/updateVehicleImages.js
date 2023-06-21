@@ -5,5 +5,12 @@ module.exports = {
                 'id', 'vehicle_id'
             ],
         })
+    },
+    deleteVehicleImaegs: async (ids) => {
+        return await framework.models.vehicle_images.destroy({
+            where: {
+                id: ids,
+            },
+        });
     }
 }

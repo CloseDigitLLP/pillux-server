@@ -17,7 +17,6 @@ module.exports = (sequelize, DataTypes) => {
       vehicles.hasMany(models.repairs,{foreignKey:"vehicle_id",as:"vehicleRepairs",onDelete: "CASCADE", onUpdate: "CASCADE"})
       vehicles.hasMany(models.penalties,{foreignKey:"vehicle_id",as:"vehiclePenalty",onDelete: "CASCADE", onUpdate: "CASCADE"})
       vehicles.hasMany(models.report,{foreignKey:"vehicle_id",as:"vehicleReport",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      vehicles.hasMany(models.repair_document,{foreignKey:"vehicle_id",as:"vehicleReportDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
       vehicles.hasMany(models.vehicle_images, {foreignKey: 'vehicle_id',as:'vehicleImage',onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }

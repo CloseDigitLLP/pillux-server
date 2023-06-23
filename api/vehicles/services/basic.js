@@ -14,7 +14,8 @@ module.exports = {
                         as: "vehicleImage",
                         separate: true,
                         require: false,
-                        order: [['id', 'ASC']]
+                        order: [['id', 'ASC']],
+                        attributes: { exclude: ['created_at', 'updated_at'] }
                     },
                     {
                         model: framework.models.vehicle_types,
@@ -26,13 +27,46 @@ module.exports = {
                         model: framework.models.repairs,
                         as: 'vehicleRepairs',
                         require: false,
-                        order: [['id', 'ASC']]
+                        separate: true,
+                        order: [['id', 'ASC']],
+                        include: [
+                            {
+                                model: framework.models.repair_document,
+                                as: 'repairDoc',
+                                require: false,
+                                attributes: { exclude: ['created_at', 'updated_at'] },
+                                include: [
+                                    {
+                                        model: framework.models.document,
+                                        as: 'documentRepair',
+                                        attributes: { exclude: ['created_at', 'updated_at'] }
+                                    }
+                                ]
+                            }
+                        ]
                     },
                     {
                         model: framework.models.penalties,
                         as: "vehiclePenalty",
                         require: false,
-                        order: [['id', 'ASC']]
+                        separate: true,
+                        order: [['id', 'ASC']],
+                        include: [
+                            {
+                                model: framework.models.penalty_document,
+                                as: 'penaltyDocs',
+                                require: false,
+                                attributes: { exclude: ['created_at', 'updated_at'] },
+                                include: [
+                                    {
+                                        model: framework.models.document,
+                                        as: 'documentPenalty',
+                                        require: false,
+                                        attributes: { exclude: ['created_at', 'updated_at'] }
+                                    }
+                                ]
+                            }
+                        ]
                     }
                 ],
                 where

@@ -26,6 +26,16 @@ module.exports = {
       charset: 'utf8',
       collate: 'utf8_general_ci',
     });
+
+    const defaultPermissions = [
+      { type: "Peut voir la page des recettes"},
+      { type: "Peut voir la page des réglages"},
+      { type: "Peut voir la page des examens"},
+      { type: "Peut supprimer des prestations éléves"},
+      { type: "Peut supprimer des encaissements"},
+      { type: "Peut supprimer des heures"},
+    ]
+    await queryInterface.bulkInsert('permissions', defaultPermissions, {});
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('permissions');

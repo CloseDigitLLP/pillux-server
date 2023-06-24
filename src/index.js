@@ -33,9 +33,9 @@ for(key in useImport){
   app.use(useImport[key]);
 }
 
-app.use('/', [
+app.use('/uploads', [
   [
-    express.static(siteSettings.storagePath ? siteSettings.storagePath.path || 'public/uploads' : 'public/uploads')
+    express.static(siteSettings.storagePath ? siteSettings.storagePath.path || '../uploads' : '../uploads')
   ]
 ])
 for(let key in routes.public){

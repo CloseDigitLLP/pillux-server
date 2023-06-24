@@ -4,7 +4,7 @@ module.exports = {
             let students = await framework.services.students.basic.fetch();
             if (!students) {
                 res.status(200).json({
-                    message: '',
+                    message: 'no records found!',
                     error: false,
                     data: []
                 })

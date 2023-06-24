@@ -1,19 +1,18 @@
-module.exports={
+module.exports = {
     list: async (req, res) => {
         try {
-            let alerts = await framework.services.alerts.basic.fetch()
-            if (!alerts.length) {
+            let roles = await framework.services.roles.basic.fetch();
+            if (!roles.length) {
                 res.status(200).json({
-                    message: 'no records founds!',
+                    message: 'no records found!',
                     error: false,
                     data: []
                 })
             } else {
-                let data = alerts;
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: data
+                    data: roles
                 });
             }
         } catch (error) {
@@ -24,5 +23,5 @@ module.exports={
                 data: error
             })
         }
-    },
+    }
 }

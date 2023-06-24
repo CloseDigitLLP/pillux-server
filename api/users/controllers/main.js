@@ -4,7 +4,7 @@ module.exports = {
             let users = await framework.services.users.basic.fetch();
             if (!users.length) {
                 res.status(200).json({
-                    message: '',
+                    message: 'no records found!',
                     error: false,
                     data: []
                 })

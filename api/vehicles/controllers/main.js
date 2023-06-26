@@ -35,7 +35,7 @@ module.exports = {
             let { id } = req.params;
             let vehicle = await framework.services.vehicles.basic.fetch(id);
             if (!vehicle) {
-                res.status(404).json({
+                res.status(200).json({
                     message: 'no record found!',
                     error: true,
                     data: {}
@@ -56,11 +56,46 @@ module.exports = {
             })
         }
     },
+    types: async (req, res) => {
+        try {
+            let vehicleTypes = await framework.services.vehicles.basic.typeList();
+            if (!vehicleTypes) {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: []
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: vehicleTypes
+                })
+            }
+        } catch (error) {
+            console.log("error is ==>", error);
+            res.status(500).json({
+                message: error?.message || "Internal Server Error.",
+                error: true,
+                data: error
+            })
+        }
+    },
     create: async (req, res) => {
         try {
             let { vehicleData } = req.body;
-
+            vehicleData = JSON.parse(vehicleData);
+            let vehicleImages = [];
             let newVehicle = await framework.services.vehicles.basic.create(vehicleData);
+            if (req.files && req.files.length > 0) {
+                req.files.forEach((file) => {
+                    vehicleImages.push({
+                        vehicle_id: newVehicle.id,
+                        path: file.path,
+                        type: file.mimetype
+                    })
+                })
+            }
             if (!newVehicle) {
                 res.status(400).json({
                     message: 'invalid data',
@@ -68,6 +103,7 @@ module.exports = {
                     data: {}
                 })
             } else {
+                await framework.services.vehicles.updateVehicleImages.addUpdateImages(vehicleImages);
                 res.status(200).json({
                     message: '',
                     error: false,
@@ -87,8 +123,19 @@ module.exports = {
         try {
             let { id } = req.params;
             let { vehicleData } = req.body;
-
+            vehicleData = JSON.parse(vehicleData);
+            let vehicleImages = [];
+            let ids = vehicleData?.deletedImages || []; //array of deleted images id
             let vehicle = await framework.services.vehicles.basic.update(id, vehicleData);
+            if (req.files && req.files.length > 0) {
+                req.files.forEach((file) => {
+                    vehicleImages.push({
+                        vehicle_id: id,
+                        path: file.path,
+                        type: file.mimetype
+                    })
+                })
+            }
             if (!vehicle) {
                 res.status(400).json({
                     message: 'invalid data or record does not exists',
@@ -96,6 +143,8 @@ module.exports = {
                     data: {}
                 })
             } else {
+                await framework.services.vehicles.updateVehicleImages.deleteVehicleImaegs(ids);
+                await framework.services.vehicles.updateVehicleImages.addUpdateImages(vehicleImages);
                 res.status(200).json({
                     message: '',
                     error: false,

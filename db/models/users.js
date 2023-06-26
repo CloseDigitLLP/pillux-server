@@ -20,7 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       users.hasMany(models.report,{foreignKey:"instructor_id",as:"instructorReport",onDelete: "CASCADE", onUpdate: "CASCADE"})
       users.hasMany(models.user_group,{foreignKey:"user_id",as:"userGroup",onDelete: "CASCADE", onUpdate: "CASCADE"})
       users.hasMany(models.user_drivingschool,{foreignKey:"user_id",as:"userDrivingschool",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      users.hasMany(models.repair_document,{foreignKey:"instructor_id",as:"instructorRepirsDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
       users.hasMany(models.student_skill,{foreignKey:"instructor_id",as:"instructorStudentSkill",onDelete: "CASCADE", onUpdate: "CASCADE"})
       users.hasMany(models.user_permissions, {foreignKey: "user_id",as: "userPermissions",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }

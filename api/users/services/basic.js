@@ -27,7 +27,7 @@ module.exports = {
                     {
                         model: framework.models.vehicles,
                         as: 'instructorVehicles',
-                        attributes: ['id', 'name', 'type', 'drivingschool_id', 'immatriculation'],
+                        attributes: ['id', 'name', 'type_id', 'drivingschool_id', 'immatriculation'],
                         order: [['id', 'asc']]
                     },
                     {

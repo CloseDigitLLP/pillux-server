@@ -23,6 +23,8 @@ const logger = (...msg) => {
     }
 }
 
+const setSqlModeQuery = "SET GLOBAL sql_mode=(SELECT REPLACE(@@sql_mode,'ONLY_FULL_GROUP_BY',''));";
+
 let dbOptions = {
   host: config.host || '',
   dialect: config.dialect,
@@ -59,8 +61,10 @@ const sequelize = new Sequelize((replica ? null : config.database), (replica ? n
 
   sequelize
   .authenticate()
-  .then(() => {
+  .then(async () => {
       console.log("Connection has been established successfully. ")
+      await sequelize.query(setSqlModeQuery);
+      console.log('SQL mode is set successfully.');
   })
   .catch(err => {
     throw `Unable to connect to the database: ${err}`

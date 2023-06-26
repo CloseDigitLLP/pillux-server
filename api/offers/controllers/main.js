@@ -27,7 +27,6 @@ module.exports = {
   create: async (req, res) => {
     try {
       let offersData = req.body;
-      console.log(offersData);
       let newOffers = await framework.services.offers.basic.create(offersData);
       if (!newOffers) {
         res.status(404).json({

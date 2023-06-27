@@ -20,6 +20,7 @@ module.exports = (sequelize, DataTypes) => {
       driving_schools.hasMany(models.planning_exams,{foreignKey:"drivingschool_id",as:"drivingSchoolExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
       driving_schools.hasMany(models.vehicles,{foreignKey:"drivingschool_id",as:"drivingSchoolVehicles",onDelete: "CASCADE", onUpdate: "CASCADE"})
       driving_schools.hasMany(models.user_drivingschool,{foreignKey:"drivingschool_id",as:"drivingSchoolUser",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.planning_generals,{foreignKey:"drivingschool_id",as:"drivingSchoolGenrals",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   driving_schools.init({

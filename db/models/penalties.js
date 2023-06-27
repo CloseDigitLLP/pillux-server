@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       penalties.belongsTo(models.vehicles,{foreignKey:"vehicle_id",as:"vehiclePenalty",onDelete: "CASCADE", onUpdate: "CASCADE"})
       penalties.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorPenalty",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      penalties.hasMany(models.penalty_document,{foreignKey:"penalty_id",as:"penaltyId",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      penalties.hasOne(models.penalty_document,{foreignKey:"penalty_id",as:"penaltyDocs",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   penalties.init({

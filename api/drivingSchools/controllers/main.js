@@ -1,3 +1,5 @@
+let skills = require('../../../config/skills')
+
 module.exports = {
     list: async (req, res) => {
         try {
@@ -62,6 +64,12 @@ module.exports = {
         try {
             let data = req.body;
             let drivingSchool = await framework.services.drivingSchools.basic.create(data);
+            let dsSkills = skills.map((skill) => ({
+                drivingschool_id: drivingSchool.id,
+                name: skill.name,
+                level: skill.level,
+                position: skill.position
+            }))
             if (!drivingSchool) {
                 res.status(400).json({
                     message: 'invalid data',
@@ -69,6 +77,9 @@ module.exports = {
                     data: {}
                 })
             } else {
+                if (dsSkills) {
+                    await framework.services.drivingSchools.updateDrivingSchools.addUpdateSkills(dsSkills);
+                }
                 res.status(200).json({
                     message: '',
                     error: false,

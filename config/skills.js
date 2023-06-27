@@ -1,5 +1,5 @@
-{
-  "skills": [
+
+const skills = [
     {
         "name": "MAITRISER",
         "level": "Connaitre les principaux organes et commandes du véhicule, effectuer des vérifications intérieures et extrérieures.",
@@ -160,5 +160,6 @@
         "level": "Pratiquer l'écoconduite.",
         "position": 4
     }
-  ]
-}
+]
+
+module.exports = skills

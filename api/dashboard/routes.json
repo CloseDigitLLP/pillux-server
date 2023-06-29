@@ -2,8 +2,18 @@
     {
         "path" : "/menu",
         "method" : "get",
-        "action" : "dashboard.getAllUsers",
+        "action" : "main.getAllUsers",
         "public" : false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/",
+        "method" : "get",
+        "action" : "main.list",
+        "public" : true,
         "globalMiddlewares": [],
         "middlewares": [],
         "pathFromRoot": false,

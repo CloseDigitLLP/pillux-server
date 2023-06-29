@@ -26,7 +26,7 @@ module.exports = {
         next();
     },
     create: (req, res, next) => {
-        framework.functions.fileStorage.uploadFiles()(req, res, (err) => {
+        framework.functions.fileStorage.uploadFiles('uploads/students')(req, res, (err) => {
             if (err) {
                 return res.status(400).json({ error: err.message });
             }
@@ -44,7 +44,7 @@ module.exports = {
 
     },
     update: (req, res, next) => {
-        framework.functions.fileStorage.uploadFiles()(req,res, (err) => {
+        framework.functions.fileStorage.uploadFiles('uploads/students')(req,res, (err) => {
             console.log('coming here...')
             if(err) {
                 return res.status(400).json({ error: err.message });

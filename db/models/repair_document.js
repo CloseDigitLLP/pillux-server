@@ -11,13 +11,15 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      repair_document.belongsTo(models.vehicles,{foreignKey:"vehicle_id",as:"vehicleReportDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      repair_document.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorRepirsDoc",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      repair_document.belongsTo(models.repairs, { foreignKey: "repair_id", as: "repairDoc", onDelete: "CASCADE", onUpdate: "CASCADE" })
+      repair_document.belongsTo(models.document, { foreignKey: "document_id", as: "documentRepair", onDelete: "CASCADE", onUpdate: "CASCADE" })
     }
   }
   repair_document.init({
     vehicle_id: DataTypes.INTEGER,
-    instructor_id: DataTypes.INTEGER
+    repair_id: DataTypes.INTEGER,
+    instructor_id: DataTypes.INTEGER,
+    document_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'repair_documents',

@@ -10,36 +10,6 @@
         "enabled": true
     },
     {
-        "path" : "/types",
-        "method" : "get",
-        "action" : "main.types",
-        "public" : true,
-        "globalMiddlewares": [],
-        "middlewares": [],
-        "pathFromRoot": false,
-        "enabled": true
-    },
-    {
-        "path" : "/:id",
-        "method" : "get",
-        "action" : "main.single",
-        "public" : true,
-        "globalMiddlewares": [],
-        "middlewares": ["validation.fetch"],
-        "pathFromRoot": false,
-        "enabled": true
-    },
-    {
-        "path" : "/:id",
-        "method" : "put",
-        "action" : "main.update",
-        "public" : true,
-        "globalMiddlewares": [],
-        "middlewares": ["validation.update"],
-        "pathFromRoot": false,
-        "enabled": true
-    },
-    {
         "path" : "/",
         "method" : "post",
         "action" : "main.create",
@@ -56,6 +26,16 @@
         "public" : true,
         "globalMiddlewares": [],
         "middlewares": ["validation.delete"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/:id",
+        "method" : "put",
+        "action" : "main.update",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.update"],
         "pathFromRoot": false,
         "enabled": true
     }

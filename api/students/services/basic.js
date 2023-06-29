@@ -4,29 +4,70 @@ module.exports = {
             if (id) { where.id = id }
             return await framework.models.students.findAll({
                 include: [
-                    // 'studentAlerts',
-                    // 'studentDebit',
-                    // 'studentReservation',
-                    // 'studentExams',
-                    // {
-                    //     model: framework.models.student_skill,
-                    //     as: "studentSkills",
-                    //     include: [
-                    //         {
-                    //             model: framework.models.skills,
-                    //             as: 'skillId'
-                    //         }
-                    //     ]
-                    // },
+                    {
+                        model: framework.models.debit,
+                        as: 'studentDebit',
+                        require: false,
+                        separate: true,
+                        order: [['id', 'ASC']],
+                        include: [
+                            {
+                                model: framework.models.debit_resolve,
+                                as: 'debitId'
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.reservation,
+                        as: 'studentReservation',
+                        require: false,
+                        separate: true,
+                        order: [['id', 'ASC']]
+                    },
+                    {
+                        model: framework.models.alerts,
+                        as: 'studentAlerts',
+                        separate: true,
+                        require: false,
+                        order: [['id', 'ASC']],
+                        include: [
+                            {
+                                model: framework.models.alert_resolve,
+                                as: 'alertId'
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.planning_exams,
+                        as: 'studentExams',
+                        separate: true,
+                        require: false,
+                        order: [['id', 'ASC']],
+                    },
+                    {
+                        model: framework.models.student_skill,
+                        as: "studentSkills",
+                        separate: true,
+                        require: false,
+                        order: [['id', 'ASC']],
+                        include: [
+                            {
+                                model: framework.models.skills,
+                                as: 'skillId'
+                            }
+                        ]
+                    },
                     {
                         model: framework.models.student_document,
                         as: "studentDocument",
-                        attributes: ['id','student_id','type','document_id'],
+                        separate: true,
+                        order: [['id', 'ASC']],
+                        attributes: ['id', 'student_id', 'type', 'document_id'],
                         include: [
                             {
                                 model: framework.models.document,
                                 as: "documentStudent",
-                                attributes: ['id','path','type'],
+                                attributes: ['id', 'path', 'type'],
                             }
                         ]
                     },
@@ -34,17 +75,21 @@ module.exports = {
                         model: framework.models.driving_schools,
                         as: "drivingSchoolStudents",
                         attributes: ['id', 'name']
+                    },
+                    {
+                        model: framework.models.student_formula,
+                        as: "studentFormula",
+                        include: [
+                            {
+                                model: framework.models.formula,
+                                as: 'formulaId',
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.comments,
+                        as: "studentComments",
                     }
-                    // {
-                    //     model: framework.models.student_formula,
-                    //     as: "studentFormula",
-                    //     include: [
-                    //         {
-                    //             model: framework.models.formula,
-                    //             as: 'formulaId',
-                    //         }
-                    //     ]
-                    // }
                 ],
                 attributes: [
                     'id',

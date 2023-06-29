@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       students.hasMany(models.student_skill, { foreignKey: "student_id", as: "studentSkills" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.student_document, { foreignKey: "student_id", as: "studentDocument" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.student_formula, { foreignKey: "student_id", as: "studentFormula" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.comments, { foreignKey: 'student_id', as: 'studentComments', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     }
   }
   students.init({

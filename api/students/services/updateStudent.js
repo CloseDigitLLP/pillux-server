@@ -15,5 +15,8 @@ module.exports = {
                 }
             ]
         })
+    },
+    updateComment: async (comment) => {
+        return await framework.models.comments.create(comment)
     }
 }

@@ -40,6 +40,16 @@
         "enabled": true
     },
     {
+        "path" : "/comment",
+        "method" : "post",
+        "action" : "main.createComments",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.createComment"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/:id",
         "method" : "delete",
         "action" : "main.delete",

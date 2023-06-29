@@ -183,5 +183,31 @@ module.exports = {
                 data: error
             })
         }
+    },
+    createComments: async (req, res) => {
+        try {
+            let data = req.body
+            let comment = await framework.services.students.updateStudent.updateComment(data);
+            if (!comment) {
+                res.status(400).json({
+                    message: 'invalid data',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: comment
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
     }
 }

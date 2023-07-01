@@ -18,7 +18,8 @@ module.exports = {
                         mobile: student.mobile,
                         address: student.address,
                         neph: student.neph,
-                        date_code: student.date_code
+                        date_code: student.date_code,
+                        drivingschool_id : student.drivingschool_id
                     }
                 })
                 res.status(200).json({

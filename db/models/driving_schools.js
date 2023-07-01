@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
       driving_schools.hasOne(models.settings,{foreignKey:"drivingschool_id",as:"drivingSchoolSettings",onDelete: "CASCADE", onUpdate: "CASCADE"})
       driving_schools.hasOne(models.formula,{foreignKey:"drivingschool_id",as:"drivingSchoolFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
       driving_schools.hasMany(models.planning_secretarys,{foreignKey:"drivingschool_id",as:"drivingSchoolSecreatrys",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      driving_schools.hasMany(models.planning_exams,{foreignKey:"drivingschool_id",as:"drivingSchoolExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      driving_schools.hasMany(models.exams,{foreignKey:"drivingschool_id",as:"drivingSchoolExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
       driving_schools.hasMany(models.vehicles,{foreignKey:"drivingschool_id",as:"drivingSchoolVehicles",onDelete: "CASCADE", onUpdate: "CASCADE"})
       driving_schools.hasMany(models.user_drivingschool,{foreignKey:"drivingschool_id",as:"drivingSchoolUser",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }

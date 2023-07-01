@@ -61,8 +61,8 @@ module.exports = {
     create: async (req, res) => {
         try {
             let data = req.body;
-            let drivingSchool = await framework.services.drivingSchools.basic.create(data);
-            if (!drivingSchool) {
+            let exam = await framework.services.exams.basic.create(data);
+            if (!exam) {
                 res.status(400).json({
                     message: 'invalid data',
                     error: true,
@@ -72,7 +72,7 @@ module.exports = {
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: drivingSchool
+                    data: exam
                 })
             }
         } catch (error) {
@@ -88,8 +88,8 @@ module.exports = {
         try {
             let { id } = req.params;
             let data = req.body;
-            let drivingSchool = await framework.services.drivingSchools.basic.update(id, data);
-            if (!drivingSchool) {
+            let exam = await framework.services.exams.basic.update(id, data);
+            if (!exam) {
                 res.status(400).json({
                     message: 'invalid data or record does not exists',
                     error: true,
@@ -99,7 +99,33 @@ module.exports = {
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: drivingSchool
+                    data: exam
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
+    delete: async (req, res) => {
+        try {
+            let { id } = req.params;
+            let exam = await framework.services.exams.basic.delete(id);
+            if (!exam) {
+                res.status(400).json({
+                    message: 'invalid data or record does not exists',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: exam
                 })
             }
         } catch (error) {

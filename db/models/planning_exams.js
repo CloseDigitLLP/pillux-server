@@ -11,18 +11,17 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      planning_exams.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      planning_exams.belongsTo(models.students,{foreignKey:"student_id",as:"studentExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      
+      planning_exams.belongsTo(models.students,{foreignKey:"student_id",as:"studentExamPlanning",onDelete: "CASCADE", onUpdate: "CASCADE"})
       planning_exams.belongsTo(models.licences,{foreignKey:"licence_id",as:"licenceExams",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      planning_exams.belongsTo(models.exams,{foreignKey:"exam_id",as:"studentExam",onDelete: "CASCADE", onUpdate: "CASCADE"})
       planning_exams.hasOne(models.answers,{foreignKey:"event_id",as:"eventId",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   planning_exams.init({
-    drivingschool_id: DataTypes.INTEGER,
     student_id: DataTypes.INTEGER,
+    exam_id: DataTypes.INTEGER,
     licence_id: DataTypes.INTEGER,
-    date_start: DataTypes.DATE,
-    date_end: DataTypes.DATE,
     status: DataTypes.STRING,
     motif: DataTypes.INTEGER,
     comment: DataTypes.STRING

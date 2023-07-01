@@ -30,6 +30,16 @@
         "enabled": true
     },
     {
+        "path" : "/:id",
+        "method" : "delete",
+        "action" : "main.delete",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.delete"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/",
         "method" : "post",
         "action" : "main.create",

@@ -117,5 +117,21 @@ module.exports = {
             console.log("error=>", error);
             return Promise.reject(error);
         }
+    },
+    deleteStudents: async (ids) => {
+        try {
+            return await framework.models.planning_exams.destroy({ where: { id: ids } });
+        } catch (error) {
+            console.log("error=>", error);
+            return Promise.reject(error);
+        }
+    },
+    addStudents: async (data) => {
+        try {
+            return await framework.models.planning_exams.bulkCreate(data);
+        } catch (error) {
+            console.log("error=>", error);
+            return Promise.reject(error);
+        }
     }
 }

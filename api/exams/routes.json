@@ -48,5 +48,25 @@
         "middlewares": ["validation.create"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/addstudents",
+        "method" : "post",
+        "action" : "main.addStudents",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.addStudents"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/deletestudents",
+        "method" : "post",
+        "action" : "main.deleteStudents",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.deleteStudents"],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

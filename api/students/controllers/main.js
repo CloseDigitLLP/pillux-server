@@ -1,3 +1,5 @@
+console.log(framework.services.students.updateStudent, '<========================')
+
 module.exports = {
     list: async (req, res) => {
         try {
@@ -291,7 +293,7 @@ module.exports = {
     createSkills: async (req, res) => {
         try {
             let data = req.body
-            let skills = await framework.services.students.updateStudent.addUpdateSkill(data);
+            let skills = await framework.services.students.updateStudent.addUpdateSKill(data);
             if (!skills.length) {
                 res.status(400).json({
                     message: 'invalid data',

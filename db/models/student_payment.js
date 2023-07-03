@@ -6,13 +6,14 @@ module.exports = (sequelize, DataTypes) => {
   class student_payment extends Model {
     static associate(models) {
       // define association here
-      student_payment.belongsTo(models.student_formula,{foreignKey:"student_formula_id",as:"studentFormulaId",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      student_payment.belongsTo(models.planning_secretarys,{foreignKey:"secretary_id",as:"secretaryStudentPayment",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      student_payment.belongsTo(models.student_formula,{foreignKey:"student_formula_id",as:"studentFormulaPayment",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      student_payment.belongsTo(models.users,{foreignKey:"secretary_id",as:"secretaryStudentPayment",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   student_payment.init({
     student_formula_id: DataTypes.INTEGER,
-    mode: DataTypes.STRING,
+    type: DataTypes.ENUM("1er versement", "2eme versement", "3eme versement", "versement"),
+    mode: DataTypes.ENUM("Virement", "Chèque", "Espéces", "Chéque à encaissement programmé", "Chéque de caution"),
     amount: DataTypes.FLOAT,
     numberbankcheck: DataTypes.INTEGER,
     secretary_id: DataTypes.INTEGER

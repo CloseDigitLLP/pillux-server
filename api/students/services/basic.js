@@ -74,21 +74,38 @@ module.exports = {
                     {
                         model: framework.models.driving_schools,
                         as: "drivingSchoolStudents",
-                        attributes: ['id', 'name']
+                        attributes: ['id', 'name'],
+                        include: [
+                            {
+                                model: framework.models.skills,
+                                as: 'drivingSchoolSkills',
+                                attributes: { exclude: ['created_at', 'updated_at'] }
+                            }
+                        ]
                     },
                     {
                         model: framework.models.student_formula,
                         as: "studentFormula",
+                        separate: true,
+                        order:[['id', 'ASC']],
                         include: [
                             {
                                 model: framework.models.formula,
                                 as: 'formulaId',
+                            },
+                            {
+                                model: framework.models.student_payment,
+                                as: 'studentFormulaPayment',
+                                separate: true,
+                                order: [['id','ASC']]
                             }
                         ]
                     },
                     {
                         model: framework.models.comments,
                         as: "studentComments",
+                        separate: true,
+                        order: [['id', 'ASC']]
                     }
                 ],
                 attributes: [

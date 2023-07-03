@@ -209,5 +209,109 @@ module.exports = {
                 data: error
             })
         }
+    },
+    createFormula: async (req, res) => {
+        try {
+            let data = req.body
+            let formula = await framework.services.students.updateStudent.addFormula(data);
+            if (!formula) {
+                res.status(400).json({
+                    message: 'invalid data',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: formula
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
+    deleteFormula: async (req, res) => {
+        try {
+            let { id } = req.params
+            let formula = await framework.services.students.updateStudent.deleteFormula(id);
+            if (!formula) {
+                res.status(400).json({
+                    message: 'invalid data',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: formula
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
+    createPayment: async (req, res) => {
+        try {
+            let data = req.body
+            let payment = await framework.services.students.updateStudent.addPayment(data);
+            if (!payment) {
+                res.status(400).json({
+                    message: 'invalid data',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: payment
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
+    createSkills: async (req, res) => {
+        try {
+            let data = req.body
+            let skills = await framework.services.students.updateStudent.addUpdateSkill(data);
+            if (!skills.length) {
+                res.status(400).json({
+                    message: 'invalid data',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: skills
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
     }
 }

@@ -51,5 +51,31 @@ module.exports = {
         }
 
         next();
+    },
+    addStudents: (req, res, next) => {
+        const { ids, exam_id } = req.body;
+
+        if (!ids || !ids?.length>0 || !exam_id) {
+            return res.status(400).json({
+                message: 'Invalid request',
+                error: true,
+                data: "make a proper request, provide valid data or id"
+            })
+        }
+
+        next();
+    },
+    deleteStudents: (req, res, next) => {
+        const { ids } = req.body;
+
+        if (!ids || !ids?.length>0 ) {
+            return res.status(400).json({
+                message: 'Invalid request',
+                error: true,
+                data: "make a proper request, provide valid data or id"
+            })
+        }
+
+        next();
     }
 };

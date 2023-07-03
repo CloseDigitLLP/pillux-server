@@ -136,5 +136,63 @@ module.exports = {
                 data: error
             })
         }
+    },
+    deleteStudents: async (req, res) => {
+        try {
+            let { ids } = req.body;
+            let exam = await framework.services.exams.basic.deleteStudents(ids);
+            if (!exam) {
+                res.status(400).json({
+                    message: 'invalid data or record does not exists',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: exam
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
+    addStudents: async (req, res) => {
+        try {
+            let { ids, exam_id } = req.body;
+            let data = ids?.map((id) => {
+                return {
+                    student_id: id,
+                    exam_id
+                }
+            })
+            let exam = await framework.services.exams.basic.addStudents(data);
+            if (!exam) {
+                res.status(400).json({
+                    message: 'invalid data or record does not exists',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: exam
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
     }
 }

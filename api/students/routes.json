@@ -40,9 +40,59 @@
         "enabled": true
     },
     {
+        "path" : "/comment",
+        "method" : "post",
+        "action" : "main.createComments",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.createComment"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/formula",
+        "method" : "post",
+        "action" : "main.createFormula",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.createFormula"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/payment",
+        "method" : "post",
+        "action" : "main.createPayment",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.createPayment"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/skills",
+        "method" : "post",
+        "action" : "main.createSkills",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.createSkills"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/:id",
         "method" : "delete",
         "action" : "main.delete",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.delete"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/formula/:id",
+        "method" : "delete",
+        "action" : "main.deleteFormula",
         "public" : true,
         "globalMiddlewares": [],
         "middlewares": ["validation.delete"],

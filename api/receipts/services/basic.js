@@ -8,11 +8,15 @@ module.exports = {
                         model: framework.models.student_formula,
                         as: 'studentFormula',
                         attributes: ['formula_id','quantity','secretary_id'],
+                        separate: true,
+                        order: [["id", "ASC"]],
                         include: [
                             {
                                 model: framework.models.student_payment,
-                                as: 'studentFormulaId',
-                                attributes: ['mode','id','amount','numberbankcheck','created_at','updated_at','secretary_id']
+                                as: 'studentFormulaPayment',
+                                attributes: ['mode','id','amount','numberbankcheck','created_at','updated_at','secretary_id'],
+                                separate: true,
+                                order: [['id', 'ASC']]
                             },
                             {
                                 model: framework.models.formula,

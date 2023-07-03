@@ -1,15 +1,15 @@
 module.exports = {
     login: async (email, password) => {
-        try {       
+        try {
             return await framework.models.users.findOne({
                 where: {
                     email,
                     password
                 },
-                attributes: ['email', 'firstname', 'lastname'],
-                include: [{ model: framework.models.roles, as: "usersRole", attributes: ['name']}]
+                attributes: ['email', 'firstname', 'lastname', 'id'],
+                include: [{ model: framework.models.roles, as: "usersRole", attributes: ['name'] }]
             })
-        } catch(error) {
+        } catch (error) {
             console.log(error)
             return Promise.reject(error)
         }

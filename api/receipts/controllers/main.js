@@ -11,23 +11,23 @@ module.exports = {
                     data: []
                 })
             } else {
-                let data = [];
-                receipts.forEach((receipt) => {
-                    receipt?.studentFormula?.forEach((studentFormula) => {
-                        data.push({
-                            date: moment(studentFormula?.studentFormulaId?.created_at).format("DD/MM/YYYY"),
-                            fullname: receipt?.firstname + " " + receipt?.lastname,
-                            rules: studentFormula?.formulaId?.name,
-                            mode: studentFormula?.studentFormulaId?.mode,
-                            amount: studentFormula?.studentFormulaId?.amount,
-                            checknumber: studentFormula?.studentFormulaId?.numberbankcheck
-                        });
+                const Data = receipts?.flatMap((receipt) => {
+                    return receipt?.studentFormula?.flatMap((formula) => {
+                        return formula?.studentFormulaPayment?.map((payment) => ({
+                            date: moment(payment?.created_at)?.format('YYYY/MM/DD'),
+                            fullname: `${receipt?.firstname} ${receipt?.lastname}`,
+                            rules: formula?.formulaId?.name,
+                            amount: payment?.amount,
+                            mode: payment?.mode,
+                            checknumber: payment?.numberbankcheck,
+                            id: payment?.id
+                        }));
                     });
                 });
                 res.status(200).json({
                     message: '',
                     error: false,
-                    data: data
+                    data: Data
                 });
             }
         } catch (error) {

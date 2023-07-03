@@ -39,7 +39,7 @@ module.exports = {
                     },
                     {
                         model: framework.models.planning_exams,
-                        as: 'studentExams',
+                        as: 'studentExamPlanning',
                         separate: true,
                         require: false,
                         order: [['id', 'ASC']],

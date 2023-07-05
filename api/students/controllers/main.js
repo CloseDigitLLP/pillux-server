@@ -1,5 +1,3 @@
-console.log(framework.services.students.updateStudent, '<========================')
-
 module.exports = {
     list: async (req, res) => {
         try {

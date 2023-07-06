@@ -1,0 +1,22 @@
+[
+    {
+        "path" : "/",
+        "method" : "get",
+        "action" : "main.list",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/:id",
+        "method" : "put",
+        "action" : "main.update",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.update"],
+        "pathFromRoot": false,
+        "enabled": true
+    }
+]

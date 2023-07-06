@@ -39,15 +39,16 @@ let dbOptions = {
       freezeTableName: true
   },
   dialectOptions: {
-      dateStrings: true,
+      // dateStrings: true,
       typeCast: function (field, next) { // for reading from database
         if (field.type === 'DATETIME') {
-          return field.string()
+          const dateTime = field.string()
+          return dateTime
         }
           return next()
         },
     },
-    timezone: '+01:00'
+    // timezone: '+05:30'
 }
 
 if(replica){

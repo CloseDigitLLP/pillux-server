@@ -9,7 +9,8 @@ module.exports = {
                     model: framework.models.users,
                     as: 'instructorGenerals',
                     require: true,
-                }, ],
+                }
+            ],
                 where,
             });
         } catch (error) {

@@ -6,7 +6,7 @@ module.exports={
                 include: {
                   model: framework.models.students,
                   as: 'studentAlerts',
-                  attributes: { exclude: ['student_id'] }, // Exclude the student_id column from the Student model
+                  attributes: { exclude: ['student_id'] },
                 },
               });
             

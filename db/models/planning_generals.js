@@ -11,8 +11,8 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      planning_generals.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolId",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      planning_generals.belongsTo(models.students,{foreignKey:"student_id",as:"studentId",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      planning_generals.belongsTo(models.driving_schools,{foreignKey:"drivingschool_id",as:"drivingSchoolGenrals",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      planning_generals.belongsTo(models.students,{foreignKey:"student_id",as:"studentGenerals",onDelete: "CASCADE", onUpdate: "CASCADE"})
       planning_generals.belongsTo(models.planning_secretarys,{foreignKey:"secretary_id",as:"secretaryGenerals",onDelete: "CASCADE", onUpdate: "CASCADE"})
       planning_generals.belongsTo(models.users,{foreignKey:"instructor_id",as:"instructorGenerals",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }

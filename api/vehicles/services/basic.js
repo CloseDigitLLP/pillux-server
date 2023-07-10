@@ -67,6 +67,11 @@ module.exports = {
                                 ]
                             }
                         ]
+                    },
+                    {
+                        model: framework.models.driving_schools,
+                        as: 'drivingSchoolVehicles',
+                        attributes: ['id', 'name']
                     }
                 ],
                 where

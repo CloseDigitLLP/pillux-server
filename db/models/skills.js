@@ -18,7 +18,7 @@ module.exports = (sequelize, DataTypes) => {
     drivingschool_id: DataTypes.INTEGER,
     name: DataTypes.STRING,
     level: DataTypes.STRING,
-    position: DataTypes.STRING
+    position: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'skills',

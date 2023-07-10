@@ -6,7 +6,6 @@ module.exports = {
     list : async (req,res)=>{
         try {
             let data=await framework.services.dashboard.basic.fetch();
-            console.log(data);
             if(!data){
                 res.status(404).json({
                     message:'Data Not Found',

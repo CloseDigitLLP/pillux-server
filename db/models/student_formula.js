@@ -13,15 +13,16 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       student_formula.belongsTo(models.students,{foreignKey:"student_id",as:"studentFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
       student_formula.belongsTo(models.formula,{foreignKey:"formula_id",as:"formulaId",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      student_formula.belongsTo(models.planning_secretarys,{foreignKey:"secretary_id",as:"secretaryStudentFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
-      student_formula.hasOne(models.student_payment,{foreignKey:"student_formula_id",as:"studentFormulaId",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      student_formula.belongsTo(models.users,{foreignKey:"secretary_id",as:"secretaryStudentFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      student_formula.hasMany(models.student_payment,{foreignKey:"student_formula_id",as:"studentFormulaPayment",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   student_formula.init({
     student_id: DataTypes.INTEGER,
     formula_id: DataTypes.INTEGER,
     quantity: DataTypes.INTEGER,
-    secretary_id: DataTypes.INTEGER
+    secretary_id: DataTypes.INTEGER,
+    date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'student_formulas',

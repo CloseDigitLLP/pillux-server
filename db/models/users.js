@@ -22,6 +22,10 @@ module.exports = (sequelize, DataTypes) => {
       users.hasMany(models.user_drivingschool,{foreignKey:"user_id",as:"userDrivingschool",onDelete: "CASCADE", onUpdate: "CASCADE"})
       users.hasMany(models.student_skill,{foreignKey:"instructor_id",as:"instructorStudentSkill",onDelete: "CASCADE", onUpdate: "CASCADE"})
       users.hasMany(models.user_permissions, {foreignKey: "user_id",as: "userPermissions",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.student_formula,{foreignKey:"secretary_id",as:"secretaryStudentFormula",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.student_payment, { foreignKey: "secretary_id", as: "secretaryStudentPayment", onDelete: "CASCADE", onUpdate: "CASCADE" })
+      users.hasMany(models.exams, {foreignKey: "instructor_id",as: "instructorExam",onDelete: "CASCADE", onUpdate: "CASCADE"})
+      users.hasMany(models.exam_wishlist, {foreignKey: "instructor_id",as: "instructorExamWishlist",onDelete: "CASCADE", onUpdate: "CASCADE"})
     }
   }
   users.init({

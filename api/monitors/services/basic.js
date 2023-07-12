@@ -1,8 +1,18 @@
 const Sequelize = require('sequelize');
 
 module.exports = {
-  fetch: async (id, where = {}) => {
+  fetch: async (id, where = {}, user) => {
     try {
+      
+      let rolesCondition = {}
+      if (user?.usersRole?.name == 'Secrétaires') {
+        rolesCondition = {
+          drivingschool_id: {
+            [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+          }
+        }
+      }
+
       if (id) {
         where.id = id;
       }
@@ -44,6 +54,11 @@ module.exports = {
             where: {
               status: 'approved',
             },
+          },
+          {
+            model: framework.models.user_drivingschool,
+            as: "userDrivingschool",
+            where: { ...rolesCondition }
           }
         ],
         attributes: ["id", "firstname", "lastname"],

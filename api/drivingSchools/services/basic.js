@@ -1,6 +1,15 @@
+const { Sequelize } = require("sequelize");
+
 module.exports = {
-    fetch: async (id, where = {}) => {
+    fetch: async (id, where = {}, user) => {
         try {
+
+            if (user?.usersRole?.name == 'Secrétaires') {
+                where["id"] = {
+                    [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                }
+            }
+
             if (id) { where.id = id }
             return await framework.models.driving_schools.findAll({
                 where

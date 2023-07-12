@@ -1,7 +1,7 @@
 module.exports = {
     list: async (req, res) => {
         try {
-            let users = await framework.services.users.basic.fetch();
+            let users = await framework.services.users.basic.fetch(null, {}, req?.user);
             if (!users.length) {
                 res.status(200).json({
                     message: 'no records found!',

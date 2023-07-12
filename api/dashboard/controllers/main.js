@@ -5,7 +5,10 @@ module.exports = {
     },
     list : async (req,res)=>{
         try {
-            let data=await framework.services.dashboard.basic.fetch();
+
+            let user = req?.user
+
+            let data=await framework.services.dashboard.basic.fetch(user);
             if(!data){
                 res.status(404).json({
                     message:'Data Not Found',

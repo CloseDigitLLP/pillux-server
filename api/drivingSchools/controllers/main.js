@@ -3,7 +3,7 @@ let skills = require('../../../config/skills')
 module.exports = {
     list: async (req, res) => {
         try {
-            let drivingSchools = await framework.services.drivingSchools.basic.fetch();
+            let drivingSchools = await framework.services.drivingSchools.basic.fetch(null, {}, req?.user);
             if (!drivingSchools.length) {
                 res.status(200).json({
                     message: 'no records found!',

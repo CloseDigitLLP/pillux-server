@@ -1,12 +1,27 @@
+const { Sequelize } = require("sequelize");
+
 module.exports={
-    fetch: async (id, where = {}) => {
+    fetch: async (user) => {
         try {
-            if (id) { where.id = id }
+
+            let rolesCondition = {}
+
+            if(user?.usersRole?.name == 'Secrétaires'){
+                rolesCondition = {
+                  drivingschool_id: {
+                    [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                  }
+                }
+              }
+
             return await framework.models.alerts.findAll({
                 include: {
                   model: framework.models.students,
                   as: 'studentAlerts',
                   attributes: { exclude: ['student_id'] },
+                  where: {
+                    ...rolesCondition
+                  }
                 },
               });
             

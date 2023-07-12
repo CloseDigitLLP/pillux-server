@@ -8,5 +8,15 @@
         "middlewares": [],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/mail",
+        "method" : "post",
+        "action" : "main.sendEmail",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

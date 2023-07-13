@@ -1,7 +1,10 @@
 module.exports={
     list: async (req, res) => {
         try {
-            let alerts = await framework.services.alerts.basic.fetch()
+
+            let user = req?.user
+
+            let alerts = await framework.services.alerts.basic.fetch(user)
             if (!alerts.length) {
                 res.status(200).json({
                     message: 'no records founds!',

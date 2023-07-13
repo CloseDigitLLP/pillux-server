@@ -1,7 +1,7 @@
 module.exports={
     list: async(req,res)=>{
         try {
-            let plannings = await framework.services.planning.basic.fetch();
+            let plannings = await framework.services.planning.basic.fetch(null, {}, req?.user);
             if(!plannings){
                 res.status(200).json({
                     message:"Data Not Found",

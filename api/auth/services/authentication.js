@@ -7,7 +7,10 @@ module.exports = {
                     password
                 },
                 attributes: ['email', 'firstname', 'lastname', 'id'],
-                include: [{ model: framework.models.roles, as: "usersRole", attributes: ['name'] }]
+                include: [
+                    { model: framework.models.roles, as: "usersRole", attributes: ['name'] },
+                    { model: framework.models.user_drivingschool, as: "userDrivingschool" }
+                ]
             })
         } catch (error) {
             console.log(error)

@@ -1,7 +1,7 @@
 module.exports = {
     list: async (req, res) => {
         try {
-            let exams = await framework.services.examWishlists.basic.fetch();
+            let exams = await framework.services.examWishlists.basic.fetch(null, {}, req?.user);
             if (!exams.length) {
                 res.status(200).json({
                     message: 'no records found!',

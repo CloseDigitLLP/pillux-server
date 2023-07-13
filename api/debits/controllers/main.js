@@ -5,7 +5,10 @@ const sgMail = require('@sendgrid/mail');
 module.exports = {
     list: async (req, res) => {
         try {
-            let debits = await framework.services.debits.basic.fetch();
+
+            let user = req?.user
+
+            let debits = await framework.services.debits.basic.fetch(user);
             if (!debits.length) {
                 res.status(200).json({
                     message: 'no records found!',

@@ -9,7 +9,7 @@ module.exports = {
         email,
         password
       );
-      if (!user || user?.usersRole?.name == 'Moniteurs') {
+      if (!user || user?.usersRole?.name == 'Moniteurs' || !user?.usersRole) {
         return res.status(404).send({
           message: "User not found",
           error: true,

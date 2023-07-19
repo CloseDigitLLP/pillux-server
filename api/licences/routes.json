@@ -1,0 +1,10 @@
+[{
+    "path" : "/",
+    "method" : "get",
+    "action" : "main.list",
+    "public" : true,
+    "globalMiddlewares": [],
+    "middlewares": [],
+    "pathFromRoot": false,
+    "enabled": true
+}]

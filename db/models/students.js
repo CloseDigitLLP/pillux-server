@@ -22,9 +22,9 @@ module.exports = (sequelize, DataTypes) => {
       students.hasMany(models.student_formula, { foreignKey: "student_id", as: "studentFormula" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.comments, { foreignKey: 'student_id', as: 'studentComments', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
       students.hasMany(models.planning_generals, { foreignKey: "student_id", as: "studentGenerals" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
-
+      students.belongsTo(models.licences , { foreignKey : "licence_id" , as : "licenceStudents" , onDelete : "CASCADE" , onUpdate : "CASCADE" })
     }
-  }
+  } 
   students.init({
     photo_id: DataTypes.STRING,
     gender: DataTypes.STRING,
@@ -41,7 +41,8 @@ module.exports = (sequelize, DataTypes) => {
     status: DataTypes.STRING,
     drivingschool_id:DataTypes.INTEGER,
     date_code: DataTypes.DATE,
-    docsType: DataTypes.STRING
+    docsType: DataTypes.STRING,
+    licence_id : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'students',

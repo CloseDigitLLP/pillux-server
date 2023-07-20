@@ -1,14 +1,14 @@
 {
   "development": {
     "username": "root",
-    "password": "aakash21##",
+    "password": "root",
     "database": "pillux_server",
     "host": "localhost",
     "useReplica": false,
     "dialect": "mysql",
     "write": {
       "username": "root",
-      "password": "aakash21##",
+      "password": "root",
       "database": "pillux_server",
       "host": "localhost",
       "logging": false,
@@ -18,7 +18,7 @@
     "read": [
       {
         "username": "root",
-        "password": "aakash21##",
+        "password": "root",
         "database": "pillux_server",
         "host": "localhost"
       }

@@ -18,7 +18,8 @@ module.exports = (sequelize, DataTypes) => {
   debit.init({
     student_id: DataTypes.INTEGER,
     money_left: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    status: DataTypes.BOOLEAN,
+    date: DataTypes.DATE,
   }, {
     sequelize,
     modelName: 'debits',

@@ -8,5 +8,15 @@
         "middlewares": ["test.validateUser"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/monitorLogin",
+        "method" : "post",
+        "action" : "auth.monitorLogin",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["test.validateUser"],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

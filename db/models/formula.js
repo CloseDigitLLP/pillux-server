@@ -20,10 +20,12 @@ module.exports = (sequelize, DataTypes) => {
     name: DataTypes.STRING,
     price: DataTypes.INTEGER,
     hour: DataTypes.INTEGER,
-    type: DataTypes.STRING,
-    time_validity: DataTypes.INTEGER,
-    time_relance: DataTypes.INTEGER,
-    status: DataTypes.STRING
+    time_validity:DataTypes.INTEGER,
+    status: DataTypes.STRING,
+    installments: DataTypes.INTEGER,
+    first_installment_hours: DataTypes.INTEGER,
+    second_installment_hours: DataTypes.INTEGER,
+    third_installment_hours: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'formulas',

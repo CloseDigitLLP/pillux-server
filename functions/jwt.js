@@ -4,6 +4,10 @@ module.exports = {
         var accessToken = jwt.sign(user, process.env.JWT_KEY, { expiresIn: 60 * 60 });
         return {accessToken}
     },
+    getMonitorAccessToken: (user) => {
+        var accessToken = jwt.sign(user, process.env.JWT_KEY, { expiresIn: 60 * 60 * 24 * 30 });
+        return {accessToken}
+    },
     getRefreshToken: (user) => {
         let refreshToken = jwt.sign({email: user.email}, process.env.JWT_KEY, { expiresIn: 60 * 60 * 24 })
         return { refreshToken }

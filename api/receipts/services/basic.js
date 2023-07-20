@@ -21,7 +21,7 @@ module.exports = {
                             {
                                 model: framework.models.formula,
                                 as: 'formulaId',
-                                attributes: ['name', 'id', 'price', 'hour', 'type', 'time_validity', 'time_relance']
+                                attributes: ['name', 'id', 'price', 'hour']
                             }
                         ]
                     }

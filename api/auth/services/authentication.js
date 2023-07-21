@@ -39,12 +39,22 @@ module.exports = {
                 model: framework.models.driving_schools,
                 as: 'drivingSchoolUser',
                 include: [
-                    {
-                        model: framework.models.vehicles,
-                        as: 'drivingSchoolVehicles',
-                        attributes: ['id', 'name', 'immatriculation', 'date']
-                    }
-                ]
+                  {
+                    model: framework.models.vehicles,
+                    as: 'drivingSchoolVehicles',
+                    attributes: ['id', 'name', 'immatriculation', 'date'],
+                    include: [
+                      {
+                        model: framework.models.vehicle_images,
+                        as: 'vehicleImage',
+                      },
+                    ],
+                  },
+                  {
+                    model: framework.models.vehicle_types,
+                    as: 'VehicleTypes',
+                  },
+                ],
               },
             ],
           },

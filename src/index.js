@@ -14,8 +14,8 @@ const http = require('http')
 const helmet = require('helmet');
 const middlewares = require('../middlewares')
 
-const siteSettings = require('../config/sitesetting.json')
-
+const siteSettings = require('../config/sitesetting.json');
+const { drivingSchoolsDataSync, userDataSync, examDataSync, debitDataSync, studentDataSync, formulaDataSync } = require('../functions/databaseSync');
 // defining the Express app
 const app = express();
 
@@ -73,3 +73,10 @@ io.on('connection', (socket) => {
 server.listen(process.env.PORT, async () => {
   console.log('listening on port '+process.env.PORT);
 });
+
+// drivingSchoolsDataSync();
+// userDataSync();
+// examDataSync();
+// debitDataSync();
+// studentDataSync();
+// formulaDataSync();

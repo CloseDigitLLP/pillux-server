@@ -26,6 +26,8 @@ module.exports = {
       charset: 'utf8',
       collate: 'utf8_general_ci',
     });
+    const defaultLicences = [{id:1,name:"Permis Boite Manuelle"}, {id:2,name:"Permis Boite Auto"}, {id:3,name:"Permis Moto"}]
+    await queryInterface.bulkInsert('licences', defaultLicences, {});
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable('licences');

@@ -1,0 +1,166 @@
+module.exports = {
+  list: async (req, res) => {
+    try {
+      let penalties = await framework.services.penalties.basic.fetch(null, {}, req?.user);
+      if (!penalties) {
+        res.status(200).json({
+          message: 'no records found!',
+          error: false,
+          data: [],
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: penalties,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        messagae: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
+  single: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let penalty = await framework.services.penalties.basic.fetch(id);
+      if (!penalty) {
+        res.status(200).json({
+          message: 'no record found!',
+          error: true,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: penalty[0],
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        messagae: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
+  create: async (req, res) => {
+    try {
+      let { penaltyData } = req.body;
+      penaltyData = JSON.parse(penaltyData);
+      let penaltyImage = [];
+      let penalty = await framework.services.penalties.basic.create(penaltyData);
+      if (req.files && req.files.length > 0) {
+        req.files.forEach((file) => {
+          penaltyImage.push({
+            penalty_id: penalty.id,
+            type: file.fieldname,
+            documentPenalty: {
+              type: file.mimetype,
+              path: file.path,
+            },
+          });
+        });
+      }
+      if (!penalty) {
+        res.status(400).json({
+          message: 'invalid data',
+          error: true,
+          data: {},
+        });
+      } else {
+        await framework.services.penalties.updatePenaltyImages.addUpdateImages(penaltyImage);
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: penalty,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        message: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
+  update: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let { penaltyData } = req.body;
+      penaltyData = JSON.parse(penaltyData);
+      let penaltyImage = [];
+      let existingDocs = penaltyData?.docs;
+      let penalty = await framework.services.penalties.basic.update(id, penaltyData);
+      if (req.files && req.files.length > 0) {
+        req.files.forEach((file) => {
+          penaltyImage.push({
+            id: existingDocs?.id,
+            penalty_id: id,
+            type: file.fieldname,
+            document_id: existingDocs?.document_id,
+            documentPenalty: {
+              id: existingDocs?.document_id,
+              type: file.mimetype,
+              path: file.path,
+            },
+          });
+        });
+      }
+      if (!penalty) {
+        res.status(400).json({
+          message: 'invalid data or record does not exists',
+          error: true,
+          data: {},
+        });
+      } else {
+        await framework.services.penalties.updatePenaltyImages.addUpdateImages(penaltyImage);
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: penalty,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        message: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
+  delete: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let penalty = await framework.services.penalties.basic.delete(id);
+      if (!penalty) {
+        res.status(400).json({
+          message: 'invalid data or record does not exists',
+          error: true,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: penalty,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        message: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
+};

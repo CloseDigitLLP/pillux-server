@@ -12,11 +12,13 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       comments.belongsTo(models.students, { foreignKey: 'student_id', as: 'studentComments', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
+      comments.belongsTo(models.users, { foreignKey: 'user_id', as: 'InstructorCommentOnStudent', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     }
   }
   comments.init({
     student_id: DataTypes.INTEGER,
-    comment: DataTypes.STRING
+    comment: DataTypes.STRING,
+    user_id: DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'comments',

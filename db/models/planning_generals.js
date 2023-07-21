@@ -27,7 +27,7 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.STRING,
     gearbox: DataTypes.STRING,
     comment: DataTypes.STRING,
-    status:  DataTypes.ENUM('pending', 'approved', 'rejected'),
+    status:  DataTypes.ENUM('pending','present', 'absent'),
     motif: DataTypes.INTEGER
   }, {
     sequelize,

@@ -55,6 +55,28 @@ module.exports = {
                         ]
                     },
                     {
+                        model: framework.models.report,
+                        as: 'vehicleReport',
+                        require: false,
+                        separate: true,
+                        order: [['id', 'ASC']],
+                        include: [
+                            {
+                                model: framework.models.report_document,
+                                as: 'reportDocs',
+                                require: false,
+                                attributes: { exclude: ['created_at', 'updated_at'] },
+                                include: [
+                                    {
+                                        model: framework.models.document,
+                                        as: 'documentReport',
+                                        attributes: { exclude: ['created_at', 'updated_at'] }
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
                         model: framework.models.penalties,
                         as: "vehiclePenalty",
                         require: false,

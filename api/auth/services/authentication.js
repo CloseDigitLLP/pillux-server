@@ -48,11 +48,11 @@ module.exports = {
                         model: framework.models.vehicle_images,
                         as: 'vehicleImage',
                       },
+                      {
+                        model: framework.models.vehicle_types,
+                        as: 'VehicleTypes',
+                      },
                     ],
-                  },
-                  {
-                    model: framework.models.vehicle_types,
-                    as: 'VehicleTypes',
                   },
                 ],
               },

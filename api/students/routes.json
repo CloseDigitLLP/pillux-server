@@ -98,5 +98,16 @@
         "middlewares": ["validation.delete"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/permit/:id",
+        "method" : "put",
+        "action" : "main.updateLicencePermit",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.updateLicencePermit"],
+        "pathFromRoot": false,
+        "enabled": true
     }
+
 ]

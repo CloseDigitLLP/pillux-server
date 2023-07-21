@@ -20,7 +20,8 @@ module.exports = {
                         neph: student.neph,
                         date_code: student.date_code,
                         drivingschool_id : student.drivingschool_id,
-                        studentFormula: student.studentFormula
+                        studentFormula: student.studentFormula,
+                        licenceStudents:student.licenceStudents
                     }
                 })
                 res.status(200).json({
@@ -309,6 +310,35 @@ module.exports = {
             }
         } catch (error) {
             console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
+    },
+    updateLicencePermit : async (req,res) => {
+        try {
+            let data = req.body;
+            let { id } = req.params;
+            console.log(data,id,"<<<<<<< Data and Id");
+            let licencePermit = await framework.services.students.updateStudent.updateLicencePermit(id,data);
+            if (!licencePermit.length){
+                res.status(400).json({
+                    message:"Invalid Data",
+                    error:true,
+                    data:{}
+                })
+            }else{
+                res.status(200).json({
+                    message:"",
+                    error:false,
+                    data:licencePermit
+                })
+            }
+
+        } catch (error) {
+            console.log("Error is => ",error);
             res.status(500).json({
                 message: error?.message,
                 error: true,

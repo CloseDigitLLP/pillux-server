@@ -20,6 +20,16 @@
         "enabled": true
     },
     {
+        "path" : "/types",
+        "method" : "get",
+        "action" : "main.typesList",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/:id",
         "method" : "put",
         "action" : "main.update",

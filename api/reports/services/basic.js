@@ -63,4 +63,16 @@ module.exports = {
       return Promise.reject(error);
     }
   },
+  types: async () => {
+    try {
+      return await framework.models.types.findAll({
+        where: {
+          type: 'accident',
+        },
+      });
+    } catch (error) {
+      console.log('error =>', error);
+      return Promise.reject(error);
+    }
+  },
 };

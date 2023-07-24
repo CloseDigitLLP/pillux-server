@@ -29,6 +29,10 @@ module.exports = {
             model: framework.models.vehicles,
             as: 'vehicleRepairs',
             attributes: ['id', 'name', 'immatriculation', 'date']
+          },
+          {
+            model: framework.models.types,
+            as: 'repairType'
           }
         ],
         where,
@@ -58,6 +62,18 @@ module.exports = {
   delete: async (id) => {
     try {
       return await framework.models.repairs.destroy({ where: { id } });
+    } catch (error) {
+      console.log('error =>', error);
+      return Promise.reject(error);
+    }
+  },
+  types: async () => {
+    try {
+      return await framework.models.types.findAll({
+        where: {
+          type: 'réparation',
+        },
+      });
     } catch (error) {
       console.log('error =>', error);
       return Promise.reject(error);

@@ -1,4 +1,3 @@
-
 module.exports = {
   fetch: async (id, where = {}, user) => {
     try {
@@ -53,6 +52,18 @@ module.exports = {
   delete: async (id) => {
     try {
       return await framework.models.penalties.destroy({ where: { id } });
+    } catch (error) {
+      console.log('error =>', error);
+      return Promise.reject(error);
+    }
+  },
+  types: async () => {
+    try {
+      return await framework.models.types.findAll({
+        where: {
+          type: 'amendes',
+        },
+      });
     } catch (error) {
       console.log('error =>', error);
       return Promise.reject(error);

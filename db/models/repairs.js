@@ -14,12 +14,13 @@ module.exports = (sequelize, DataTypes) => {
       repairs.belongsTo(models.vehicles, { foreignKey: "vehicle_id", as: "vehicleRepairs", onDelete: "CASCADE", onUpdate: "CASCADE" })
       repairs.belongsTo(models.users, { foreignKey: "instructor_id", as: "instructorRepairs", onDelete: "CASCADE", onUpdate: "CASCADE" })
       repairs.hasOne(models.repair_document, { foreignKey: "repair_id", as: "repairDoc", onDelete: "CASCADE", onUpdate: "CASCADE" })
+      repairs.belongsTo(models.types, {foreignKey: 'type_id', as: 'repairType', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     }
   }
   repairs.init({
     vehicle_id: DataTypes.INTEGER,
     instructor_id: DataTypes.INTEGER,
-    type: DataTypes.STRING,
+    type_id: DataTypes.INTEGER,
     amount: DataTypes.FLOAT,
     comment: DataTypes.STRING
   }, {

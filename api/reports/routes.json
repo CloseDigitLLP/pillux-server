@@ -1,5 +1,15 @@
 [
     {
+        "path" : "/types",
+        "method" : "get",
+        "action" : "main.typesList",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/",
         "method" : "get",
         "action" : "main.list",
@@ -16,16 +26,6 @@
         "public" : true,
         "globalMiddlewares": [],
         "middlewares": ["validation.fetch"],
-        "pathFromRoot": false,
-        "enabled": true
-    },
-    {
-        "path" : "/types",
-        "method" : "get",
-        "action" : "main.typesList",
-        "public" : true,
-        "globalMiddlewares": [],
-        "middlewares": [],
         "pathFromRoot": false,
         "enabled": true
     },

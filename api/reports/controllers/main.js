@@ -165,8 +165,8 @@ module.exports = {
   },
   typesList: async (req, res) => {
     try {
-      let list = await framework.services.reports.basic.types();
-      if (!list) {
+      let defaultTypes = await framework.services.reports.basic.types();
+      if (!defaultTypes) {
         res.status(400).json({
           message: 'invalid data or record does not exists',
           error: true,
@@ -176,7 +176,7 @@ module.exports = {
         res.status(200).json({
           message: '',
           error: false,
-          data: list,
+          data: defaultTypes,
         });
       }
     } catch (error) {

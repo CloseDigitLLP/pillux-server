@@ -27,7 +27,7 @@ module.exports = {
           },
           {
             model: framework.models.vehicles,
-            as: 'vehicleRepairs',
+            as: 'vehicleReport',
             attributes: ['id', 'name', 'immatriculation', 'date']
           }
         ],

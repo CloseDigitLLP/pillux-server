@@ -1,2 +1,5 @@
-
-[{"id":"1","name":"Permis Boite Manuelle"}, {"id":"2","name":"Permis Boite Auto"}, {"id":"3","name":"Permis Moto"}]
+[
+  { "id": "1", "name": "Permis Boite Manuelle" },
+  { "id": "2", "name": "Permis Boite Auto" },
+  { "id": "3", "name": "Permis Moto" }
+]

@@ -1,2 +1,5 @@
-
-[{"id":"1","name":"Moniteurs","roles":"a:1:{i:0;s:12:\"ROLE_MONITOR\";}"}, {"id":"2","name":"Secr\u00e9taires","roles":"a:1:{i:0;s:14:\"ROLE_SECRETARY\";}"}, {"id":"3","name":"G\u00e9rants","roles":"a:1:{i:0;s:11:\"ROLE_GERANT\";}"}]
+[
+  { "id": "1", "name": "Moniteurs", "roles": "a:1:{i:0;s:12:\"ROLE_MONITOR\";}" },
+  { "id": "2", "name": "Secr\u00e9taires", "roles": "a:1:{i:0;s:14:\"ROLE_SECRETARY\";}" },
+  { "id": "3", "name": "G\u00e9rants", "roles": "a:1:{i:0;s:11:\"ROLE_GERANT\";}" }
+]

@@ -15,8 +15,10 @@ module.exports = (sequelize, DataTypes) => {
     type: DataTypes.ENUM("1er versement", "2eme versement", "3eme versement", "versement"),
     mode: DataTypes.ENUM("Virement", "Chèque", "Espéces", "Chéque à encaissement programmé", "Chéque de caution"),
     amount: DataTypes.FLOAT,
-    numberbankcheck: DataTypes.INTEGER,
-    secretary_id: DataTypes.INTEGER
+    numberbankcheck: DataTypes.STRING,
+    secretary_id: DataTypes.INTEGER,
+    student_id: DataTypes.INTEGER,
+    formula_id: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'student_payments',

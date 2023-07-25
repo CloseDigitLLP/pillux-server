@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Sequelize } = require("sequelize");
 
 module.exports = {
@@ -91,6 +92,17 @@ module.exports = {
                                 attributes: { exclude: ['created_at', 'updated_at'] }
                             }
                         ]
+                    },
+                    {
+                        model: framework.models.student_payment,
+                        as: "studentPayments",
+                        separate: true,
+                        order:[['id', 'ASC']],
+                        where: {
+                            student_formula_id: {
+                                [Op.is]: null
+                            }
+                        }
                     },
                     {
                         model: framework.models.student_formula,

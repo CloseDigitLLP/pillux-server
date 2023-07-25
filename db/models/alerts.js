@@ -17,7 +17,7 @@ module.exports = (sequelize, DataTypes) => {
   alerts.init({
     student_id: DataTypes.INTEGER,
     type: DataTypes.STRING,
-    status: DataTypes.STRING,
+    status: DataTypes.BOOLEAN,
     resume: DataTypes.STRING
   }, {
     sequelize,

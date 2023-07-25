@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
     instructor_id: DataTypes.INTEGER,
     comments: DataTypes.STRING,
     type_id: DataTypes.INTEGER,
+    date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'reports',

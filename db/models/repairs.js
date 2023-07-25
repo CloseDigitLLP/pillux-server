@@ -22,7 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     instructor_id: DataTypes.INTEGER,
     type_id: DataTypes.INTEGER,
     amount: DataTypes.FLOAT,
-    comment: DataTypes.STRING
+    comment: DataTypes.STRING,
+    date: DataTypes.DATE
   }, {
     sequelize,
     modelName: 'repairs',

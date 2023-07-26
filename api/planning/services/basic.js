@@ -21,6 +21,7 @@ module.exports = {
         [Op.gte] : firstDayOfMonth,
         [Op.lt]: firstDayOfNextMonth
       }
+
       return await framework.models.planning_generals.findAll({
         include: [
           {
@@ -45,20 +46,20 @@ module.exports = {
                 },
               ],
             },
-            // {
-            //   model: framework.models.student_skill,
-            //   as: 'studentSkills',
-            //   separate: true,
-            //   require: false,
-            //   order: [['id', 'ASC']],
-            //   include: [
-            //     {
-            //       model: framework.models.skills,
-            //       as: 'skillId',
-            //     },
-            //   ],
-            // },
-          ],
+          ].push((user?.usersRole?.name == 'Moniteurs') ?{
+            model: framework.models.student_skill,
+            as: 'studentSkills',
+            separate: true,
+            require: false,
+            order: [['id', 'ASC']],
+            include: [
+              {
+                model: framework.models.skills,
+                as: 'skillId',
+                attributes: { exclude: ['created_at', 'updated_at'] },
+              },
+            ],
+          } : {} ),
           },
           
         ],

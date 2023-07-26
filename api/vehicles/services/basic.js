@@ -79,7 +79,6 @@ module.exports = {
                                     }
                                 ]
                             },
-                            ,
                             {
                                 model: framework.models.types,
                                 as: 'reportType',

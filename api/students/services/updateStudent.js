@@ -31,5 +31,8 @@ module.exports = {
     },
     deleteFormula: async (id) => {
         return await framework.models.student_formula.destroy({ where: { id } });
+    },
+    updateLicencePermit : async (id,data) => {
+        return await framework.models.students.update(data[0], { where: { id } });
     }
 }

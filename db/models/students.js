@@ -19,6 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       students.hasMany(models.exam_wishlist, { foreignKey: "student_id", as: "studentExamWishlist" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.student_skill, { foreignKey: "student_id", as: "studentSkills" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.student_document, { foreignKey: "student_id", as: "studentDocument" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
+      students.hasMany(models.student_payment, { foreignKey: "student_id", as: "studentPayments" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.student_formula, { foreignKey: "student_id", as: "studentFormula" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.hasMany(models.comments, { foreignKey: 'student_id', as: 'studentComments', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
       students.hasMany(models.planning_generals, { foreignKey: "student_id", as: "studentGenerals" ,onDelete: "CASCADE", onUpdate: "CASCADE"})

@@ -45,7 +45,7 @@ module.exports = {
       var { email, password } = req.body;
       password = md5(password);
 
-      let user = await framework.services.auth.authentication.login(
+      let user = await framework.services.auth.authentication.instructorLogin(
         email,
         password
       );

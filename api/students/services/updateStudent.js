@@ -9,8 +9,7 @@ module.exports = {
                     as: 'documentStudent',
                     model: framework.models.document,
                     updateOnDuplicate: [
-                        'path',
-                        'type'
+                        'id'
                     ]
                 }
             ]

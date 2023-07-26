@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 const { Sequelize } = require("sequelize");
 
 module.exports = {
@@ -6,7 +7,7 @@ module.exports = {
 
             if(user?.usersRole?.name == 'Secrétaires'){
                  where['drivingschool_id'] = {
-                    [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                    [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
                   }
               }
 
@@ -91,6 +92,17 @@ module.exports = {
                                 attributes: { exclude: ['created_at', 'updated_at'] }
                             }
                         ]
+                    },
+                    {
+                        model: framework.models.student_payment,
+                        as: "studentPayments",
+                        separate: true,
+                        order:[['id', 'ASC']],
+                        where: {
+                            student_formula_id: {
+                                [Op.is]: null
+                            }
+                        }
                     },
                     {
                         model: framework.models.licences,

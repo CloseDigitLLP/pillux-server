@@ -3,7 +3,7 @@
         "path" : "/",
         "method" : "get",
         "action" : "main.list",
-        "public" : true,
+        "public" : false,
         "globalMiddlewares": [],
         "middlewares": [],
         "pathFromRoot": false,

@@ -1,4 +1,4 @@
-const alert = require('../resources/alert.json');
+const alertsData = require('../resources/alert.json');
 const studentData = require('../resources/student.json');
 const studentExams = require('../resources/student_examination.json');
 const studentLicence = require('../resources/student_licence.json');
@@ -15,6 +15,9 @@ const userDs = require('../resources/user_drivingschool.json');
 const examins = require('../resources/examination.json');
 const formulaData = require('../resources/formula.json');
 const debitData = require('../resources/debit.json');
+const planning = require('../resources/planning.json');
+
+
 
 module.exports = {
   drivingSchoolsDataSync: async () => {
@@ -40,9 +43,8 @@ module.exports = {
         });
       }
 
-      let data = await framework.models.driving_schools.bulkCreate(drivingschoolsData, {});
-      let skillData = await framework.models.skills.bulkCreate(dsSkills, {});
-      console.log('<== inserted data succefully ==>');
+      await framework.models.driving_schools.bulkCreate(drivingschoolsData, {});
+      await framework.models.skills.bulkCreate(dsSkills, {});
     } catch (error) {
       console.log('while inserting data on drivingschool table, Error: ==>', error);
     }
@@ -77,7 +79,6 @@ module.exports = {
       }
       await framework.models.users.bulkCreate(userData, {});
       await framework.models.user_drivingschool.bulkCreate(userDrivingSchool, {});
-      console.log('user data synced');
     } catch (error) {
       console.log('Error: while data inserting on user and related tables ==>', error);
     }
@@ -86,13 +87,12 @@ module.exports = {
     try {
       let existingStudents = [];
       let existingStudentsFormula = [];
-      let oldExamOfStudents = [];
-      let existingStudPayments = [];
+      let existingStudentComments = [];
       for (const student of studentData) {
         let licence = studentLicence.find((sl) => sl.student_id === student.id);
         existingStudents.push({
           id: student.id,
-          // gender: student.gender, //NOTE - need to confirm client value of enum (0,1)
+          gender: student.gender === '0' ? 'Féminin' : 'mâle',
           lastname: student.lastname,
           firstname: student.firstname,
           birthday: student.birthday,
@@ -104,7 +104,7 @@ module.exports = {
           neph: student.neph,
           status: student.active === '1' ? true : false,
           drivingschool_id: student.drivingschool_id,
-          licence_id: licence ? parseInt(licence.licence_id) : '',
+          licence_id: licence?.licence_id ? parseInt(licence?.licence_id) : 1,
         });
       }
       for (const plan of studentFormula) {
@@ -121,55 +121,21 @@ module.exports = {
           student_id: parseInt(newplan.student_id),
           formula_id: parseInt(newplan.formula_id),
           quantity: parseInt(newplan.quantity),
-          date: plan.date,
+          date: newplan.date,
         });
       }
-      for (const oldExam of studentExams) {
-        oldExamOfStudents.push({
-          id: oldExam.id,
-          student_id: oldExam.student_id,
-          exam_id: oldExam.examination_id,
+      for (const comment of studentComments) {
+        existingStudentComments.push({
+          id: comment.id,
+          comment: comment.commentary,
+          student_id: comment.student_id,
+          user_id: comment.user_id,
+          created_at: comment.date,
         });
       }
-      for (const pay of paymentData) {
-        let studentFormulas = studentFormula.find(
-          (plan) => plan.formula_id === pay.formula_id && plan.student_id === pay.student_id
-        );
-
-        existingStudPayments.push({
-          id: pay.id,
-          type: pay.name,
-          mode: pay.mode,
-          amount: pay.price,
-          numberbankcheck: pay.numbercheque,
-          secretary_id: pay.receiver_id,
-          student_formula_id: parseInt(studentFormulas.id),
-        });
-      }
-
-      for (const newpay of newPaymentData) {
-        let studentFormulas = studentFormula.find(
-          (plan) => plan.formula_id === newpay.formula_id && plan.student_id === newpay.student_id
-        );
-
-        existingStudPayments.push({
-          type: newpay.name,
-          mode: newpay.mode,
-          amount: newpay.price,
-          numberbankcheck: newpay.numbercheque,
-          secretary_id: newpay.receiver_id,
-          student_formula_id: parseInt(studentFormulas.id),
-        });
-      } 
-      // await framework.models.students.bulkCreate(existingStudents, {});
-      // await framework.models.student_formula.bulkCreate(existingStudentsFormula, {});
-      // await framework.models.planning_exams.bulkCreate(oldExamOfStudents, {});
-      console.log(
-        existingStudents,
-        existingStudentsFormula,
-        oldExamOfStudents,
-        'students, student_formula and student_exams data synced'
-      );
+      await framework.models.students.bulkCreate(existingStudents, {});
+      await framework.models.student_formula.bulkCreate(existingStudentsFormula, {});
+      await framework.models.comments.bulkCreate(existingStudentComments, {});
     } catch (error) {
       console.log('Error: while data inserting on student and related tables ==>', error);
     }
@@ -190,9 +156,124 @@ module.exports = {
         });
       }
       await framework.models.exams.bulkCreate(examsData, {});
-      console.log('exam data synced');
     } catch (error) {
       console.log('Error: while data inserting on exams tables ==>', error);
+    }
+  },
+  studentOldExamDataSync: async () => {
+    try {
+      let oldExamOfStudents = [];
+      for (const oldExam of studentExams) {
+        oldExamOfStudents.push({
+          id: oldExam.id,
+          student_id: oldExam.student_id,
+          exam_id: oldExam.examination_id,
+        });
+      }
+      await framework.models.planning_exams.bulkCreate(oldExamOfStudents, {});
+    } catch (error) {
+      console.log('Error: while data inserting on student_exam table ==>', error);
+    }
+  },
+  studentPaymentDataSync: async () => {
+    try {
+      let existingStudPayments = [];
+      let formulasData = await framework.models.student_formula.findAll({});
+      for (const pay of paymentData) {
+        let studentFormulas = {};
+
+        for (const plan of formulasData) {
+          if ((pay.student_id == plan.student_id) && (pay.formula_id == plan.formula_id)) {
+            studentFormulas = plan;
+            break ;
+          }
+        }
+        let type, mode;
+
+        if (pay.name === '0') {
+          type = '1er versement';
+        } else if (pay.name === '1') {
+          type = '2eme versement';
+        } else if (pay.name === '2') {
+          type = '3eme versement';
+        } else {
+          type = 'versement';
+        }
+
+        if (pay.mode === '0') {
+          mode = 'Virement';
+        } else if (pay.mode === '1') {
+          mode = 'Chèque';
+        } else if (pay.mode === '2') {
+          mode = 'Espéces';
+        } else if (pay.mode === '3') {
+          mode = 'Chéque à encaissement programmé';
+        } else if (pay.mode === '4') {
+          mode = 'Chéque de caution';
+        }
+
+        existingStudPayments.push({
+          id: pay.id,
+          type: type,
+          mode: mode,
+          amount: pay.price,
+          numberbankcheck: pay.numbercheque,
+          secretary_id: parseInt(pay.receiver_id),
+          student_id: pay.student_id,
+          formula_id: pay.formula_id,
+          student_formula_id: studentFormulas.id ? parseInt(studentFormulas.id) : null,
+        });
+      }
+      for (const newpay of newPaymentData) {
+        let studentFormulas = {};
+
+        let formula = newStudentFormula.find((studFormula) => studFormula.student_id == newpay.student_id);
+        for (const plan of formulasData) {
+          if ((newpay.student_id == plan.student_id) && (formula.formula_id == plan.formula_id)) {
+            studentFormulas = plan;
+            break;
+          }
+        }
+
+
+        let type, mode;
+
+        if (newpay.name === '0') {
+          type = '1er versement';
+        } else if (newpay.name === '1') {
+          type = '2eme versement';
+        } else if (newpay.name === '2') {
+          type = '3eme versement';
+        } else {
+          type = 'versement';
+        }
+
+        if (newpay.mode === '0') {
+          mode = 'Virement';
+        } else if (newpay.mode === '1') {
+          mode = 'Chèque';
+        } else if (newpay.mode === '2') {
+          mode = 'Espéces';
+        } else if (newpay.mode === '3') {
+          mode = 'Chéque à encaissement programmé';
+        } else if (newpay.mode === '4') {
+          mode = 'Chéque de caution';
+        }
+
+        existingStudPayments.push({
+          type: type,
+          mode: mode,
+          amount: newpay.price,
+          numberbankcheck: newpay.numbercheque,
+          secretary_id: newpay.receiver_id,
+          student_id: newpay.student_id,
+          formula_id: parseInt(formula?.formula_id),
+          student_formula_id: studentFormulas.id ? parseInt(studentFormulas.id) : null,
+        });
+      }
+      await framework.models.student_payment.bulkCreate(existingStudPayments, {});
+    } catch (error) {
+      console.log('Error: while data inserting on student_payment table ==>', error);
     }
   },
   formulaDataSync: async () => {
@@ -207,8 +288,7 @@ module.exports = {
           price: formula.price,
         });
       }
-      await framework.models.formulas.bulkCreate(existingFormulas, {});
-      console.log('formula data synced');
+      await framework.models.formula.bulkCreate(existingFormulas, {});
     } catch (error) {
       console.log('Error: while data inserting on exams tables ==>', error);
     }
@@ -225,10 +305,65 @@ module.exports = {
           date: debit.date,
         });
       }
-
-      console.log(exitsingDebits, 'debit data synced');
+      await framework.models.debit.bulkCreate(exitsingDebits, {});
     } catch (error) {
       console.log('Error: while inseting data on debit table ==>', error);
+    }
+  },
+  alertDataSync: async () => {
+    try {
+      let oldAlerts = [];
+
+      for (const alert of alertsData) {
+        oldAlerts.push({
+          id: alert.id,
+          student_id: alert.student_id,
+          date: alert.date,
+          status: alert.enable === '1' ? true : false,
+          resume: alert.resume,
+        });
+      }
+      await framework.models.alerts.bulkCreate(oldAlerts, {});
+    } catch (error) {
+      console.log('Error: while inseting data on alert table ==>', error);
+    }
+  },
+  planningDataSync: async () => {
+    try {
+      let oldPlanningData = [];
+
+      for (const plan of planning) {
+        let type, gearbox;
+        if (plan.type === '0') {
+          type = 'Conduite';
+        } else if (plan.type === '1') {
+          type = 'Examen';
+        } else if (plan.type === '2') {
+          type = 'Autres';
+        } else {
+          type = '';
+        }
+        if (plan.boite === '0') {
+          gearbox = 'boite manuelle';
+        } else if (plan.boite === '1') {
+          gearbox = 'Boite Auto';
+        } else {
+          gearbox = 'Moto';
+        }
+        oldPlanningData.push({
+          id: plan.id,
+          student_id: plan.student_id,
+          instructor_id: plan.instructor_id,
+          start_horary: plan.start_horary,
+          end_horary: plan.end_horary,
+          type: type,
+          gearbox: gearbox,
+          motif: plan.reason,
+        });
+      }
+      await framework.models.planning_generals.bulkCreate(oldPlanningData, {});
+    } catch (error) {
+      console.log('Error: while inseting data on alert table ==>', error);
     }
   },
 };

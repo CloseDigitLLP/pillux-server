@@ -1,7 +1,7 @@
 module.exports = {
   list: async (req, res) => {
     try {
-      let offers = await framework.services.offers.basic.fetch();
+      let offers = await framework.services.offers.basic.fetch(null, {}, req?.user);
       if (!offers) {
         res.status(200).json({
           message: '',

@@ -15,7 +15,8 @@ const helmet = require('helmet');
 const middlewares = require('../middlewares')
 
 const siteSettings = require('../config/sitesetting.json');
-const { drivingSchoolsDataSync, userDataSync, examDataSync, debitDataSync, studentDataSync, formulaDataSync } = require('../functions/databaseSync');
+const { drivingSchoolsDataSync, userDataSync, examDataSync, debitDataSync, studentDataSync, formulaDataSync, alertDataSync, planningDataSync, studentOldExamDataSync, studentPaymentDataSync } = require('../functions/databaseSync');
+const moment = require('moment');
 // defining the Express app
 const app = express();
 
@@ -74,9 +75,50 @@ server.listen(process.env.PORT, async () => {
   console.log('listening on port '+process.env.PORT);
 });
 
-// drivingSchoolsDataSync();
-// userDataSync();
-// examDataSync();
-// debitDataSync();
-// studentDataSync();
-// formulaDataSync();
+const dbSync = async () => {
+  console.time('db syncing total time');
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : driving schools data syncing start`);
+  await drivingSchoolsDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : driving schools data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : users data syncing start`);
+  await userDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : users data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : formulas data syncing start`);
+  await formulaDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : formulas data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : students data syncing start`);
+  await studentDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : students data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : alerts data syncing start`);
+  await alertDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : alerts data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : exams data syncing start`);
+  await examDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : exams data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : debits data syncing start`);
+  await debitDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : debits data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : planning data syncing start`);
+  await planningDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : planning data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student old exams data syncing`);
+  await studentOldExamDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student old exams data syncing end`);
+
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student payments data syncing start`);
+  await studentPaymentDataSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student payments data syncing end`);
+
+  console.timeEnd('db syncing total time');
+};
+
+
+// dbSync();

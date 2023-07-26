@@ -7,7 +7,7 @@ module.exports = {
 
             if(user?.usersRole?.name == 'Secrétaires'){
                  where['drivingschool_id'] = {
-                    [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                    [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
                   }
               }
 

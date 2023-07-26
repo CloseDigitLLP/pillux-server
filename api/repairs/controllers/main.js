@@ -190,4 +190,30 @@ module.exports = {
       });
     }
   },
+  vehiclerepairs: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let repair = await framework.services.repairs.basic.vehicleRepairs(id);
+      if (!repair) {
+        res.status(200).json({
+          message: 'no record found!',
+          error: true,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: repair[0],
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        messagae: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
 };

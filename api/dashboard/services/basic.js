@@ -7,7 +7,7 @@ module.exports = {
       const drivingschoolIds = user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
 
       const noOfMonitors = await framework.models.users.count({
-        where: { role_id: 2 },
+        where: { role_id: 1 },
       });
       // **********************************************************************
       // MOTIF - 0 <--- For Code type of Exams

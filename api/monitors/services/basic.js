@@ -63,7 +63,7 @@ module.exports = {
         ],
         attributes: ["id", "firstname", "lastname"],
         where: {
-          role_id: "2",
+          role_id: "1", //NOTE - here role-id = 1 is instructor id  
           ...where
         },
         group: ['id']

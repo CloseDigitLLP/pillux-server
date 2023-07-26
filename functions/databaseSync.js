@@ -227,12 +227,14 @@ module.exports = {
       for (const newpay of newPaymentData) {
         let studentFormulas = {};
 
+        let formula = newStudentFormula.find((studFormula) => studFormula.student_id == newpay.student_id);
         for (const plan of formulasData) {
-          if ((newpay.student_id == plan.student_id) && (newpay.new_formula_student_id == plan.formula_id)) {
+          if ((newpay.student_id == plan.student_id) && (formula.formula_id == plan.formula_id)) {
             studentFormulas = plan;
             break;
           }
         }
+
 
         let type, mode;
 
@@ -265,7 +267,7 @@ module.exports = {
           numberbankcheck: newpay.numbercheque,
           secretary_id: newpay.receiver_id,
           student_id: newpay.student_id,
-          formula_id: newpay.new_formula_student_id,
+          formula_id: parseInt(formula?.formula_id),
           student_formula_id: studentFormulas.id ? parseInt(studentFormulas.id) : null,
         });
       }

@@ -30,6 +30,16 @@
         "enabled": true
     },
     {
+        "path" : "/vehicle/:id",
+        "method" : "get",
+        "action" : "main.vehiclerepairs",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.fetch"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/:id",
         "method" : "put",
         "action" : "main.update",

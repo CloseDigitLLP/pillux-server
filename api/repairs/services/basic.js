@@ -79,4 +79,42 @@ module.exports = {
       return Promise.reject(error);
     }
   },
+  vehicleRepair: async (id) => {
+    try {
+      if (id) {
+        where.vehicle_id = id;
+      }
+      return await framework.models.repairs.findAll({
+        include: [
+          {
+            model: framework.models.repair_document,
+            as: 'repairDoc',
+            require: false,
+            attributes: { exclude: ['created_at', 'updated_at'] },
+            include: [
+              {
+                model: framework.models.document,
+                as: 'documentRepair',
+                require: false,
+                attributes: { exclude: ['created_at', 'updated_at'] },
+              },
+            ],
+          },
+          {
+            model: framework.models.vehicles,
+            as: 'vehicleRepairs',
+            attributes: ['id', 'name', 'immatriculation', 'date']
+          },
+          {
+            model: framework.models.types,
+            as: 'repairType'
+          }
+        ],
+        where,
+      });
+    } catch (error) {
+      console.log('error =>', error);
+      return Promise.reject(error);
+    }
+  }
 };

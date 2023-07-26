@@ -16,7 +16,9 @@ const examins = require('../resources/examination.json');
 const formulaData = require('../resources/formula.json');
 const debitData = require('../resources/debit.json');
 const planning = require('../resources/planning.json');
-const md5 = require('md5');
+
+
+
 module.exports = {
   drivingSchoolsDataSync: async () => {
     try {
@@ -68,7 +70,7 @@ module.exports = {
           firstname: user.firstname,
           lastname: user.lastname,
           salt: user.salt,
-          password: md5('pillux@123'),
+          password: 'pillux@123',
           last_login: user.last_login,
           confirmation_token: user.confirmation_token,
           password_requested_at: user.password_requested_at,

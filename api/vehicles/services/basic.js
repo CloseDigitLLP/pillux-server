@@ -51,6 +51,11 @@ module.exports = {
                                         attributes: { exclude: ['created_at', 'updated_at'] }
                                     }
                                 ]
+                            },
+                            {
+                                model: framework.models.types,
+                                as: 'repairType',
+                                attributes: ['id', 'type', 'subtype']
                             }
                         ]
                     },
@@ -73,6 +78,12 @@ module.exports = {
                                         attributes: { exclude: ['created_at', 'updated_at'] }
                                     }
                                 ]
+                            },
+                            ,
+                            {
+                                model: framework.models.types,
+                                as: 'reportType',
+                                attributes: ['id', 'type', 'subtype']
                             }
                         ]
                     },
@@ -96,6 +107,11 @@ module.exports = {
                                         attributes: { exclude: ['created_at', 'updated_at'] }
                                     }
                                 ]
+                            },
+                            {
+                                model: framework.models.types,
+                                as: 'penaltyType',
+                                attributes: ['id', 'type', 'subtype']
                             }
                         ]
                     },

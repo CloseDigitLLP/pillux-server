@@ -17,10 +17,10 @@ module.exports = {
       if (id) {
         where.id = id;
       }
-      where.start_horary =  {
-        [Op.gte] : firstDayOfMonth,
-        [Op.lt]: firstDayOfNextMonth
-      }
+      where.start_horary = {
+        [Op.gte]: firstDayOfMonth,
+        [Op.lt]: firstDayOfNextMonth,
+      };
 
       return await framework.models.planning_generals.findAll({
         include: [
@@ -35,33 +35,35 @@ module.exports = {
             attributes: ['id', 'firstname', 'lastname', 'mobile', 'drivingschool_id'],
             include: [
               {
-              model: framework.models.driving_schools,
-              as: 'drivingSchoolStudents',
-              attributes: ['name', 'email', 'status', 'start_date', 'valid_date', 'enabled'],
-              include: [
-                {
-                  model: framework.models.skills,
-                  as: 'drivingSchoolSkills',
-                  attributes: { exclude: ['created_at', 'updated_at'] },
-                },
-              ],
-            },
-          ].push((user?.usersRole?.name == 'Moniteurs') ?{
-            model: framework.models.student_skill,
-            as: 'studentSkills',
-            separate: true,
-            require: false,
-            order: [['id', 'ASC']],
-            include: [
-              {
-                model: framework.models.skills,
-                as: 'skillId',
-                attributes: { exclude: ['created_at', 'updated_at'] },
+                model: framework.models.driving_schools,
+                as: 'drivingSchoolStudents',
+                attributes: ['name', 'email', 'status', 'start_date', 'valid_date', 'enabled'],
+                include: [
+                  {
+                    model: framework.models.skills,
+                    as: 'drivingSchoolSkills',
+                    attributes: { exclude: ['created_at', 'updated_at'] },
+                  },
+                ],
               },
-            ],
-          } : {} ),
+              (user?.usersRole?.name === 'Moniteurs')
+              ? {
+                  model: framework.models.student_skill,
+                  as: 'studentSkills',
+                  separate: true,
+                  required: false,
+                  order: [['id', 'ASC']],
+                  include: [
+                    {
+                      model: framework.models.skills,
+                      as: 'skillId',
+                      attributes: { exclude: ['created_at', 'updated_at'] },
+                    },
+                  ],
+                }
+              : null,
+            ].filter(Boolean),
           },
-          
         ],
         where,
       });

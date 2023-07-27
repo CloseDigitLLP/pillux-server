@@ -78,6 +78,9 @@ server.listen(process.env.PORT, async () => {
 const dbSync = async () => {
   console.time('db syncing total time');
   console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : driving schools data syncing start`);
+
+
+  
   await drivingSchoolsDataSync();
   console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : driving schools data syncing end`);
 
@@ -109,7 +112,7 @@ const dbSync = async () => {
   await planningDataSync();
   console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : planning data syncing end`);
 
-  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student old exams data syncing`);
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student old exams data syncing start`);
   await studentOldExamDataSync();
   console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student old exams data syncing end`);
 

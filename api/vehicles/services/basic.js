@@ -14,207 +14,115 @@ module.exports = {
       }
       return await framework.models.vehicles.findAll({
         include: [
-          {
-            model: framework.models.users,
-            as: 'instructorVehicles',
-            attributes: ['id', 'firstname', 'lastname', 'email', 'enabled'],
-          },
-          {
-            model: framework.models.vehicle_images,
-            as: 'vehicleImage',
-            separate: true,
-            require: false,
-            order: [['id', 'ASC']],
-            attributes: { exclude: ['created_at', 'updated_at'] },
-          },
-          {
-            model: framework.models.vehicle_types,
-            as: 'VehicleTypes',
-            require: false,
-            attributes: ['id', 'type'],
-          },
-          {
-            model: framework.models.repairs,
-            as: 'vehicleRepairs',
-            require: false,
-            separate: true,
-            order: [['id', 'ASC']],
-            include: [
-              {
-                model: framework.models.repair_document,
-                as: 'repairDoc',
+            {
+                model: framework.models.users,
+                as: "instructorVehicles",
+                attributes: ["id", "firstname", "lastname", "email", "enabled"],
+            },
+            {
+                model: framework.models.vehicle_images,
+                as: "vehicleImage",
+                separate: true,
                 require: false,
-                attributes: { exclude: ['created_at', 'updated_at'] },
+                order: [['id', 'ASC']],
+                attributes: { exclude: ['created_at', 'updated_at'] }
+            },
+            {
+                model: framework.models.vehicle_types,
+                as: "VehicleTypes",
+                require: false,
+                attributes: ["id", "type"]
+            },
+            {
+                model: framework.models.repairs,
+                as: 'vehicleRepairs',
+                require: false,
+                separate: true,
+                order: [['id', 'ASC']],
                 include: [
-                    // {
-                    //   model: framework.models.document,
-                    //   as: 'documentRepair',
-                    //   attributes: { exclude: ['created_at', 'updated_at'] },
-                    // },
                     {
-                        model: framework.models.users,
-                        as: "instructorVehicles",
-                        attributes: ["id", "firstname", "lastname", "email", "enabled"],
-                    },
-                    {
-                        model: framework.models.vehicle_images,
-                        as: "vehicleImage",
-                        separate: true,
+                        model: framework.models.repair_document,
+                        as: 'repairDoc',
                         require: false,
-                        order: [['id', 'ASC']],
-                        attributes: { exclude: ['created_at', 'updated_at'] }
-                    },
-                    {
-                        model: framework.models.vehicle_types,
-                        as: "VehicleTypes",
-                        require: false,
-                        attributes: ["id", "type"]
-                    },
-                    {
-                        model: framework.models.repairs,
-                        as: 'vehicleRepairs',
-                        require: false,
-                        separate: true,
-                        order: [['id', 'ASC']],
+                        attributes: { exclude: ['created_at', 'updated_at'] },
                         include: [
                             {
-                                model: framework.models.repair_document,
-                                as: 'repairDoc',
-                                require: false,
-                                attributes: { exclude: ['created_at', 'updated_at'] },
-                                include: [
-                                    {
-                                        model: framework.models.document,
-                                        as: 'documentRepair',
-                                        attributes: { exclude: ['created_at', 'updated_at'] }
-                                    }
-                                ]
-                            },
-                            {
-                                model: framework.models.types,
-                                as: 'repairType',
-                                attributes: ['id', 'type', 'subtype']
+                                model: framework.models.document,
+                                as: 'documentRepair',
+                                attributes: { exclude: ['created_at', 'updated_at'] }
                             }
                         ]
                     },
                     {
-                        model: framework.models.report,
-                        as: 'vehicleReport',
-                        require: false,
-                        separate: true,
-                        order: [['id', 'ASC']],
-                        include: [
-                            {
-                                model: framework.models.report_document,
-                                as: 'reportDocs',
-                                require: false,
-                                attributes: { exclude: ['created_at', 'updated_at'] },
-                                include: [
-                                    {
-                                        model: framework.models.document,
-                                        as: 'documentReport',
-                                        attributes: { exclude: ['created_at', 'updated_at'] }
-                                    }
-                                ]
-                            },
-                            {
-                                model: framework.models.types,
-                                as: 'reportType',
-                                attributes: ['id', 'type', 'subtype']
-                            }
-                        ]
-                    },
-                    {
-                        model: framework.models.penalties,
-                        as: "vehiclePenalty",
-                        require: false,
-                        separate: true,
-                        order: [['id', 'ASC']],
-                        include: [
-                            {
-                                model: framework.models.penalty_document,
-                                as: 'penaltyDocs',
-                                require: false,
-                                attributes: { exclude: ['created_at', 'updated_at'] },
-                                include: [
-                                    {
-                                        model: framework.models.document,
-                                        as: 'documentPenalty',
-                                        require: false,
-                                        attributes: { exclude: ['created_at', 'updated_at'] }
-                                    }
-                                ]
-                            },
-                            {
-                                model: framework.models.types,
-                                as: 'penaltyType',
-                                attributes: ['id', 'type', 'subtype']
-                            }
-                        ]
-                    },
-                    {
-                        model: framework.models.driving_schools,
-                        as: 'drivingSchoolVehicles',
-                        attributes: ['id', 'name']
+                        model: framework.models.types,
+                        as: 'repairType',
+                        attributes: ['id', 'type', 'subtype']
                     }
-                ],
-              },
-            ],
-          },
-          {
-            model: framework.models.penalties,
-            as: 'vehiclePenalty',
-            require: false,
-            separate: true,
-            order: [['id', 'ASC']],
-            include: [
-              {
-                model: framework.models.penalty_document,
-                as: 'penaltyDocs',
+                ]
+            },
+            {
+                model: framework.models.report,
+                as: 'vehicleReport',
                 require: false,
-                attributes: { exclude: ['created_at', 'updated_at'] },
+                separate: true,
+                order: [['id', 'ASC']],
                 include: [
-                  {
-                    model: framework.models.document,
-                    as: 'documentPenalty',
-                    require: false,
-                    attributes: { exclude: ['created_at', 'updated_at'] },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            model: framework.models.report,
-            as: 'vehicleReport',
-            require: false,
-            separate: true,
-            order: [['id', 'ASC']],
-            include: [
-              {
-                model: framework.models.report_document,
-                as: 'reportDocs',
+                    {
+                        model: framework.models.report_document,
+                        as: 'reportDocs',
+                        require: false,
+                        attributes: { exclude: ['created_at', 'updated_at'] },
+                        include: [
+                            {
+                                model: framework.models.document,
+                                as: 'documentReport',
+                                attributes: { exclude: ['created_at', 'updated_at'] }
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.types,
+                        as: 'reportType',
+                        attributes: ['id', 'type', 'subtype']
+                    }
+                ]
+            },
+            {
+                model: framework.models.penalties,
+                as: "vehiclePenalty",
                 require: false,
-                attributes: { exclude: ['created_at', 'updated_at'] },
+                separate: true,
+                order: [['id', 'ASC']],
                 include: [
-                  {
-                    model: framework.models.document,
-                    as: 'documentReport',
-                    require: false,
-                    attributes: { exclude: ['created_at', 'updated_at'] },
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            model: framework.models.driving_schools,
-            as: 'drivingSchoolVehicles',
-            attributes: ['id', 'name'],
-          },
+                    {
+                        model: framework.models.penalty_document,
+                        as: 'penaltyDocs',
+                        require: false,
+                        attributes: { exclude: ['created_at', 'updated_at'] },
+                        include: [
+                            {
+                                model: framework.models.document,
+                                as: 'documentPenalty',
+                                require: false,
+                                attributes: { exclude: ['created_at', 'updated_at'] }
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.types,
+                        as: 'penaltyType',
+                        attributes: ['id', 'type', 'subtype']
+                    }
+                ]
+            },
+            {
+                model: framework.models.driving_schools,
+                as: 'drivingSchoolVehicles',
+                attributes: ['id', 'name']
+            }
         ],
-        where,
-      });
+        where
+    });
     } catch (error) {
       console.log('error =>', error);
       return Promise.reject(error);

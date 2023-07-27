@@ -1,11 +1,65 @@
 const { Sequelize } = require("sequelize");
 
 module.exports = {
+    fetchAll: async (user) => {
+        try {
+
+            let where = {}
+            if(user?.usersRole?.name === 'Secrétaires'){
+                  where['$userDrivingschool.drivingSchoolUser.id$'] = {
+                    [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                  }
+              }
+            return await framework.models.users.findAll({
+                include: [
+                    {
+                        model: framework.models.roles,
+                        as: 'usersRole',
+                        attributes: ['id', 'name'],
+                        order: [['id', 'asc']]
+                    },
+                    {
+                        model: framework.models.user_drivingschool,
+                        as: 'userDrivingschool',
+                        attributes: ['id', 'user_id', 'drivingschool_id'],
+                        order: [['id', 'asc']],
+                        include: [
+                            {
+                                model: framework.models.driving_schools,
+                                as: 'drivingSchoolUser',
+                                attributes: ['id', 'name'],
+                                order: [['id', 'asc']]
+                            }
+                        ]
+                    },
+                    {
+                        model: framework.models.user_group,
+                        as: 'userGroup',
+                        attributes: ['id', 'user_id', 'group_id'],
+                        order: [['id', 'asc']],
+                        include: [
+                            {
+                                model: framework.models.group,
+                                as: 'groupUser',
+                                attributes: ['id', 'role', 'name'],
+                                order: [['id', 'asc']]
+                            }
+                        ]
+                    }
+                ],
+                where,
+                order: [['id', 'asc']]
+            });
+        } catch (error) {
+            console.log("error =>", error);
+            return Promise.reject(error);
+        }
+    },
     fetch: async (id, where = {}, user) => {
         try {
 
             let rolesCondition = {}
-            if(user?.usersRole?.name == 'Secrétaires'){
+            if(user?.usersRole?.name === 'Secrétaires'){
                 rolesCondition = {
                   drivingschool_id: {
                     [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)

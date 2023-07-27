@@ -20,7 +20,6 @@ module.exports = {
                     let totalAmount = 0;
                     let totalPaidAmount = 0;
                     let valid = false;
-
                     student?.studentFormula?.forEach((plan) => {
                         let today = moment();
                         let planDate = moment(plan?.date);
@@ -39,7 +38,7 @@ module.exports = {
                         firstname: student?.firstname,
                         lastname: student?.lastname,
                         email: student?.email,
-                        date_code: moment(student?.date_code).format("YYYY-DD-MM"),
+                        date_code: moment(student?.date_code).format("YYYY-DD-MM") || '',
                         debitAmount: totalAmount - totalPaidAmount,
                         valid: valid,
                     };

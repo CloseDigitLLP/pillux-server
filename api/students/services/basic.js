@@ -2,15 +2,34 @@ const { Op } = require("sequelize");
 const { Sequelize } = require("sequelize");
 
 module.exports = {
-    fetch: async (id, where = {}, user) => {
+    fetchAll: async (user, where={}) => {
         try {
-
-            if(user?.usersRole?.name == 'Secrétaires'){
+            if(user?.usersRole?.name === 'Secrétaires'){
                  where['drivingschool_id'] = {
                     [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
                   }
               }
-
+            return await framework.models.students.findAll({
+                attributes: [
+                    'id',
+                    'gender',
+                    'lastname',
+                    'firstname',
+                    'mobile',
+                    'address',
+                    'neph',
+                    'drivingschool_id',
+                    'date_code'
+                ],
+                where
+            });
+        } catch (error) {
+            console.log("error =>", error);
+            return Promise.reject(error);
+        }
+    },
+    fetch: async (id, where = {}) => {
+        try {
             if (id) { where.id = id }
             return await framework.models.students.findAll({
                 include: [

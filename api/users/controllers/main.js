@@ -1,7 +1,7 @@
 module.exports = {
     list: async (req, res) => {
         try {
-            let users = await framework.services.users.basic.fetch(null, {}, req?.user);
+            let users = await framework.services.users.basic.fetchAll(req?.user);
             if (!users.length) {
                 res.status(200).json({
                     message: 'no records found!',
@@ -21,6 +21,7 @@ module.exports = {
                     email: user?.email,
                     userGroup: user?.usersRole?.name,
                     userDrivingschool: drivingSchools?.join(', '),
+                    enabled: user?.enabled === true ? 'Yes' : 'No' 
                 }
             })
                 res.status(200).json({

@@ -1,7 +1,7 @@
 module.exports = {
     list: async (req, res) => {
         try {
-            let students = await framework.services.students.basic.fetch(null, {}, req?.user);
+            let students = await framework.services.students.basic.fetchAll(req?.user);
             if (!students) {
                 res.status(200).json({
                     message: 'no records found!',
@@ -20,7 +20,6 @@ module.exports = {
                         neph: student.neph,
                         date_code: student.date_code,
                         drivingschool_id : student.drivingschool_id,
-                        studentFormula: student.studentFormula
                     }
                 })
                 res.status(200).json({
@@ -41,7 +40,7 @@ module.exports = {
     single: async (req, res) => {
         try {
             let { id } = req.params;
-            let student = await framework.services.students.basic.fetch(id, {}, req?.user);
+            let student = await framework.services.students.basic.fetch(id);
             if (!student) {
                 res.status(404).json({
                     message: 'no record found!',

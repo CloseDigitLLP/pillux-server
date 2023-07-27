@@ -124,6 +124,11 @@ module.exports = {
                         }
                     },
                     {
+                        model: framework.models.licences,
+                        as: "licenceStudents",
+                        attributes: ['id', 'name'],
+                    },
+                    {
                         model: framework.models.student_formula,
                         as: "studentFormula",
                         separate: true,

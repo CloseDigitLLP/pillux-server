@@ -25,7 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       students.hasMany(models.planning_generals, { foreignKey: "student_id", as: "studentGenerals" ,onDelete: "CASCADE", onUpdate: "CASCADE"})
       students.belongsTo(models.licences , { foreignKey : "licence_id" , as : "licenceStudents" , onDelete : "CASCADE" , onUpdate : "CASCADE" })
     }
-  }
+  } 
   students.init({
     photo_id: DataTypes.STRING,
     gender: DataTypes.STRING,
@@ -43,7 +43,7 @@ module.exports = (sequelize, DataTypes) => {
     drivingschool_id:DataTypes.INTEGER,
     date_code: DataTypes.DATE,
     docsType: DataTypes.STRING,
-    licence_id: DataTypes.INTEGER
+    licence_id : DataTypes.INTEGER
   }, {
     sequelize,
     modelName: 'students',

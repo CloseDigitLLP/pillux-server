@@ -39,7 +39,7 @@ module.exports = (sequelize, DataTypes) => {
     address: DataTypes.STRING,
     place_meet: DataTypes.STRING,
     neph: DataTypes.STRING,
-    status: DataTypes.STRING,
+    status: DataTypes.BOOLEAN,
     drivingschool_id:DataTypes.INTEGER,
     date_code: DataTypes.DATE,
     docsType: DataTypes.STRING,

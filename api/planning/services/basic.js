@@ -22,6 +22,8 @@ module.exports = {
         [Op.lt]: firstDayOfNextMonth,
       };
 
+      where['$instructorGenerals.enabled$'] = true;
+      where['$studentGenerals.status$'] = true;
       return await framework.models.planning_generals.findAll({
         include: [
           {

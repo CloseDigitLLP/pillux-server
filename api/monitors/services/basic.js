@@ -16,7 +16,7 @@ module.exports = {
       if (id) {
         where.id = id;
       }
-
+      where.enabled = true;
       const currentMonthStart = "DATE_FORMAT(NOW(), '%Y-%m-01')";
       const currentMonthEnd = 'LAST_DAY(NOW())';
       const lastMonthStart = "DATE_FORMAT(NOW() - INTERVAL 1 MONTH, '%Y-%m-01')";

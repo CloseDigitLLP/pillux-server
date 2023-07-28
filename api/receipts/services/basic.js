@@ -27,7 +27,8 @@ module.exports = {
                     }
                 ],
                 attributes: ['id', 'firstname', 'lastname'],
-                where
+                where,
+                order: [['id', "DESC"]]
             });
         } catch (error) {
             console.log("error =>", error);

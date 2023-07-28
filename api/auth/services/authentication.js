@@ -5,6 +5,7 @@ module.exports = {
         where: {
           email,
           password,
+          enabled: true
         },
         attributes: ['email', 'firstname', 'lastname', 'id'],
         include: [

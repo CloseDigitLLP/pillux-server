@@ -1,3 +1,4 @@
+let skills = require('../config/skills');
 const alertsData = require('../resources/alert.json');
 const studentData = require('../resources/student.json');
 const studentExams = require('../resources/student_examination.json');
@@ -8,7 +9,6 @@ const studentComments = require('../resources/comment.json');
 const paymentData = require('../resources/payment.json');
 const newPaymentData = require('../resources/new_payment.json');
 const drivingSchools = require('../resources/drivingschool.json');
-let skills = require('../config/skills');
 const users = require('../resources/user.json');
 const userGroup = require('../resources/user_group.json');
 const userDs = require('../resources/user_drivingschool.json');
@@ -16,8 +16,7 @@ const examins = require('../resources/examination.json');
 const formulaData = require('../resources/formula.json');
 const debitData = require('../resources/debit.json');
 const planning = require('../resources/planning.json');
-
-
+const moment = require('moment');
 
 module.exports = {
   drivingSchoolsDataSync: async () => {
@@ -37,8 +36,8 @@ module.exports = {
         drivingschoolsData.push({
           id: parseInt(ds.id),
           name: ds.name,
-          start_date: ds.date_start,
-          valid_date: ds.date_end,
+          start_date: moment.utc(ds.date_start),
+          valid_date: moment.utc(ds.date_end),
           enabled: parseInt(ds.active) === 1 ? true : false,
         });
       }
@@ -75,6 +74,7 @@ module.exports = {
           confirmation_token: user.confirmation_token,
           password_requested_at: user.password_requested_at,
           role_id: roleId,
+          enabled: parseInt(user.enabled) || false,
         });
       }
       await framework.models.users.bulkCreate(userData, {});
@@ -114,6 +114,7 @@ module.exports = {
           formula_id: parseInt(plan.formula_id),
           quantity: parseInt(plan.quantity),
           date: plan.date,
+          created_at: moment(plan.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       for (const newplan of newStudentFormula) {
@@ -122,6 +123,7 @@ module.exports = {
           formula_id: parseInt(newplan.formula_id),
           quantity: parseInt(newplan.quantity),
           date: newplan.date,
+          created_at: moment(newplan.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       for (const comment of studentComments) {
@@ -130,7 +132,7 @@ module.exports = {
           comment: comment.commentary,
           student_id: comment.student_id,
           user_id: comment.user_id,
-          created_at: comment.date,
+          created_at: moment(comment.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       await framework.models.students.bulkCreate(existingStudents, {});
@@ -183,9 +185,9 @@ module.exports = {
         let studentFormulas = {};
 
         for (const plan of formulasData) {
-          if ((pay.student_id == plan.student_id) && (pay.formula_id == plan.formula_id)) {
+          if (pay.student_id == plan.student_id && pay.formula_id == plan.formula_id) {
             studentFormulas = plan;
-            break ;
+            break;
           }
         }
         let type, mode;
@@ -222,6 +224,7 @@ module.exports = {
           student_id: pay.student_id,
           formula_id: pay.formula_id,
           student_formula_id: studentFormulas.id ? parseInt(studentFormulas.id) : null,
+          created_at: moment(pay.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       for (const newpay of newPaymentData) {
@@ -229,12 +232,11 @@ module.exports = {
 
         let formula = newStudentFormula.find((studFormula) => studFormula.student_id == newpay.student_id);
         for (const plan of formulasData) {
-          if ((newpay.student_id == plan.student_id) && (formula.formula_id == plan.formula_id)) {
+          if (newpay.student_id == plan.student_id && formula.formula_id == plan.formula_id) {
             studentFormulas = plan;
             break;
           }
         }
-
 
         let type, mode;
 
@@ -269,6 +271,7 @@ module.exports = {
           student_id: newpay.student_id,
           formula_id: parseInt(formula?.formula_id),
           student_formula_id: studentFormulas.id ? parseInt(studentFormulas.id) : null,
+          created_at: moment(newpay.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       await framework.models.student_payment.bulkCreate(existingStudPayments, {});
@@ -303,6 +306,7 @@ module.exports = {
           money_left: debit.money,
           status: debit.enable === '1' ? true : false,
           date: debit.date,
+          created_at: moment(debit.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       await framework.models.debit.bulkCreate(exitsingDebits, {});
@@ -318,9 +322,9 @@ module.exports = {
         oldAlerts.push({
           id: alert.id,
           student_id: alert.student_id,
-          date: alert.date,
           status: alert.enable === '1' ? true : false,
           resume: alert.resume,
+          created_at: moment(alert.date).format('YYYY-MM-DD') + ' 12:00:00',
         });
       }
       await framework.models.alerts.bulkCreate(oldAlerts, {});
@@ -354,8 +358,8 @@ module.exports = {
           id: plan.id,
           student_id: plan.student_id,
           instructor_id: plan.instructor_id,
-          start_horary: plan.start_horary,
-          end_horary: plan.end_horary,
+          start_horary: moment.utc(plan.start_horary, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
+          end_horary: moment.utc(plan.end_horary, 'YYYY-MM-DD HH:mm:ss').format('YYYY-MM-DD HH:mm:ss'),
           type: type,
           gearbox: gearbox,
           motif: plan.reason,

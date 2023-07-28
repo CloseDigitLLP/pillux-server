@@ -24,6 +24,32 @@ module.exports = {
       });
     }
   },
+  vehiclepenalties: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let penalties = await framework.services.penalties.basic.vehiclePenalty(id, {}, req?.user);
+      if (!penalties) {
+        res.status(200).json({
+          message: 'no records found!',
+          error: false,
+          data: [],
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: penalties,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        messagae: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
   single: async (req, res) => {
     try {
       let { id } = req.params;
@@ -101,6 +127,7 @@ module.exports = {
       let penalty = await framework.services.penalties.basic.update(id, penaltyData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
+          console.log(file)
           penaltyImage.push({
             id: existingDocs?.id,
             penalty_id: id,
@@ -121,7 +148,7 @@ module.exports = {
           data: {},
         });
       } else {
-        await framework.services.penalties.updatePenaltyImages.addUpdateImages(penaltyImage);
+        let resp = await framework.services.penalties.updatePenaltyImages.addUpdateImages(penaltyImage);
         res.status(200).json({
           message: '',
           error: false,

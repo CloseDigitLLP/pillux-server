@@ -2,14 +2,14 @@ module.exports = {
     updateFileUploads: async (docsToUpdate) => {
         return framework.models.student_document.bulkCreate(docsToUpdate, {
             updateOnDuplicate: [
-                'id'
+                'type'
             ],
             include: [
                 {
                     as: 'documentStudent',
                     model: framework.models.document,
                     updateOnDuplicate: [
-                        'id'
+                        'path', 'type'
                     ]
                 }
             ]

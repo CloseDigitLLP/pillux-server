@@ -20,7 +20,8 @@ module.exports = (sequelize, DataTypes) => {
   report.init({
     vehicle_id: DataTypes.INTEGER,
     instructor_id: DataTypes.INTEGER,
-    comments: DataTypes.STRING,
+    amount: DataTypes.FLOAT,
+    comment: DataTypes.TEXT,
     type_id: DataTypes.INTEGER,
     date: DataTypes.DATE
   }, {

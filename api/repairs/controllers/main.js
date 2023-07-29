@@ -193,18 +193,18 @@ module.exports = {
   vehiclerepairs: async (req, res) => {
     try {
       let { id } = req.params;
-      let repair = await framework.services.repairs.basic.vehicleRepairs(id);
-      if (!repair) {
+      let repairs = await framework.services.repairs.basic.vehicleRepair(id);
+      if (!repairs?.length) {
         res.status(200).json({
-          message: 'no record found!',
+          message: 'no records found!',
           error: true,
-          data: {},
+          data: [],
         });
       } else {
         res.status(200).json({
           message: '',
           error: false,
-          data: repair[0],
+          data: repairs,
         });
       }
     } catch (error) {

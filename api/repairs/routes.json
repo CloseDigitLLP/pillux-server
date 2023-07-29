@@ -43,7 +43,7 @@
         "path" : "/:id",
         "method" : "put",
         "action" : "main.update",
-        "public" : true,
+        "public" : false,
         "globalMiddlewares": [],
         "middlewares": ["validation.update"],
         "pathFromRoot": false,

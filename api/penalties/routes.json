@@ -20,6 +20,16 @@
     "enabled": true
   },
   {
+    "path" : "/vehicle/:id",
+    "method" : "get",
+    "action" : "main.vehiclepenalties",
+    "public" : true,
+    "globalMiddlewares": [],
+    "middlewares": ["validation.fetch"],
+    "pathFromRoot": false,
+    "enabled": true
+  },
+  {
     "path": "/:id",
     "method": "get",
     "action": "main.single",

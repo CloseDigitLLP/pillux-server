@@ -24,6 +24,32 @@ module.exports = {
       });
     }
   },
+  vehiclereports: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let reports = await framework.services.reports.basic.vehicleReport(id);
+      if (!reports) {
+        res.status(200).json({
+          message: 'no records found!',
+          error: false,
+          data: [],
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: reports,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        messagae: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
   single: async (req, res) => {
     try {
       let { id } = req.params;
@@ -53,6 +79,7 @@ module.exports = {
   create: async (req, res) => {
     try {
       let { reportData } = req.body;
+      console.log(reportData, 2, 2)
       reportData = JSON.parse(reportData);
       let reportDocs = [];
       let report = await framework.services.reports.basic.create(reportData);

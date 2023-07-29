@@ -18,5 +18,35 @@
         "middlewares": ["test.validateUser"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/verify/email",
+        "method" : "post",
+        "action" : "auth.verifyEmail",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["test.validateEmail"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/verify/otp",
+        "method" : "post",
+        "action" : "auth.verifyOtp",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["test.validateOtp"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/save/password",
+        "method" : "post",
+        "action" : "auth.savePassword",
+        "public" : true,
+        "globalMiddlewares": [],
+        "middlewares": ["test.validateSavePassword"],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

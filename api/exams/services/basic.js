@@ -14,6 +14,8 @@ module.exports = {
               }
 
             if (id) { where.id = id }
+            where['$instructorExam.enabled$'] = true;
+            where['$studentExam.studentExamPlanning.status$'] = true;
             return await framework.models.exams.findAll({
                 include: [
                     {

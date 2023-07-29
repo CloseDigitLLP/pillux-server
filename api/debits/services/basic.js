@@ -32,6 +32,10 @@ module.exports = {
                 order: [['id', 'ASC']]
               }
             ]
+          },
+          {
+            model: framework.models.student_payment,
+            as: 'studentPayments'
           }
         ],
         attributes: [
@@ -42,7 +46,7 @@ module.exports = {
           'email'
         ],
         where: {
-          ...rolesCondition
+          ...rolesCondition,
         }
       });
     } catch (error) {

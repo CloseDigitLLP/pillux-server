@@ -81,6 +81,7 @@ module.exports = {
   },
   vehicleRepair: async (id) => {
     try {
+      let where = {}
       if (id) {
         where.vehicle_id = id;
       }

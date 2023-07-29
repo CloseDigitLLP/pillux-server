@@ -9,14 +9,6 @@ module.exports = {
                     data: []
                 })
             } else {
-                // let data = drivingSchools.map((school) => ({
-                //     id: school.id,
-                //     name: school.name,
-                //     start_date: school.start_date,
-                //     valid_date: school.valid_date,
-                //     enabled: school.enabled
-                // })
-                // )
                 res.status(200).json({
                     message: '',
                     error: false,

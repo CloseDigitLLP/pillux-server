@@ -19,6 +19,7 @@ module.exports = {
                 let data = debits.map((student) => {
                     let totalAmount = 0;
                     let totalPaidAmount = 0;
+                    let totalStudPay = 0;
                     let valid = false;
                     student?.studentFormula?.forEach((plan) => {
                         let today = moment();
@@ -32,6 +33,9 @@ module.exports = {
                             totalPaidAmount += payment?.amount;
                         });
                     });
+                    student?.studentPayments?.forEach((pay) => {
+                        totalStudPay += pay?.amount;
+                    })
 
                     return {
                         id: student?.id,
@@ -39,7 +43,7 @@ module.exports = {
                         lastname: student?.lastname,
                         email: student?.email,
                         date_code: moment(student?.date_code).format("YYYY-DD-MM") || '',
-                        debitAmount: totalAmount - totalPaidAmount,
+                        debitAmount: totalAmount - totalStudPay,
                         valid: valid,
                     };
                 });

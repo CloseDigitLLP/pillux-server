@@ -21,7 +21,8 @@ module.exports = {
                     'drivingschool_id',
                     'date_code'
                 ],
-                where
+                where,
+                order: [['id', 'DESC']]
             });
         } catch (error) {
             console.log("error =>", error);

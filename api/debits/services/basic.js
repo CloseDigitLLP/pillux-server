@@ -47,7 +47,6 @@ module.exports = {
         ],
         where: {
           ...rolesCondition,
-          status: true,
         }
       });
     } catch (error) {

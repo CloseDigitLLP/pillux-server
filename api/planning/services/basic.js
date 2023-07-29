@@ -23,7 +23,6 @@ module.exports = {
       };
 
       where['$instructorGenerals.enabled$'] = true;
-      where['$studentGenerals.status$'] = true;
       return await framework.models.planning_generals.findAll({
         include: [
           {

@@ -66,4 +66,74 @@ module.exports = {
       return Promise.reject(error);
     }
   },
+  verifyInstructorEmail: async (email) => {
+    try {
+      return await framework.models.users.findOne({
+        where: {
+          email,
+          ['$usersRole.name$']: 'Moniteurs',
+        },
+        attributes: ['email', 'firstname', 'lastname', 'id'],
+        include: [
+          {
+            model: framework.models.roles,
+            as: 'usersRole',
+            attributes: ['name'],
+          },
+        ],
+      });
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  },
+  saveGeneratedOtp: async (otp, email) => {
+    try {
+      return await framework.models.users.update(
+        {
+          confirmation_token: otp,
+        },
+        {
+          where: {
+            email
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  },
+  verifyOtp: async (otp, email) => {
+    try {
+      return await framework.models.users.findOne(
+        {
+          where: {
+            email,
+            confirmation_token: otp
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  },
+  updatePassword: async (password, email) => {
+    try {
+      return await framework.models.users.update(
+        {
+          password
+        },
+        {
+          where: {
+            email
+          },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  },
 };

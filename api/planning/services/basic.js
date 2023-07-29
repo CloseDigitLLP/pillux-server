@@ -6,8 +6,8 @@ module.exports = {
   fetch: async (id, where = {}, user) => {
     try {
       let today = moment();
-      let firstDayOfMonth = today.startOf('month').format('YYYY-MM-DD HH:mm:ss');
-      let firstDayOfNextMonth = today.add(1, 'months').startOf('month').format('YYYY-MM-DD HH:mm:ss');
+      let lastDate = today.subtract(1, "months").format('YYYY-MM-DD HH:mm:ss');
+      let firstDate = today.add(1, 'months').startOf('month').format('YYYY-MM-DD HH:mm:ss');
       if (user?.usersRole?.name == 'Secrétaires') {
         where['$studentGenerals.drivingschool_id$'] = {
           [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
@@ -18,8 +18,8 @@ module.exports = {
         where.id = id;
       }
       where.start_horary = {
-        [Op.gte]: firstDayOfMonth,
-        [Op.lt]: firstDayOfNextMonth,
+        [Op.gte]: lastDate,
+        [Op.lte]: firstDate,
       };
 
       where['$instructorGenerals.enabled$'] = true;

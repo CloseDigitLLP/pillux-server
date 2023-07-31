@@ -3,21 +3,32 @@ const { Sequelize } = require('sequelize');
 module.exports = {
   fetch: async (user) => {
     try {
-
-      const drivingschoolIds = user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
-
+      const drivingschoolIds = user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id);
+      let monitorsWhere = {};
+      if (user?.usersRole?.name === 'Secrétaires') {
+        monitorsWhere['$userDrivingschool.drivingschool_id$'] = {
+          [Sequelize.Op.eq]: drivingschoolIds,
+        };
+      }
       const noOfMonitors = await framework.models.users.count({
-        where: { role_id: 1 },
+        where: {
+          role_id: 1,
+          ...monitorsWhere
+        },
+        include: [
+          {
+            model: framework.models.user_drivingschool,
+            as: 'userDrivingschool',
+            attributes: [],
+          },
+        ],
       });
-      // **********************************************************************
-      // MOTIF - 0 <--- For Code type of Exams
-      // MOTIF - 1 <--- For Conduite types of Exams
-
+      
       const result = await framework.models.planning_exams.findOne({
         attributes: [
           [Sequelize.literal('COUNT(CASE WHEN status = "pass" AND motif=0 THEN 1 END)'), 'codeTypesInWeek'],
           [Sequelize.literal('COUNT(CASE WHEN status = "pass" AND motif=1 THEN 1 END)'), 'conduitTypesInWeek'],
-          [Sequelize.literal('COUNT(CASE WHEN status = "pass" THEN 1 END)'),'passedStudentInWeek']
+          [Sequelize.literal('COUNT(CASE WHEN status = "pass" THEN 1 END)'), 'passedStudentInWeek'],
         ],
         where: {
           created_at: {
@@ -33,14 +44,14 @@ module.exports = {
       const oneMonthAgo = new Date();
       oneMonthAgo.setMonth(oneMonthAgo.getMonth() - 1);
 
-      let rolesConditionInResult1 = {}
+      let rolesConditionInResult1 = {};
 
-      if(user?.usersRole?.name == 'Secrétaires'){
+      if (user?.usersRole?.name === 'Secrétaires') {
         rolesConditionInResult1 = {
           drivingschool_id: {
-            [Sequelize.Op.in]: drivingschoolIds
-          }
-        }
+            [Sequelize.Op.eq]: drivingschoolIds,
+          },
+        };
       }
 
       const result1 = await framework.models.planning_exams.findOne({
@@ -58,30 +69,29 @@ module.exports = {
           {
             model: framework.models.students,
             as: 'studentExamPlanning',
-            attributes: [ 'id', 'firstname', 'lastname', 'drivingschool_id' ],
+            attributes: ['id', 'firstname', 'lastname', 'drivingschool_id'],
             where: {
-              ...rolesConditionInResult1
-            }
+              ...rolesConditionInResult1,
+            },
           },
         ],
         where: {
           created_at: {
             [Sequelize.Op.gt]: oneMonthAgo,
             [Sequelize.Op.lte]: currentDate,
-          }
+          },
         },
       });
       const codeTypesInMonth = result1.get('codeTypesInMonth');
       const conduitTypesInMonth = result1.get('conduitTypesInMonth');
-      
 
-      let rolesConditionInNewStudents = {}
-      if(user?.usersRole?.name == 'Secrétaires'){
+      let rolesConditionInNewStudents = {};
+      if (user?.usersRole?.name === 'Secrétaires') {
         rolesConditionInNewStudents = {
           drivingschool_id: {
-            [Sequelize.Op.in]: drivingschoolIds
-          }
-        }
+            [Sequelize.Op.eq]: drivingschoolIds,
+          },
+        };
       }
 
       const newStudents = await framework.models.students.count({
@@ -89,7 +99,7 @@ module.exports = {
           created_at: {
             [Sequelize.Op.gt]: Sequelize.literal('current_date() - interval 7 day '),
           },
-          ...rolesConditionInNewStudents
+          ...rolesConditionInNewStudents,
         },
       });
 
@@ -106,7 +116,7 @@ module.exports = {
         codeTypesInMonth,
         conduitTypesInMonth,
         newStudents,
-        passedStudentInWeek
+        passedStudentInWeek,
       };
     } catch (error) {
       console.log('Error => ', error);

@@ -1,4 +1,5 @@
 const md5 = require("md5");
+const moment = require("moment/moment");
 module.exports = {
   login: async (req, res) => {
     try {
@@ -97,7 +98,7 @@ module.exports = {
         const otp = generateOTP()
         console.log(otp, "<====== otp")
         const hashedOtp = md5(otp)
-
+        
         await framework.services.auth.authentication.saveGeneratedOtp(hashedOtp, user?.email)
 
         const sgMail = require('@sendgrid/mail');
@@ -155,6 +156,20 @@ module.exports = {
       let user = await framework.services.auth.authentication.verifyOtp(hashedOtp, email);
       
       if (user?.id) {
+
+        let currentTime = moment.utc()
+        let validatingTime = moment.utc(user?.password_requested_at).add(30, 'minutes')
+
+        if(validatingTime.isBefore(currentTime)){
+          return res.send({
+            message: 'otp expired!',
+            error: true,
+            data: {
+              isValid: false
+            },
+          });
+        }
+
         return res.send({
           message: 'Success',
           error: false,

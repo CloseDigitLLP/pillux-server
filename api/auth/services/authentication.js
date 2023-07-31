@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = {
   login: async (email, password) => {
     try {
@@ -93,6 +95,7 @@ module.exports = {
       return await framework.models.users.update(
         {
           confirmation_token: otp,
+          password_requested_at: moment.utc().toDate()
         },
         {
           where: {

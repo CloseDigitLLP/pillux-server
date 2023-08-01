@@ -73,8 +73,7 @@ module.exports = {
     try {
       return await framework.models.users.findOne({
         where: {
-          email,
-          ['$usersRole.name$']: 'Moniteurs',
+          email
         },
         attributes: ['email', 'firstname', 'lastname', 'id'],
         include: [

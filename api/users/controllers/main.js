@@ -124,6 +124,9 @@ module.exports = {
                 await framework.services.users.updateUser.addUpdateUserDrivingSchool(drivingSchoolsToUpdate);
                 await framework.services.users.updateUser.deleteUserPermission(deletedPermission);
                 await framework.services.users.updateUser.deleteUserDrivingSchool(deletedSchool);
+                if(req?.body?.returning === true){
+                    user = await framework.services.users.basic.fetch(id);
+                }
                 res.status(200).json({
                     message: '',
                     error: false,

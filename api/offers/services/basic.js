@@ -6,7 +6,7 @@ module.exports = {
       if (id) {
         where.id = id;
       }
-      if(user?.usersRole?.name == 'Secrétaires') {
+      if(user?.usersRole?.name === 'Secrétaires') {
         where.drivingschool_id = {
           [Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
         }

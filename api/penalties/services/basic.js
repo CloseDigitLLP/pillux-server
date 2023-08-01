@@ -1,7 +1,7 @@
 module.exports = {
   fetch: async (id, where = {}, user) => {
     try {
-      if (user?.usersRole?.name == 'Moniteurs') {
+      if (user?.usersRole?.name === 'Moniteurs') {
         where['instructor_id'] = user?.id;
       }
 

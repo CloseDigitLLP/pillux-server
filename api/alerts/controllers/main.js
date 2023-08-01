@@ -5,7 +5,7 @@ module.exports={
             let user = req?.user || '';
 
             let alerts = await framework.services.alerts.basic.fetch(user)
-            if (!alerts.length) {
+            if (!alerts) {
                 res.status(200).json({
                     message: 'no records founds!',
                     error: false,

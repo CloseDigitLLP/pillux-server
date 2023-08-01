@@ -13,7 +13,7 @@
         "path" : "/mail",
         "method" : "post",
         "action" : "main.sendEmail",
-        "public" : true,
+        "public" : false,
         "globalMiddlewares": [],
         "middlewares": [],
         "pathFromRoot": false,

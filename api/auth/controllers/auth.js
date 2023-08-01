@@ -104,8 +104,8 @@ module.exports = {
         const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
-          to: 'jenishdpc66@gmail.com', // Change to your recipient
-          from: 'rajanvasani9@gmail.com', // Change to your verified sender
+          to: 'jenishdpc66@gmail.com', //NOTE -  Change to your recipient
+          from: 'rajanvasani9@gmail.com', //NOTE -  Change to your verified sender
           subject: 'OTP for forgot password request',
           text: `Hello, Dear User - ${
             user?.first + ' ' + user?.lastname
@@ -120,7 +120,7 @@ module.exports = {
               message: 'email was successfully sended',
               error: false,
               data: `Otp successfully send on email id ${
-                user?.email
+                user?.email 
               }`,
             });
           })

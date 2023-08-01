@@ -48,5 +48,15 @@
         "middlewares": ["test.validateSavePassword"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/change/password",
+        "method" : "post",
+        "action" : "auth.changePassword",
+        "public" : false,
+        "globalMiddlewares": [],
+        "middlewares": ["test.validateChangePassword"],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

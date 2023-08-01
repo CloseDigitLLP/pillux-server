@@ -139,4 +139,26 @@ module.exports = {
       return Promise.reject(error);
     }
   },
+  changePassword: async (id, password, newPassword) => {
+    console.log(password, id)
+
+    try {
+      return await framework.models.users.update(
+        {
+          password: newPassword
+        },
+        {
+          where: {
+            id,
+            password
+          },
+          returning: true,
+          plain: true
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  },
 };

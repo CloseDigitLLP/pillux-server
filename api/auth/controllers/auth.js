@@ -227,4 +227,36 @@ module.exports = {
       });
     }
   },
+  changePassword: async (req, res) => {
+    try {
+      var { password, newPassword } = req.body;
+      const id = req?.user?.id
+
+      const hashedPassword = md5(password)
+      const newHashedPassword = md5(newPassword)
+
+      let [count, user] = await framework.services.auth.authentication.changePassword(id, hashedPassword, newHashedPassword);
+
+      
+      if (user) {
+        return res.send({
+          message: 'Success',
+          error: false,
+          data: user,
+        })
+      } else {
+        return res.send({
+          message: 'No record found!',
+          error: false,
+          data: {},
+        });
+      }
+    } catch (e) {
+      return res.status(400).send({
+        message: e.message,
+        error: true,
+        data: e.message,
+      });
+    }
+  },
 };

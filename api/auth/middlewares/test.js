@@ -58,5 +58,20 @@ module.exports = {
     }
     
     next();
+  },
+  validateChangePassword: (req, res, next) => {
+    const { password, newPassword } = req.body;
+    
+    if (!password || !newPassword) {
+      return res
+        .status(400)
+        .send({
+          message: "Valid old and new passwords are required",
+          error: true,
+          data: {},
+        });
+    }
+    
+    next();
   }
 };

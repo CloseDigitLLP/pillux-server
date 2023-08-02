@@ -1,4 +1,5 @@
 const md5 = require("md5");
+const moment = require("moment/moment");
 module.exports = {
   login: async (req, res) => {
     try {
@@ -97,14 +98,14 @@ module.exports = {
         const otp = generateOTP()
         console.log(otp, "<====== otp")
         const hashedOtp = md5(otp)
-
+        
         await framework.services.auth.authentication.saveGeneratedOtp(hashedOtp, user?.email)
 
         const sgMail = require('@sendgrid/mail');
         sgMail.setApiKey(process.env.SENDGRID_API_KEY);
         const msg = {
-          to: 'jenishdpc66@gmail.com', // Change to your recipient
-          from: 'rajanvasani9@gmail.com', // Change to your verified sender
+          to: 'jenishdpc66@gmail.com', //NOTE -  Change to your recipient
+          from: 'rajanvasani9@gmail.com', //NOTE -  Change to your verified sender
           subject: 'OTP for forgot password request',
           text: `Hello, Dear User - ${
             user?.first + ' ' + user?.lastname
@@ -119,7 +120,7 @@ module.exports = {
               message: 'email was successfully sended',
               error: false,
               data: `Otp successfully send on email id ${
-                user?.email
+                user?.email 
               }`,
             });
           })
@@ -155,6 +156,20 @@ module.exports = {
       let user = await framework.services.auth.authentication.verifyOtp(hashedOtp, email);
       
       if (user?.id) {
+
+        let currentTime = moment.utc()
+        let validatingTime = moment.utc(user?.password_requested_at).add(30, 'minutes')
+
+        if(validatingTime.isBefore(currentTime)){
+          return res.send({
+            message: 'otp expired!',
+            error: true,
+            data: {
+              isValid: false
+            },
+          });
+        }
+
         return res.send({
           message: 'Success',
           error: false,
@@ -202,6 +217,38 @@ module.exports = {
           data: {
             isValid: false
           },
+        });
+      }
+    } catch (e) {
+      return res.status(400).send({
+        message: e.message,
+        error: true,
+        data: e.message,
+      });
+    }
+  },
+  changePassword: async (req, res) => {
+    try {
+      var { password, newPassword } = req.body;
+      const id = req?.user?.id
+
+      const hashedPassword = md5(password)
+      const newHashedPassword = md5(newPassword)
+
+      let [count, user] = await framework.services.auth.authentication.changePassword(id, hashedPassword, newHashedPassword);
+
+      
+      if (user) {
+        return res.send({
+          message: 'Success',
+          error: false,
+          data: user,
+        })
+      } else {
+        return res.send({
+          message: 'No record found!',
+          error: false,
+          data: {},
         });
       }
     } catch (e) {

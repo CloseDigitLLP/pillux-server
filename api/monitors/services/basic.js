@@ -3,14 +3,10 @@ const Sequelize = require('sequelize');
 module.exports = {
   fetch: async (id, where = {}, user) => {
     try {
-      
-      let rolesCondition = {}
-      if (user?.usersRole?.name == 'Secrétaires') {
-        rolesCondition = {
-          drivingschool_id: {
-            [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
-          }
-        }
+      if (user?.usersRole?.name === 'Secrétaires') {
+        where['$userDrivingschool.drivingschool_id$'] = {
+          [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+        };
       }
 
       if (id) {
@@ -26,9 +22,9 @@ module.exports = {
         include: [
           {
             model: framework.models.planning_generals,
-            as: "instructorGenerals",
+            as: 'instructorGenerals',
             attributes: [
-              "instructor_id",
+              'instructor_id',
               [Sequelize.literal('SUM(TIMEDIFF(end_horary, start_horary))'), 'total_duration_all_time'],
               [
                 Sequelize.literal(`SUM(CASE
@@ -52,22 +48,21 @@ module.exports = {
             required: false,
             group: ['instructor_id'],
             where: {
-              status: 'approved',
+              status: 'present',
             },
           },
           {
             model: framework.models.user_drivingschool,
-            as: "userDrivingschool",
-            where: { ...rolesCondition }
-          }
+            as: 'userDrivingschool',
+          },
         ],
-        attributes: ["id", "firstname", "lastname"],
+        attributes: ['id', 'firstname', 'lastname'],
         where: {
-          role_id: "1", //NOTE - here role-id = 1 is instructor id  
-          ...where
+          role_id: '1',
+          ...where,
         },
-        group: ['id']
-      })
+        group: ['id'],
+      });
     } catch (error) {
       console.log('error =>', error);
       return Promise.reject(error);
@@ -75,15 +70,13 @@ module.exports = {
   },
   create: async (data) => {
     try {
-
-      return await framework.models.users.bulkCreate(
-        [data], {
+      return await framework.models.users.bulkCreate([data], {
         include: [
           {
-            as: "userDrivingschool",
-            model: framework.models.user_drivingschool
-          }
-        ]
+            as: 'userDrivingschool',
+            model: framework.models.user_drivingschool,
+          },
+        ],
       });
     } catch (error) {
       console.log('error =>', error);

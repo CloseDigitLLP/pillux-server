@@ -54,16 +54,9 @@ module.exports = {
       return Promise.reject(error);
     }
   },
-  fetch: async (id, where = {}, user) => {
+  fetch: async (id, where = {}) => {
     try {
-      let rolesCondition = {};
-      if (user?.usersRole?.name === 'Secrétaires') {
-        rolesCondition = {
-          drivingschool_id: {
-            [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
-          },
-        };
-      }
+      
 
       if (id) {
         where.id = id;
@@ -80,7 +73,6 @@ module.exports = {
             model: framework.models.user_drivingschool,
             as: 'userDrivingschool',
             attributes: ['id', 'user_id', 'drivingschool_id'],
-            where: { ...rolesCondition },
             order: [['id', 'asc']],
             include: [
               {

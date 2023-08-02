@@ -1,3 +1,5 @@
+const moment = require('moment')
+
 module.exports = {
   login: async (email, password) => {
     try {
@@ -71,8 +73,7 @@ module.exports = {
     try {
       return await framework.models.users.findOne({
         where: {
-          email,
-          ['$usersRole.name$']: 'Moniteurs',
+          email
         },
         attributes: ['email', 'firstname', 'lastname', 'id'],
         include: [
@@ -93,6 +94,7 @@ module.exports = {
       return await framework.models.users.update(
         {
           confirmation_token: otp,
+          password_requested_at: moment.utc().toDate()
         },
         {
           where: {
@@ -130,6 +132,27 @@ module.exports = {
           where: {
             email
           },
+        }
+      );
+    } catch (error) {
+      console.log(error);
+      return Promise.reject(error);
+    }
+  },
+  changePassword: async (id, password, newPassword) => {
+
+    try {
+      return await framework.models.users.update(
+        {
+          password: newPassword
+        },
+        {
+          where: {
+            id,
+            password
+          },
+          returning: true,
+          plain: true
         }
       );
     } catch (error) {

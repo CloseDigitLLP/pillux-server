@@ -48,7 +48,7 @@ let dbOptions = {
           return next()
         },
     },
-    // timezone: '+05:30'
+    timezone: '+00:00'
 }
 
 if(replica){

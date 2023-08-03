@@ -140,7 +140,6 @@ module.exports = {
     }
   },
   changePassword: async (id, password, newPassword) => {
-    console.log(password, id)
 
     try {
       return await framework.models.users.update(

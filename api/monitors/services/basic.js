@@ -25,12 +25,12 @@ module.exports = {
             as: 'instructorGenerals',
             attributes: [
               'instructor_id',
-              [Sequelize.literal('SUM(TIMEDIFF(end_horary, start_horary))'), 'total_duration_all_time'],
+              [Sequelize.literal('SUM(TIMESTAMPDIFF(HOUR,start_horary, end_horary))'), 'total_duration_all_time'],
               [
                 Sequelize.literal(`SUM(CASE
                   WHEN DATE(start_horary) >= ${currentMonthStart}
                   AND DATE(start_horary) <= ${currentMonthEnd}
-                  THEN TIMEDIFF(end_horary, start_horary)
+                  THEN TIMESTAMPDIFF(HOUR,start_horary, end_horary)
                   ELSE 0
                   END)`),
                 'total_duration_current_month',
@@ -39,7 +39,7 @@ module.exports = {
                 Sequelize.literal(`SUM(CASE
                   WHEN DATE(start_horary) >= ${lastMonthStart}
                   AND DATE(start_horary) <= ${lastMonthEnd}
-                    THEN TIMEDIFF(end_horary, start_horary)
+                    THEN TIMESTAMPDIFF(HOUR,start_horary, end_horary)
                   ELSE 0
                   END)`),
                 'total_duration_last_month',

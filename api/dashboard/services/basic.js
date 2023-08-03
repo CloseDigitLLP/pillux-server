@@ -13,7 +13,8 @@ module.exports = {
       const noOfMonitors = await framework.models.users.count({
         where: {
           role_id: 1,
-          ...monitorsWhere
+          ...monitorsWhere,
+          enabled: true
         },
         include: [
           {

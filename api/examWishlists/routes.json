@@ -18,5 +18,15 @@
         "middlewares": ["validation.update"],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/",
+        "method" : "post",
+        "action" : "main.create",
+        "public" : false,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.create"],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

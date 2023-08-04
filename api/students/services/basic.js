@@ -33,7 +33,7 @@ module.exports = {
         try {
             if(user?.usersRole?.name === 'Moniteurs'){
                 where['drivingschool_id'] = {
-                   [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                   [Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
                  }
              }
             return await framework.models.students.findAll({

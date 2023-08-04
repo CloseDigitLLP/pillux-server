@@ -13,7 +13,7 @@
         "path" : "/list",
         "method" : "get",
         "action" : "main.listMonitor",
-        "public" : true,
+        "public" : false,
         "globalMiddlewares": [],
         "middlewares": [],
         "pathFromRoot": false,

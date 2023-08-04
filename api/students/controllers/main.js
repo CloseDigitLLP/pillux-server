@@ -48,27 +48,30 @@ module.exports = {
         });
       } else {
         const data = students.map((student) => {
-          const uplevels = student?.drivingSchoolStudents?.drivingSchoolSkills.filter((skill) =>
-            student?.studentSkills?.some((stSkill) => stSkill?.skill_id === skill?.id && stSkill?.status === 'Assimilé')
+          const uplevels = student.drivingSchoolStudents.drivingSchoolSkills.filter((skill) =>
+            student.studentSkills.some((stSkill) => stSkill.skill_id === skill?.id && stSkill.status === 'Assimilé')
           );
 
           uplevels.sort((a, b) => b.id - a.id);
 
           let level = null;
           let position = 1;
-          const maxPosition = Math.max(...uplevels?.map((skill) => skill?.position));
+          const maxPosition = Math.max(...uplevels?.map((skill) => skill.position));
           for (let i = 1; i <= maxPosition; i++) {
-            const skillsAtPosition = uplevels.filter((skill) => skill?.position === i);
-            const totalSkillsAtPosition = student?.drivingSchoolStudents?.drivingSchoolSkills?.filter(
-              (skill) => skill?.position === i
+            const skillsAtPosition = uplevels.filter((skill) => skill.position === i);
+            const totalSkillsAtPosition = student.drivingSchoolStudents.drivingSchoolSkills.filter(
+              (skill) => skill.position === i
             );
-  
+
             if (skillsAtPosition.length === totalSkillsAtPosition.length) {
               position = i;
-              level = totalSkillsAtPosition[0];
+              level = totalSkillsAtPosition[0]; 
+            } else {
+              level = student.drivingSchoolStudents.drivingSchoolSkills.find((skill) => skill.position === i);
               break;
             }
           }
+          console.log(level);
           return {
             id: student.id,
             gender: student.gender,
@@ -80,9 +83,9 @@ module.exports = {
             date_code: student.date_code,
             drivingschool_id: student.drivingschool_id,
             level: {
-                position: level? level.position : 1,
-                name: level ? level.name : "MAITRISER"
-            }
+              position: level ? level.position : 1,
+              name: level ? level.name : 'MAITRISER',
+            },
           };
         });
         res.status(200).json({

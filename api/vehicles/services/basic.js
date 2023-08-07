@@ -3,10 +3,13 @@ const { Sequelize } = require('sequelize');
 module.exports = {
   fetchAll: async (user, where = {}) => {
     try {
-      if (user?.usersRole?.name === 'Secrétaires') {
+      if (user?.usersRole?.name === 'Secrétaires' || user?.usersRole?.name === 'Moniteurs') {
         where['drivingschool_id'] = {
           [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
+      }
+      if (user?.usersRole?.name === 'Moniteurs') {
+        where['instructor_id'] = user?.id
       }
       return await framework.models.vehicles.findAll({
         include: [
@@ -14,6 +17,14 @@ module.exports = {
             model: framework.models.users,
             as: 'instructorVehicles',
             attributes: ['id', 'firstname', 'lastname', 'email', 'enabled'],
+          },
+          {
+            model: framework.models.vehicle_images,
+            as: 'vehicleImage',
+            separate: true,
+            require: false,
+            order: [['id', 'ASC']],
+            attributes: { exclude: ['created_at', 'updated_at'] },
           },
         ],
         where,

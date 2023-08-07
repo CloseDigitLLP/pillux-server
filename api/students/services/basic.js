@@ -29,6 +29,56 @@ module.exports = {
             return Promise.reject(error);
         }
     },
+    fetchWithLevel: async (user, where = {}) => {
+        try {
+            if(user?.usersRole?.name === 'Moniteurs'){
+                where['drivingschool_id'] = {
+                   [Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                 }
+             }
+            return await framework.models.students.findAll({
+                include: [
+                    {
+                        model: framework.models.student_skill,
+                        as: "studentSkills",
+                        separate: true,
+                        require: false,
+                        order: [['id', 'ASC']],
+                        where: {
+                            status: "Assimilé"
+                        }
+                    },
+                    {
+                        model: framework.models.driving_schools,
+                        as: "drivingSchoolStudents",
+                        attributes: ['id', 'name'],
+                        include: [
+                            {
+                                model: framework.models.skills,
+                                as: 'drivingSchoolSkills',
+                                attributes: { exclude: ['created_at', 'updated_at'] }
+                            }
+                        ]
+                    }
+                ],
+                attributes: [
+                    'id',
+                    'gender',
+                    'lastname',
+                    'firstname',
+                    'mobile',
+                    'address',
+                    'neph',
+                    'drivingschool_id',
+                    'date_code'
+                ],
+                where
+            });
+        } catch (error) {
+            console.log("error =>", error);
+            return Promise.reject(error);
+        }
+    },
     fetch: async (id, where = {}) => {
         try {
             if (id) { where.id = id }

@@ -58,5 +58,31 @@ module.exports = {
                 data: error
             })
         }
+    },
+    create: async (req, res) => {
+        try {
+            let data = req.body;
+            let exam = await framework.services.examWishlists.basic.create(data);
+            if (!exam) {
+                res.status(400).json({
+                    message: 'invalid data',
+                    error: true,
+                    data: {}
+                })
+            } else {
+                res.status(200).json({
+                    message: '',
+                    error: false,
+                    data: exam
+                })
+            }
+        } catch (error) {
+            console.log("error =>", error);
+            res.status(500).json({
+                message: error?.message,
+                error: true,
+                data: error
+            })
+        }
     }
 }

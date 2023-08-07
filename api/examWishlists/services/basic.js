@@ -39,4 +39,12 @@ module.exports = {
       return Promise.reject(error);
     }
   },
+  create: async (data) => {
+    try {
+      return await framework.models.exam_wishlist.create(data);
+    } catch (error) {
+      console.log('error=>', error);
+      return Promise.reject(error);
+    }
+  },
 };

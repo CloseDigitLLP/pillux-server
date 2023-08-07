@@ -13,7 +13,8 @@ module.exports = {
                     id: vehicle?.id,
                     name: vehicle?.name,
                     immatriculation: vehicle?.immatriculation,
-                    instructor: vehicle?.instructorVehicles?.firstname + " " + vehicle?.instructorVehicles?.lastname
+                    instructor: vehicle?.instructorVehicles?.firstname + " " + vehicle?.instructorVehicles?.lastname,
+                    vehicleImage: vehicle?.vehicleImage
                 }))
                 res.status(200).json({
                     message: '',

@@ -71,7 +71,6 @@ module.exports = {
               break;
             }
           }
-          console.log(level);
           return {
             id: student.id,
             gender: student.gender,

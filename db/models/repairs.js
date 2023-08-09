@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       repairs.belongsTo(models.vehicles, { foreignKey: "vehicle_id", as: "vehicleRepairs", onDelete: "CASCADE", onUpdate: "CASCADE" })
       repairs.belongsTo(models.users, { foreignKey: "instructor_id", as: "instructorRepairs", onDelete: "CASCADE", onUpdate: "CASCADE" })
-      repairs.hasOne(models.repair_document, { foreignKey: "repair_id", as: "repairDoc", onDelete: "CASCADE", onUpdate: "CASCADE" })
+      repairs.hasMany(models.repair_document, { foreignKey: "repair_id", as: "repairDoc", onDelete: "CASCADE", onUpdate: "CASCADE" })
       repairs.belongsTo(models.types, {foreignKey: 'type_id', as: 'repairType', onDelete: 'CASCADE', onUpdate: 'CASCADE'})
     }
   }

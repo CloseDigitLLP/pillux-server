@@ -124,30 +124,18 @@ module.exports = {
       let { reportData } = req.body;
       reportData = JSON.parse(reportData);
       let reportDocs = [];
+      let ids = reportData?.deletedDocsIds || [];
       let report = await framework.services.reports.basic.update(id, reportData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
-          let docName = file.fieldname;
-          let existingDocs = reportData?.docs?.[docName];
-          if (existingDocs && existingDocs.id) {
-            reportDocs.push({
-              ...existingDocs,
-              documentReport: {
-                ...existingDocs.documentReport,
-                type: file.mimetype,
-                path: file.path,
-              },
-            });
-          } else {
-            reportDocs.push({
-              report_id: id,
-              type: file.fieldname,
-              documentReport: {
-                type: file.mimetype,
-                path: file.path,
-              },
-            });
-          }
+          reportDocs.push({
+            report_id: id,
+            type: file.fieldname,
+            documentReport: {
+              type: file.mimetype,
+              path: file.path,
+            },
+          });
         });
       }
       if (!report) {
@@ -157,6 +145,7 @@ module.exports = {
           data: {},
         });
       } else {
+        await framework.service.reports.updateDocs.deleteDocs(ids);
         await framework.services.reports.updateDocs.addUpdateImages(reportDocs);
         res.status(200).json({
           message: '',

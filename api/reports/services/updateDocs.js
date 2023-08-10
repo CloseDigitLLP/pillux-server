@@ -11,4 +11,11 @@ module.exports = {
       ],
     });
   },
+  deleteDocs: async (ids) => {
+    return await framework.models.report_document.destroy({
+      where: {
+        id: ids,
+      },
+    });
+  },
 };

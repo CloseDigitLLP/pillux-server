@@ -104,7 +104,7 @@ module.exports = {
         req.files.forEach((file) => {
           repairDocs.push({
             vehicle_id: repairData.vehicle_id,
-            repair_id: repair.id,
+            repair_id: id,
             instructor_id: req?.user?.id,
             documentRepair: {
               type: file.mimetype,

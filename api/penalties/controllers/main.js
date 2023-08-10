@@ -123,7 +123,7 @@ module.exports = {
       let { penaltyData } = req.body;
       penaltyData = JSON.parse(penaltyData);
       let penaltyImage = [];
-      let ids = penaltyData?.deletedDoscIds || [];
+      let ids = penaltyData?.deletedDocsIds || [];
       let penalty = await framework.services.penalties.basic.update(id, penaltyData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {

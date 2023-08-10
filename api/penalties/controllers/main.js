@@ -128,7 +128,7 @@ module.exports = {
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
           penaltyImage.push({
-            penalty_id: penalty.id,
+            penalty_id: id,
             type: file.fieldname,
             documentPenalty: {
               type: file.mimetype,

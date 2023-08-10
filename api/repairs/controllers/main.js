@@ -98,18 +98,15 @@ module.exports = {
       let { repairData } = req.body;
       repairData = JSON.parse(repairData);
       let repairDocs = [];
-      let existingDocs = repairData?.docs;
+      let ids = repairData?.deletedDocsIds || [];
       let repair = await framework.services.repairs.basic.update(id, repairData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
           repairDocs.push({
-            id: existingDocs?.id,
-            vehicle_id: existingDocs?.vehicle_id || repair?.vehicle_id,
-            repair_id: existingDocs?.repair_id || id,
+            vehicle_id: repairData.vehicle_id,
+            repair_id: repair.id,
             instructor_id: req?.user?.id,
-            document_id: existingDocs?.document_id,
             documentRepair: {
-              id:existingDocs?.document_id,
               type: file.mimetype,
               path: file.path,
             },
@@ -123,6 +120,7 @@ module.exports = {
           data: {},
         });
       } else {
+        await framework.services.repairs.updateDocs.deleteDocs(ids);
         await framework.services.repairs.updateDocs.addUpdateImages(repairDocs);
         res.status(200).json({
           message: '',

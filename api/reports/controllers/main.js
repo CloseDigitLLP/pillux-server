@@ -79,7 +79,6 @@ module.exports = {
   create: async (req, res) => {
     try {
       let { reportData } = req.body;
-      console.log(reportData, 2, 2);
       reportData = JSON.parse(reportData);
       let reportDocs = [];
       let report = await framework.services.reports.basic.create(reportData);
@@ -145,7 +144,7 @@ module.exports = {
           data: {},
         });
       } else {
-        await framework.service.reports.updateDocs.deleteDocs(ids);
+        await framework.services.reports.updateDocs.deleteDocs(ids);
         await framework.services.reports.updateDocs.addUpdateImages(reportDocs);
         res.status(200).json({
           message: '',

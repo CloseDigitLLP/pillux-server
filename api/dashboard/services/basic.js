@@ -5,9 +5,9 @@ module.exports = {
     try {
       const drivingschoolIds = user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id);
       let monitorsWhere = {};
-      if (user?.usersRole?.name === 'Secrétaires') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         monitorsWhere['$userDrivingschool.drivingschool_id$'] = {
-          [Sequelize.Op.eq]: drivingschoolIds,
+          [Sequelize.Op.in]: drivingschoolIds,
         };
       }
       const noOfMonitors = await framework.models.users.count({
@@ -47,10 +47,10 @@ module.exports = {
 
       let rolesConditionInResult1 = {};
 
-      if (user?.usersRole?.name === 'Secrétaires') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         rolesConditionInResult1 = {
           drivingschool_id: {
-            [Sequelize.Op.eq]: drivingschoolIds,
+            [Sequelize.Op.in]: drivingschoolIds,
           },
         };
       }
@@ -87,10 +87,10 @@ module.exports = {
       const conduitTypesInMonth = result1.get('conduitTypesInMonth');
 
       let rolesConditionInNewStudents = {};
-      if (user?.usersRole?.name === 'Secrétaires') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         rolesConditionInNewStudents = {
           drivingschool_id: {
-            [Sequelize.Op.eq]: drivingschoolIds,
+            [Sequelize.Op.in]: drivingschoolIds,
           },
         };
       }

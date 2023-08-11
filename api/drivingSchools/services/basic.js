@@ -4,7 +4,7 @@ module.exports = {
     fetch: async (id, where = {}, user) => {
         try {
 
-            if (user?.usersRole?.name == 'Secrétaires') {
+            if (user?.usersRole?.name !== 'Super Gérants') {
                 where["id"] = {
                     [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
                 }

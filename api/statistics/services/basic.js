@@ -4,9 +4,9 @@ const { Sequelize } = require('sequelize');
 module.exports = {
   packages: async (user, where = {}) => {
     try {
-      if (user?.usersRole?.name == 'Secrétaires' || user?.usersRole?.name == 'Moniteurs') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         where['$formulaId.drivingschool_id$'] = {
-          [Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+          [Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
       }
       let currentYear = new Date().getFullYear();
@@ -41,9 +41,9 @@ module.exports = {
   },
   hours: async (user, where = {}) => {
     try {
-      if (user?.usersRole?.name == 'Secrétaires' || user?.usersRole?.name == 'Moniteurs') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         where['$formulaId.drivingschool_id$'] = {
-          [Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+          [Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
       }
       let currentYear = new Date().getFullYear();

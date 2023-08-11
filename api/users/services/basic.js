@@ -4,9 +4,9 @@ module.exports = {
   fetchAll: async (user) => {
     try {
       let where = {};
-      if (user?.usersRole?.name === 'Secrétaires') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         where['$userDrivingschool.drivingSchoolUser.id$'] = {
-          [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+          [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
       }
       return await framework.models.users.findAll({

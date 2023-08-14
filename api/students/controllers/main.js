@@ -65,7 +65,7 @@ module.exports = {
 
             if (skillsAtPosition.length === totalSkillsAtPosition.length) {
               position = i;
-              level = totalSkillsAtPosition[0]; 
+              level = totalSkillsAtPosition[0];
             } else {
               level = student.drivingSchoolStudents.drivingSchoolSkills.find((skill) => skill.position === i);
               break;
@@ -133,19 +133,25 @@ module.exports = {
       let { studentData } = req.body;
       studentData = JSON.parse(studentData);
       let documentsToBulkCreate = [];
-      let newStudent = await framework.services.students.basic.create(studentData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
-          documentsToBulkCreate.push({
-            student_id: newStudent.id,
-            type: file.fieldname,
-            documentStudent: {
-              path: file.path,
-              type: file.mimetype,
-            },
-          });
+          if (file?.fieldname !== 'photo_id') {
+            documentsToBulkCreate.push({
+              student_id: newStudent.id,
+              type: file.fieldname,
+              documentStudent: {
+                path: file.path,
+                type: file.mimetype,
+              },
+            });
+          } else if (file?.fieldname === 'photo_id') {
+            if (studentData.hasOwnProperty('photo_id')) {
+              studentData.photo_id = file.path;
+            }
+          }
         });
       }
+      let newStudent = await framework.services.students.basic.create(studentData);
       if (!newStudent) {
         res.status(400).json({
           message: 'invalid data',

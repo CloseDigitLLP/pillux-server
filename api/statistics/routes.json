@@ -1,8 +1,8 @@
 [
     {
-        "path" : "/totalpackage",
+        "path" : "/studentCount",
         "method" : "get",
-        "action" : "main.totalPackage",
+        "action" : "main.studentCounts",
         "public" : false,
         "globalMiddlewares": [],
         "middlewares": [],

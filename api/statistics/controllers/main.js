@@ -1,7 +1,7 @@
 module.exports = {
-  totalPackage: async (req, res) => {
+  studentCounts: async (req, res) => {
     try {
-      let states = await framework.services.statistics.basic.packages(req?.user);
+      let states = await framework.services.statistics.basic.totalCount(req?.user);
       if (!states) {
         res.status(400).json({
           message: 'Data Not Found',

@@ -3,7 +3,7 @@ const moment = require("moment/moment");
 module.exports = {
     list: async (req, res) => {
         try {
-            let receipts = await framework.services.receipts.basic.fetch();
+            let receipts = await framework.services.receipts.basic.fetch(req?.user);
             if (!receipts.length) {
                 res.status(200).json({
                     message: 'no records found!',

@@ -145,9 +145,7 @@ module.exports = {
               },
             });
           } else if (file?.fieldname === 'photo_id') {
-            if (studentData.hasOwnProperty('photo_id')) {
               studentData.photo_id = file.path;
-            }
           }
         });
       }

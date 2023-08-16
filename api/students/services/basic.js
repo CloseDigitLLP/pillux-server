@@ -206,6 +206,7 @@ module.exports = {
                 ],
                 attributes: [
                     'id',
+                    'photo_id',
                     'gender',
                     'lastname',
                     'firstname',

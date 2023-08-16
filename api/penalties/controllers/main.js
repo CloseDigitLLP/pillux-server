@@ -123,18 +123,14 @@ module.exports = {
       let { penaltyData } = req.body;
       penaltyData = JSON.parse(penaltyData);
       let penaltyImage = [];
-      let existingDocs = penaltyData?.docs;
+      let ids = penaltyData?.deletedDocsIds || [];
       let penalty = await framework.services.penalties.basic.update(id, penaltyData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
-          console.log(file)
           penaltyImage.push({
-            id: existingDocs?.id,
             penalty_id: id,
             type: file.fieldname,
-            document_id: existingDocs?.document_id,
             documentPenalty: {
-              id: existingDocs?.document_id,
               type: file.mimetype,
               path: file.path,
             },
@@ -148,7 +144,8 @@ module.exports = {
           data: {},
         });
       } else {
-        let resp = await framework.services.penalties.updatePenaltyImages.addUpdateImages(penaltyImage);
+        await framework.services.penalties.updatePenaltyImages.deleteDocs(ids);
+        await framework.services.penalties.updatePenaltyImages.addUpdateImages(penaltyImage);
         res.status(200).json({
           message: '',
           error: false,

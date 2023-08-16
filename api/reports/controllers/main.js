@@ -79,7 +79,6 @@ module.exports = {
   create: async (req, res) => {
     try {
       let { reportData } = req.body;
-      console.log(reportData, 2, 2)
       reportData = JSON.parse(reportData);
       let reportDocs = [];
       let report = await framework.services.reports.basic.create(reportData);
@@ -124,17 +123,14 @@ module.exports = {
       let { reportData } = req.body;
       reportData = JSON.parse(reportData);
       let reportDocs = [];
-      let existingDocs = reportData?.docs;
+      let ids = reportData?.deletedDocsIds || [];
       let report = await framework.services.reports.basic.update(id, reportData);
       if (req.files && req.files.length > 0) {
         req.files.forEach((file) => {
           reportDocs.push({
-            id: existingDocs?.id,
-            report_id: existingDocs?.report_id || id,
-            document_id: existingDocs?.document_id,
+            report_id: id,
             type: file.fieldname,
             documentReport: {
-              id: existingDocs?.document_id,
               type: file.mimetype,
               path: file.path,
             },
@@ -148,6 +144,7 @@ module.exports = {
           data: {},
         });
       } else {
+        await framework.services.reports.updateDocs.deleteDocs(ids);
         await framework.services.reports.updateDocs.addUpdateImages(reportDocs);
         res.status(200).json({
           message: '',

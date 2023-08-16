@@ -3,9 +3,9 @@ const { Sequelize } = require("sequelize");
 module.exports={
     fetch: async (user, where = {}) => {
         try {
-            if(user?.usersRole?.name === 'Secrétaires'){
+            if(user?.usersRole?.name !== 'Super Gérants'){
                   where['$studentAlerts.drivingschool_id$'] = { 
-                    [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
+                    [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)
                   }
               }
             return await framework.models.alerts.findAll({

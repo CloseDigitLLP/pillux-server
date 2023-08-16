@@ -5,7 +5,7 @@ module.exports = {
     try {
 
       let rolesCondition = {}
-      if(user?.usersRole?.name == 'Secrétaires'){
+      if(user?.usersRole?.name !== 'Super Gérants'){
         rolesCondition = {
           drivingschool_id: {
             [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)

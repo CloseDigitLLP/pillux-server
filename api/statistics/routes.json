@@ -1,0 +1,22 @@
+[
+    {
+        "path" : "/studentCount",
+        "method" : "get",
+        "action" : "main.studentCounts",
+        "public" : false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/totalhour",
+        "method" : "get",
+        "action" : "main.totalHour",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    }
+]

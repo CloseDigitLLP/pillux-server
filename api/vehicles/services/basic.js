@@ -3,9 +3,9 @@ const { Sequelize } = require('sequelize');
 module.exports = {
   fetchAll: async (user, where = {}) => {
     try {
-      if (user?.usersRole?.name === 'Secrétaires' || user?.usersRole?.name === 'Moniteurs') {
+      if (user?.usersRole?.name !== 'Super Gérants') {
         where['drivingschool_id'] = {
-          [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+          [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
       }
       if (user?.usersRole?.name === 'Moniteurs') {

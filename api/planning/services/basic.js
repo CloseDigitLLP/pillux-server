@@ -7,13 +7,13 @@ module.exports = {
     try {
       let lastDate = moment().subtract(1, "months").format('YYYY-MM-DD HH:mm:ss');
       let firstDate = moment().add(1, 'months').startOf('month').format('YYYY-MM-DD HH:mm:ss');
-      if (user?.usersRole?.name == 'Secrétaires') {
+      if (user?.usersRole?.name === 'Secrétaires'|| user?.usersRole?.name === 'Gérants') {
         where['$studentGenerals.drivingschool_id$'] = {
           [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
-      }else if(user?.usersRole?.name == 'Moniteurs'){
+      }else if(user?.usersRole?.name === 'Moniteurs'){
         where['$studentGenerals.drivingschool_id$'] = {
-          [Sequelize.Op.eq]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+          [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
         where['instructor_id'] = user?.id
       }

@@ -1,13 +1,10 @@
 const { Op } = require('sequelize');
 
 module.exports = {
-  fetch: async (id, where = {}, user) => {
+  fetch: async (user, where = {}) => {
     try {
-      if (id) {
-        where.id = id;
-      }
       if (user?.usersRole?.name === 'Secrétaires' || user?.usersRole?.name === 'Gérants') {
-        where.drivingschool_id = {
+        where['drivingschool_id'] = {
           [Op.in]: user?.userDrivingschool?.map((ds) => ds.drivingschool_id),
         };
       }

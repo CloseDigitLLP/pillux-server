@@ -20,6 +20,7 @@ module.exports = {
             neph: student.neph,
             date_code: student.date_code,
             drivingschool_id: student.drivingschool_id,
+            studentFormula: student.studentFormula
           };
         });
         res.status(200).json({

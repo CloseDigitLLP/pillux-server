@@ -9,10 +9,10 @@ module.exports = {
           [Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
       }
-  
+
       const currentYear = new Date().getFullYear();
       const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
-  
+
       const monthlyResults = await framework.models.students.findAll({
         attributes: [
           [Sequelize.fn('YEAR', Sequelize.col('created_at')), 'year'],
@@ -29,17 +29,17 @@ module.exports = {
         group: [Sequelize.fn('YEAR', Sequelize.col('created_at')), Sequelize.fn('MONTH', Sequelize.col('created_at'))],
         raw: true,
       });
-  
+
       const startYear = 2013;
       const allYears = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
-  
+
       const populatedYearlyResults = allYears.map((year) => {
         return {
           year,
           newStudentCount: 0,
         };
       });
-  
+
       const yearlyResults = await framework.models.students.findAll({
         attributes: [
           [Sequelize.fn('YEAR', Sequelize.col('created_at')), 'year'],
@@ -55,14 +55,14 @@ module.exports = {
         group: [Sequelize.fn('YEAR', Sequelize.col('created_at'))],
         raw: true,
       });
-  
+
       yearlyResults.forEach((yearInfo) => {
         const yearIndex = yearInfo.year - startYear;
         if (populatedYearlyResults[yearIndex]) {
           populatedYearlyResults[yearIndex].newStudentCount = yearInfo.newStudentCount;
         }
       });
-  
+
       return {
         monthly: monthlyResults,
         yearly: populatedYearlyResults,
@@ -72,7 +72,7 @@ module.exports = {
       return Promise.reject(error);
     }
   },
-  
+
   hours: async (user, where = {}) => {
     try {
       if (user?.usersRole?.name !== 'Super Gérants') {
@@ -80,10 +80,12 @@ module.exports = {
           [Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
       }
-      let currentYear = new Date().getFullYear();
-      return await framework.models.student_formula.findAll({
+      
+      const currentYear = new Date().getFullYear();
+      const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+  
+      const monthlyResults = await framework.models.student_formula.findAll({
         attributes: [
-          'formula_id',
           [Sequelize.fn('YEAR', Sequelize.col('date')), 'year'],
           [Sequelize.fn('MONTH', Sequelize.col('date')), 'month'],
           [Sequelize.literal('SUM(`formulaId`.`hour` * `student_formulas`.`quantity`)'), 'totalHour'],
@@ -97,17 +99,67 @@ module.exports = {
         ],
         where: {
           ...where,
-          [Op.and]: [Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), currentYear)],
+          [Op.and]: [
+            Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), currentYear),
+            Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), { [Op.in]: allMonths }),
+          ],
         },
         group: [
-          'formula_id',
           Sequelize.fn('YEAR', Sequelize.col('date')),
           Sequelize.fn('MONTH', Sequelize.col('date')),
         ],
       });
+      
+      const startYear = 2013;
+      const allYears = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
+
+      const populatedYearlyResults = allYears.map((year) => {
+        return {
+          year,
+          totalHour: 0,
+        };
+      });
+
+      const yearlyResults = await framework.models.student_formula.findAll({
+        attributes: [
+          [Sequelize.fn('YEAR', Sequelize.col('date')), 'year'],
+          [Sequelize.literal('SUM(`formulaId`.`hour` * `student_formulas`.`quantity`)'), 'totalHour'],
+        ],
+        include: [
+          {
+            model: framework.models.formula,
+            as: 'formulaId',
+            attributes: ['name', 'hour'],
+          },
+        ],
+        where: {
+          ...where,
+          [Op.and]: [
+            Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('date')), { [Op.gte]: startYear }),
+            Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('date')), { [Op.lte]: currentYear }),
+          ],
+        },
+        group: [
+          Sequelize.fn('YEAR', Sequelize.col('date')),
+        ],
+        raw: true
+      });
+
+      yearlyResults.forEach((yearInfo) => {
+        const yearIndex = yearInfo.year - startYear;
+        if (populatedYearlyResults[yearIndex]) {
+          populatedYearlyResults[yearIndex].totalHour = yearInfo.totalHour;
+        }
+      });
+
+      return {
+        monthly: monthlyResults,
+        yearly: populatedYearlyResults,
+      };
     } catch (error) {
       console.log('Error is ==>', error);
       return Promise.reject(error);
     }
   },
+  
 };

@@ -241,7 +241,7 @@ module.exports = {
         });
       } else {
         res.status(200).json({
-          message: '',
+          message: 'Student Successfully Deleted!',
           error: false,
           data: student,
         });

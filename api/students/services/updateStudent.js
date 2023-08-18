@@ -18,6 +18,9 @@ module.exports = {
     updateComment: async (comment) => {
         return await framework.models.comments.create(comment)
     },
+    deleteComment: async (id) => {
+        return await framework.models.comments.destroy({ where: { id } })
+    },
     addUpdateSKill: async (skills) => {
         return await framework.models.student_skill.bulkCreate(skills, {
             updateOnDuplicate: ['status'],

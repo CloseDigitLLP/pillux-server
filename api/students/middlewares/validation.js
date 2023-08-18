@@ -75,6 +75,19 @@ module.exports = {
         
         next();
     },
+    deleteComment: (req, res, next) => {
+        const { id } = req.params;
+
+        if (!id) {
+            return res.status(400).json({
+                message: 'Invalid request',
+                error: true,
+                data: "make a proper request, provide valid id"
+            })
+        }
+
+        next();
+    },
     createFormula: (req, res, next) => {
         let data = req.body;
         if (!data.student_id || !data.formula_id || !data.quantity) {

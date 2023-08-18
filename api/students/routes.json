@@ -60,6 +60,16 @@
         "enabled": true
     },
     {
+        "path" : "/comment/:id",
+        "method" : "delete",
+        "action" : "main.deleteComment",
+        "public" : false,
+        "globalMiddlewares": [],
+        "middlewares": ["validation.deleteComment"],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
         "path" : "/formula",
         "method" : "post",
         "action" : "main.createFormula",

@@ -181,7 +181,7 @@ module.exports = {
       studentData = JSON.parse(studentData);
       let documentsToBulkCreate = [];
       let documentsToBulkUpdate = [];
-      for (let file of req.files) {
+      for (let file of req?.files || []) {
         const docName = file.fieldname;
         let existingDoc = studentData?.docs?.[docName];
         if (existingDoc && existingDoc.id) {
@@ -259,6 +259,32 @@ module.exports = {
     try {
       let data = req.body;
       let comment = await framework.services.students.updateStudent.updateComment(data);
+      if (!comment) {
+        res.status(400).json({
+          message: 'invalid data',
+          error: true,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: comment,
+        });
+      }
+    } catch (error) {
+      console.log('error =>', error);
+      res.status(500).json({
+        message: error?.message,
+        error: true,
+        data: error,
+      });
+    }
+  },
+  deleteComment: async (req, res) => {
+    try {
+      let { id } = req.params;
+      let comment = await framework.services.students.updateStudent.deleteComment(id);
       if (!comment) {
         res.status(400).json({
           message: 'invalid data',

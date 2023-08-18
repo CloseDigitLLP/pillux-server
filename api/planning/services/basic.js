@@ -51,6 +51,11 @@ module.exports = {
                   },
                 ],
               },
+              {
+                model: framework.models.licences,
+                as: 'licenceStudents',
+                attributes: ['name']
+              },
               (user?.usersRole?.name === 'Moniteurs')
               ? {
                   model: framework.models.student_skill,

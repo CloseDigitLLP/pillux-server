@@ -6,6 +6,7 @@ module.exports = {
       if (id) {
         where.id = id;
       }
+      where.status=true
       if(user?.usersRole?.name !== 'Super Gérants') {
         where.drivingschool_id = {
           [Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id)

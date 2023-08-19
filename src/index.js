@@ -15,7 +15,7 @@ const helmet = require('helmet');
 const middlewares = require('../middlewares')
 
 const siteSettings = require('../config/sitesetting.json');
-const { drivingSchoolsDataSync, userDataSync, examDataSync, debitDataSync, studentDataSync, formulaDataSync, alertDataSync, planningDataSync, studentOldExamDataSync, studentPaymentDataSync } = require('../functions/databaseSync');
+const { drivingSchoolsDataSync, userDataSync, examDataSync, debitDataSync, studentDataSync, formulaDataSync, alertDataSync, planningDataSync, studentOldExamDataSync, studentPaymentDataSync, studentsDateCodeSync } = require('../functions/databaseSync');
 const moment = require('moment');
 // defining the Express app
 const app = express();
@@ -123,5 +123,6 @@ const dbSync = async () => {
   console.timeEnd('db syncing total time');
 };
 
-
+// studentsDateCodeSync()
+// studentDataSync();
 // dbSync();

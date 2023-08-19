@@ -370,4 +370,45 @@ module.exports = {
       console.log('Error: while inseting data on alert table ==>', error);
     }
   },
+  studentsDateCodeSync: async () => {
+    try {
+      let studentsData = await framework.models.students.findAll({
+        attributes: [
+            'id',
+            'date_code'
+        ],
+        include: [
+          {
+            model: framework.models.student_formula,
+            as: "studentFormula",
+            separate: true,
+            order:[['id', 'ASC']],
+            include: [
+                {
+                    model: framework.models.student_payment,
+                    as: 'studentFormulaPayment',
+                    separate: true,
+                    order: [['id','ASC']]
+                }
+            ]
+        }],
+        order: [['id', 'DESC']]
+    });
+
+    studentsData = studentsData?.map((student) => {
+      return {
+        id: student?.id,
+        date_code: student?.studentFormula?.[0]?.studentFormulaPayment?.[0]?.created_at || null
+      }
+    })
+
+    await framework.models.students.bulkCreate(studentsData, {
+      updateOnDuplicate: ['date_code']
+    })
+
+    } catch (error) {
+      console.log('Error: while updating data on students table ==>', error);
+    }
+  },
+
 };

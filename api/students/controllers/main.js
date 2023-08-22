@@ -20,7 +20,7 @@ module.exports = {
             neph: student.neph,
             date_code: student.date_code,
             drivingschool_id: student.drivingschool_id,
-            studentFormula: student.studentFormula
+            studentFormula: student.studentFormula,
           };
         });
         res.status(200).json({
@@ -146,7 +146,7 @@ module.exports = {
               },
             });
           } else if (file?.fieldname === 'photo_id') {
-              studentData.photo_id = file.path;
+            studentData['photo_id'] = file.path;
           }
         });
       }
@@ -182,26 +182,30 @@ module.exports = {
       let documentsToBulkCreate = [];
       let documentsToBulkUpdate = [];
       for (let file of req?.files || []) {
-        const docName = file.fieldname;
-        let existingDoc = studentData?.docs?.[docName];
-        if (existingDoc && existingDoc.id) {
-          documentsToBulkUpdate.push({
-            ...existingDoc,
-            documentStudent: {
-              ...existingDoc.documentStudent,
-              path: file.path,
-              type: file.mimetype,
-            },
-          });
+        if (file.fieldname !== 'photo_id') {
+          const docName = file.fieldname;
+          let existingDoc = studentData?.docs?.[docName];
+          if (existingDoc && existingDoc.id) {
+            documentsToBulkUpdate.push({
+              ...existingDoc,
+              documentStudent: {
+                ...existingDoc.documentStudent,
+                path: file.path,
+                type: file.mimetype,
+              },
+            });
+          } else {
+            documentsToBulkCreate.push({
+              student_id: parseInt(id),
+              type: docName,
+              documentStudent: {
+                path: file.path,
+                type: file.mimetype,
+              },
+            });
+          }
         } else {
-          documentsToBulkCreate.push({
-            student_id: parseInt(id),
-            type: docName,
-            documentStudent: {
-              path: file.path,
-              type: file.mimetype,
-            },
-          });
+          studentData['photo_id'] = file.path
         }
       }
       let student = await framework.services.students.basic.update(id, studentData);

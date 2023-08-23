@@ -105,6 +105,7 @@ module.exports = {
           status: student.active === '1' ? true : false,
           drivingschool_id: student.drivingschool_id,
           licence_id: licence?.licence_id ? parseInt(licence?.licence_id) : 1,
+          created_at: student?.date_inscription ? moment(student?.date_inscription).format('YYYY-MM-DD') + ' 12:00:00' : moment(new Date()).format('YYYY-MM-DD') + ' 12:00:00'
         });
       }
       for (const plan of studentFormula) {

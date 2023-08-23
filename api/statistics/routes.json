@@ -18,5 +18,35 @@
         "middlewares": [],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/planninghours",
+        "method" : "get",
+        "action" : "main.planningHours",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/modifiedHours",
+        "method" : "get",
+        "action" : "main.modifiedHours",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/cancledHours",
+        "method" : "get",
+        "action" : "main.cancledHours",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

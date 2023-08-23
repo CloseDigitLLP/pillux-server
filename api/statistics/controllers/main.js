@@ -49,4 +49,79 @@ module.exports = {
       });
     }
   },
+  planningHours: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.plannings(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  modifiedHours: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.modify(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  cancledHours: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.cancled(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
 };

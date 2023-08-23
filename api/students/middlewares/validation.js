@@ -102,7 +102,7 @@ module.exports = {
     },
     createPayment: (req, res, next) => {
         let data = req.body;
-        if (!data.student_formula_id || !data.type || !data.mode || !data.amount) {
+        if (!data.student_formula_id || !data.mode || !data.amount) {
             return res.status(400).json({
                 message: 'Invalid request',
                 error: true,

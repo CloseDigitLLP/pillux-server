@@ -48,5 +48,15 @@
         "middlewares": [],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/erroredHours",
+        "method" : "get",
+        "action" : "main.erroredHours",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

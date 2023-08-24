@@ -206,7 +206,7 @@ module.exports = {
           ],
         },
         group: ['month', 'year'],
-        raw: true
+        raw: true,
       });
 
       const yearlyResults = await framework.models.planning_generals.findAll({
@@ -308,11 +308,11 @@ module.exports = {
           [Op.and]: [
             Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('start_horary')), currentYear),
             Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('start_horary')), { [Op.in]: allMonths }),
-            Sequelize.literal('`planning_generals`.`created_at` != `planning_generals`.`updated_at`'),
+            { is_updated: true },
           ],
         },
         group: ['month', 'year'],
-        raw: true
+        raw: true,
       });
 
       const yearlyResults = await framework.models.planning_generals.findAll({
@@ -343,7 +343,7 @@ module.exports = {
           [Op.and]: [
             Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('start_horary')), { [Op.gte]: startYear }),
             Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('start_horary')), { [Op.lte]: currentYear }),
-            Sequelize.literal('`planning_generals`.`created_at` != `planning_generals`.`updated_at`'),
+            { is_updated: true },
           ],
         },
         group: ['drivingschool_id', 'year'],
@@ -419,7 +419,7 @@ module.exports = {
           ],
         },
         group: ['month', 'year'],
-        raw: true
+        raw: true,
       });
 
       const yearlyResults = await framework.models.planning_generals.findAll({
@@ -474,5 +474,110 @@ module.exports = {
     }
   },
 
+  errored: async (user, where = {}) => {
+    try {
+      if (user?.usersRole?.name !== 'Super Gérants') {
+        where['$instructorGenerals.userDrivingschool.drivingschool_id$'] = {
+          [Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
+        };
+      }
 
+      const currentYear = new Date().getFullYear();
+      const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+      const startYear = 2013;
+      const allYears = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
+
+      const populatedYearlyResults = allYears.map((year) => {
+        return {
+          year,
+          total_hours: 0,
+        };
+      });
+
+      const monthlyResults = await framework.models.planning_generals.findAll({
+        attributes: [
+          [Sequelize.fn('MONTH', Sequelize.col('start_horary')), 'month'],
+          [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
+          [
+            Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
+            'total_hours',
+          ],
+        ],
+        include: [
+          {
+            model: framework.models.users,
+            as: 'instructorGenerals',
+            attributes: [],
+            include: [
+              {
+                model: framework.models.user_drivingschool,
+                as: 'userDrivingschool',
+                attributes: [],
+              },
+            ],
+          },
+        ],
+        where: {
+          ...where,
+          [Op.and]: [
+            Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('start_horary')), currentYear),
+            Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('start_horary')), { [Op.in]: allMonths }),
+            { is_errored: true },
+          ],
+        },
+        group: ['month', 'year'],
+        raw: true,
+      });
+
+      const yearlyResults = await framework.models.planning_generals.findAll({
+        attributes: [
+          'drivingschool_id',
+          [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
+          [
+            Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
+            'total_hours',
+          ],
+        ],
+        include: [
+          {
+            model: framework.models.users,
+            as: 'instructorGenerals',
+            attributes: [],
+            include: [
+              {
+                model: framework.models.user_drivingschool,
+                as: 'userDrivingschool',
+                attributes: [],
+              },
+            ],
+          },
+        ],
+        where: {
+          ...where,
+          [Op.and]: [
+            Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('start_horary')), { [Op.gte]: startYear }),
+            Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('start_horary')), { [Op.lte]: currentYear }),
+            { is_errored: true },
+          ],
+        },
+        group: ['drivingschool_id', 'year'],
+        raw: true,
+      });
+
+      yearlyResults.forEach((yearInfo) => {
+        const yearIndex = yearInfo.year - startYear;
+        if (populatedYearlyResults[yearIndex]) {
+          populatedYearlyResults[yearIndex].total_hours = yearInfo.total_hours;
+        }
+      });
+
+      return {
+        monthly: monthlyResults,
+        yearly: populatedYearlyResults,
+      };
+    } catch (error) {
+      console.log('Error is ==>', error);
+      return Promise.reject(error);
+    }
+  },
 };

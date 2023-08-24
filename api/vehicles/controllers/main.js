@@ -14,7 +14,9 @@ module.exports = {
                     name: vehicle?.name,
                     immatriculation: vehicle?.immatriculation,
                     instructor: vehicle?.instructorVehicles?.firstname + " " + vehicle?.instructorVehicles?.lastname,
-                    vehicleImage: vehicle?.vehicleImage
+                    vehicleImage: vehicle?.vehicleImage,
+                    instructor_id: vehicle?.instructor_id,
+                    drivingschool_id: vehicle?.drivingschool_id
                 }))
                 res.status(200).json({
                     message: '',

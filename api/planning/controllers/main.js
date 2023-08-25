@@ -1,4 +1,4 @@
-const moment = require("moment/moment");
+const moment = require('moment/moment');
 
 module.exports = {
   list: async (req, res) => {
@@ -86,20 +86,50 @@ module.exports = {
       let existingData = await framework.models.planning_generals.findByPk(id);
       let is_updated = false;
       let is_errored = false;
+      const is_monitor_absent = planningData.status === 'absent' && planningData.motif === 'Instructeur absent';
       if (
-        moment(existingData.start_horary).format("YYYY-MM-DD HH:mm:ss") != moment(planningData.start_horary).format("YYYY-MM-DD HH:mm:ss") ||
-        moment(existingData.end_horary).format("YYYY-MM-DD HH:mm:ss") != moment(planningData.end_horary).format("YYYY-MM-DD HH:mm:ss")
+        moment(existingData.start_horary).format('YYYY-MM-DD HH:mm:ss') !=
+          moment(planningData.start_horary).format('YYYY-MM-DD HH:mm:ss') ||
+        moment(existingData.end_horary).format('YYYY-MM-DD HH:mm:ss') !=
+          moment(planningData.end_horary).format('YYYY-MM-DD HH:mm:ss')
       ) {
         is_updated = true;
       } else {
         is_updated = existingData.is_updated || false;
       }
-      if(existingData.instructor_id != planningData.instructor_id) {
+      if (existingData.instructor_id != planningData.instructor_id) {
         is_errored = true;
       } else {
         is_errored = existingData.is_errored || false;
       }
       let updatedData = await framework.services.planning.basic.update(id, { ...planningData, is_updated, is_errored });
+      if (is_monitor_absent) {
+        const sgMail = require('@sendgrid/mail');
+        let student = await framework.models.students.findByPk(planningData.student_id, {
+          attributes: ['email', 'firstname', 'lastname'],
+        });
+        if (student) {
+          sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+          const msg = {
+            to: student?.email,
+            from: 'rajanvasani9@gmail.com', // NOTE - Change to your verified sender
+            subject: 'Your Driving Lesson Schedule Has Been Canceled',
+            text: `Hello ${student?.firstname} ${student?.lastname},\n\nWe regret to inform you that your scheduled driving lesson has been canceled due to your instructor's illness. We apologize for any inconvenience this may cause. Please contact us to reschedule your lesson at your earliest convenience.\n\nThank you for your understanding.\n\nSincerely,\nYour Driving School Team`,
+            html: `<p>Hello ${student?.firstname} ${student?.lastname},</p>
+                  <p>We regret to inform you that your scheduled driving lesson has been canceled due to your instructor's illness. We apologize for any inconvenience this may cause. Please contact us to reschedule your lesson at your earliest convenience.</p>
+                  <p>Thank you for your understanding.</p>
+                  <p>Sincerely,<br>Your Driving School Team</p>`,
+          };
+          sgMail
+            .send(msg)
+            .then(() => {
+              console.log('Email sended to student');
+            })
+            .catch((error) => {
+              console.error(error.response.body);
+            });
+        }
+      }
       if (!updatedData) {
         res.status(400).json({
           message: "Invalid Data Or Record Doesn't Exists",

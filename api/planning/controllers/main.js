@@ -105,7 +105,7 @@ module.exports = {
       let updatedData = await framework.services.planning.basic.update(id, { ...planningData, is_updated, is_errored });
       if (is_monitor_absent) {
         const sgMail = require('@sendgrid/mail');
-        let student = await framework.models.students.findByPk(planningData.student_id, {
+        let student = await framework.models.students.findByPk(existingData.student_id, {
           attributes: ['email', 'firstname', 'lastname'],
         });
         if (student) {

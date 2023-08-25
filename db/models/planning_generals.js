@@ -33,12 +33,19 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: 'CASCADE',
         onUpdate: 'CASCADE',
       });
+      planning_generals.belongsTo(models.vehicles, {
+        foreignKey: 'vehicle_id',
+        as: 'planningVehicle',
+        onDelete: 'CASCADE',
+        onUpdate: 'CASCADE',
+      });
     }
   }
   planning_generals.init(
     {
       drivingschool_id: DataTypes.INTEGER,
       student_id: DataTypes.INTEGER,
+      vehicle_id: DataTypes.INTEGER,
       secretary_id: DataTypes.INTEGER,
       instructor_id: DataTypes.INTEGER,
       start_horary: DataTypes.DATE,

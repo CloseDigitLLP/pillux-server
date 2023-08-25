@@ -748,11 +748,13 @@ module.exports = {
         where['instructor_id'] = user?.id;
       }
 
-      return await framework.models.exam_wishlist.findAll({
+      let data = await framework.models.exam_wishlist.findAll({
         attributes: ['instructor_id', [Sequelize.fn('COUNT', Sequelize.col('student_id')), 'studentCount']],
         where,
         group: ['instructor_id'],
       });
+
+      return data[0]
     } catch (error) {
       console.log('Error is ==>', error);
       return Promise.reject(error);

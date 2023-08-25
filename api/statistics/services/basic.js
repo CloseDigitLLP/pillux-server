@@ -710,7 +710,7 @@ module.exports = {
         where['instructor_id'] = user?.id;
       }
 
-      return await framewirk.models.planning_generals.findAll({
+      return await framework.models.planning_generals.findAll({
         attributes: [
           [Sequelize.fn('DATE', Sequelize.col('start_horary')), 'date'],
           [
@@ -723,7 +723,7 @@ module.exports = {
           [Op.and]: [
             {
               status: {
-                [Op.eq]: ['present', 'absent'],
+                [Op.in]: ['absent'],
               },
             },
             {
@@ -748,7 +748,7 @@ module.exports = {
         where['instructor_id'] = user?.id;
       }
 
-      return await framewirk.models.exam_wishlist.findAll({
+      return await framework.models.exam_wishlist.findAll({
         attributes: ['instructor_id', [Sequelize.fn('COUNT', Sequelize.col('student_id')), 'studentCount']],
         where,
         group: ['instructor_id'],

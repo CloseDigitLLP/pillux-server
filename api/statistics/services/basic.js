@@ -595,7 +595,7 @@ module.exports = {
       const populatedYearlyResults = allYears.map((year) => {
         return {
           year,
-          total_hours: 0,
+          hours: 0,
         };
       });
 
@@ -605,7 +605,7 @@ module.exports = {
           [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
           [
             Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
-            'total_hours',
+            'hours',
           ],
         ],
         include: [
@@ -649,7 +649,7 @@ module.exports = {
           [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
           [
             Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
-            'total_hours',
+            'hours',
           ],
         ],
         include: [
@@ -690,7 +690,7 @@ module.exports = {
       yearlyResults.forEach((yearInfo) => {
         const yearIndex = yearInfo.year - startYear;
         if (populatedYearlyResults[yearIndex]) {
-          populatedYearlyResults[yearIndex].total_hours = yearInfo.total_hours;
+          populatedYearlyResults[yearIndex].hours = yearInfo.hours;
         }
       });
 
@@ -775,7 +775,7 @@ module.exports = {
           year,
           total_hours: 0,
           total_students: 0,
-          average_hours_per_student: 0,
+          hours: 0,
         };
       });
 
@@ -784,7 +784,7 @@ module.exports = {
           month,
           total_hours: 0,
           total_students: 0,
-          average_hours_per_student: 0,
+          hours: 0,
         };
       });
 
@@ -884,7 +884,7 @@ module.exports = {
           populatedYearlyResults[yearIndex].total_hours = yearInfo.total_hours;
           populatedYearlyResults[yearIndex].total_students = yearInfo.total_students;
           if (yearInfo.total_students > 0) {
-            populatedYearlyResults[yearIndex].average_hours_per_student =
+            populatedYearlyResults[yearIndex].hours =
               yearInfo.total_hours / yearInfo.total_students;
           }
         }
@@ -896,7 +896,7 @@ module.exports = {
           populatedMonthlyResults[monthIndex].total_hours = monthInfo.total_hours;
           populatedMonthlyResults[monthIndex].total_students = monthInfo.total_students;
           if (monthInfo.total_students > 0) {
-            populatedMonthlyResults[monthIndex].average_hours_per_student =
+            populatedMonthlyResults[monthIndex].hours =
               monthInfo.total_hours / monthInfo.total_students;
           }
         }

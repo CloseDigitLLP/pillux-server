@@ -924,9 +924,18 @@ module.exports = {
         attributes: [
           'id',
           'name',
-          [Sequelize.fn('SUM', Sequelize.col('vehicleRepairs.amount')), 'total_repair'],
-          [Sequelize.fn('SUM', Sequelize.col('vehiclePenalty.amount')), 'total_penalty'],
-          [Sequelize.fn('SUM', Sequelize.col('vehicleReport.amount')), 'total_report'],
+          [
+            Sequelize.literal('(SELECT SUM(`amount`) FROM `repairs` WHERE `vehicle_id` = `vehicles`.`id`)'),
+            'total_repair'
+          ],
+          [
+            Sequelize.literal('(SELECT SUM(`amount`) FROM `penalties` WHERE `vehicle_id` = `vehicles`.`id`)'),
+            'total_penalty'
+          ],
+          [
+            Sequelize.literal('(SELECT SUM(`amount`) FROM `reports` WHERE `vehicle_id` = `vehicles`.`id`)'),
+            'total_report'
+          ]
         ],
         include: [
           {
@@ -950,17 +959,12 @@ module.exports = {
       });
 
       const results = vehicles.map((vehicle) => {
-        const total =
-          (vehicle.dataValues.total_repair || 0) +
-          (vehicle.dataValues.total_penalty || 0) +
-          (vehicle.dataValues.total_report || 0);
-
         return {
           id: vehicle.dataValues.id,
           name: vehicle.dataValues.name,
-          repair: ((vehicle.dataValues.total_repair || 0) / total) * 100 || 0,
-          penalty: ((vehicle.dataValues.total_penalty || 0) / total) * 100 || 0,
-          report: ((vehicle.dataValues.total_report || 0) / total) * 100 || 0,
+          repair: vehicle.dataValues.total_repair || 0,
+          penalty: vehicle.dataValues.total_penalty || 0,
+          report: vehicle.dataValues.total_report || 0,
         };
       });
 

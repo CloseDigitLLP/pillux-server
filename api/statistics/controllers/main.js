@@ -124,4 +124,154 @@ module.exports = {
       });
     }
   },
+  erroredHours: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.errored(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  instructorHours: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.totalInstructorHours(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  instructorAbsent: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.absentInstructorList(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  instructorWishlist: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.wishlistInstructorCount(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  instructorAverage: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.averageInstructorHours(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  instructorVehicleStats: async (req, res) => {
+    try {
+      let data = await framework.services.statistics.basic.vehicleInstructorTotal(req?.user);
+      if (!data) {
+        res.status(400).json({
+          message: 'Data Not Found',
+          error: false,
+          data: {},
+        });
+      } else {
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: data,
+        });
+      }
+    } catch (error) {
+      console.log('Error is => ', error);
+      res.status(500).json({
+        message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
 };

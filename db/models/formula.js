@@ -22,10 +22,8 @@ module.exports = (sequelize, DataTypes) => {
     hour: DataTypes.INTEGER,
     time_validity:DataTypes.INTEGER,
     status: DataTypes.STRING,
-    installments: DataTypes.INTEGER,
-    first_installment_hours: DataTypes.INTEGER,
-    second_installment_hours: DataTypes.INTEGER,
-    third_installment_hours: DataTypes.INTEGER,
+    type: DataTypes.ENUM("Forfait", "Hors Forfait"),
+    fees: DataTypes.INTEGER,
   }, {
     sequelize,
     modelName: 'formulas',

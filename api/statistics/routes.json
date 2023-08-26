@@ -48,5 +48,65 @@
         "middlewares": [],
         "pathFromRoot": false,
         "enabled": true
+    },
+    {
+        "path" : "/erroredHours",
+        "method" : "get",
+        "action" : "main.erroredHours",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/instructorHours",
+        "method" : "get",
+        "action" : "main.instructorHours",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/instructorAbsent",
+        "method" : "get",
+        "action" : "main.instructorAbsent",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/instructorWishlist",
+        "method" : "get",
+        "action" : "main.instructorWishlist",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/instructorAverage",
+        "method" : "get",
+        "action" : "main.instructorAverage",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
+    },
+    {
+        "path" : "/instructorVehicleStats",
+        "method" : "get",
+        "action" : "main.instructorVehicleStats",
+        "public" :false,
+        "globalMiddlewares": [],
+        "middlewares": [],
+        "pathFromRoot": false,
+        "enabled": true
     }
 ]

@@ -120,6 +120,10 @@ const dbSync = async () => {
   await studentPaymentDataSync();
   console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student payments data syncing end`);
 
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student date_code data syncing start`);
+  await studentsDateCodeSync();
+  console.log(`${moment().format('DD-MM-YYYY HH:mm:ss.SSS')} : student date_code data syncing end`);
+
   console.timeEnd('db syncing total time');
 };
 

@@ -35,6 +35,11 @@ module.exports = {
             require: true,
           },
           {
+            model: framework.models.vehicles,
+            as: 'planningVehicle',
+            require: true,
+          },
+          {
             model: framework.models.students,
             as: 'studentGenerals',
             attributes: ['id', 'firstname', 'lastname', 'mobile', 'drivingschool_id'],

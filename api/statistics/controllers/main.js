@@ -151,7 +151,30 @@ module.exports = {
   },
   instructorHours: async (req, res) => {
     try {
-      let data = await framework.services.statistics.basic.totalInstructorHours(req?.user);
+      let instructorId = req?.query?.instructorId;
+      let instructorUser;
+      if (instructorId) {
+        instructorUser = await framework.models.users.findOne({
+          where: {
+            id: instructorId,
+          },
+          attributes: ['email', 'firstname', 'lastname', 'id'],
+          include: [
+            {
+              model: framework.models.roles,
+              as: 'usersRole',
+              attributes: ['name'],
+            },
+            {
+              model: framework.models.user_drivingschool,
+              as: 'userDrivingschool',
+            },
+          ],
+        });
+      }
+      let data = await framework.services.statistics.basic.totalInstructorHours(
+        instructorId ? instructorUser : req.user
+      );
       if (!data) {
         res.status(400).json({
           message: 'Data Not Found',
@@ -176,18 +199,41 @@ module.exports = {
   },
   instructorAbsent: async (req, res) => {
     try {
-      let data = await framework.services.statistics.basic.absentInstructorList(req?.user);
+      let instructorId = req?.query?.instructorId;
+      let instructorUser;
+      if (instructorId) {
+        instructorUser = await framework.models.users.findOne({
+          where: {
+            id: instructorId,
+          },
+          attributes: ['email', 'firstname', 'lastname', 'id'],
+          include: [
+            {
+              model: framework.models.roles,
+              as: 'usersRole',
+              attributes: ['name'],
+            },
+            {
+              model: framework.models.user_drivingschool,
+              as: 'userDrivingschool',
+            },
+          ],
+        });
+      }
+      let data = instructorId
+        ? await framework.services.statistics.basic.absentInstructorAdminList(instructorUser)
+        : await framework.services.statistics.basic.absentInstructorList(req?.user);
       if (!data) {
         res.status(400).json({
           message: 'Data Not Found',
           error: false,
-          data: {},
+          data: [],
         });
       } else {
         res.status(200).json({
           message: '',
           error: false,
-          data: data,
+          data,
         });
       }
     } catch (error) {
@@ -195,7 +241,7 @@ module.exports = {
       res.status(500).json({
         message: error?.message || error,
         error: true,
-        data: {},
+        data: [],
       });
     }
   },

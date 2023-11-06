@@ -10,6 +10,10 @@ module.exports = {
         };
       }
 
+      const totalStudentCount = await framework.models.students.count({
+        where: where,
+      });
+
       const currentYear = new Date().getFullYear();
       const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
 
@@ -66,6 +70,7 @@ module.exports = {
       return {
         monthly: monthlyResults,
         yearly: populatedYearlyResults,
+        totalStudents: totalStudentCount,
       };
     } catch (error) {
       console.log('Error is ==>', error);
@@ -95,7 +100,7 @@ module.exports = {
           {
             model: framework.models.formula,
             as: 'formulaId',
-            attributes: ['name', 'hour'],
+            attributes: ['name', 'hour', 'type'],
           },
         ],
         where: {
@@ -124,7 +129,7 @@ module.exports = {
           {
             model: framework.models.formula,
             as: 'formulaId',
-            attributes: ['name', 'hour'],
+            attributes: ['name', 'hour', 'type'],
           },
         ],
         where: {
@@ -585,7 +590,7 @@ module.exports = {
     try {
       if (user?.usersRole?.name === 'Moniteurs') {
         where['instructor_id'] = user?.id;
-      }
+      } 
 
       const currentYear = new Date().getFullYear();
       const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
@@ -603,10 +608,7 @@ module.exports = {
         attributes: [
           [Sequelize.fn('MONTH', Sequelize.col('start_horary')), 'month'],
           [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
-          [
-            Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
-            'hours',
-          ],
+          [Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'), 'hours'],
         ],
         include: [
           {
@@ -647,10 +649,7 @@ module.exports = {
         attributes: [
           'instructor_id',
           [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
-          [
-            Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
-            'hours',
-          ],
+          [Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'), 'hours'],
         ],
         include: [
           {
@@ -709,7 +708,6 @@ module.exports = {
       if (user?.usersRole?.name === 'Moniteurs') {
         where['instructor_id'] = user?.id;
       }
-
       return await framework.models.planning_generals.findAll({
         attributes: [
           [Sequelize.fn('DATE', Sequelize.col('start_horary')), 'date'],
@@ -742,6 +740,132 @@ module.exports = {
     }
   },
 
+  absentInstructorAdminList: async (user, where = {}) => {
+    try {
+      if (user?.usersRole?.name === 'Moniteurs') {
+        where['instructor_id'] = user?.id;
+      }
+  
+      const currentYear = new Date().getFullYear();
+      const allMonths = Array.from({ length: 12 }, (_, i) => i + 1);
+      const startYear = 2013;
+      const allYears = Array.from({ length: currentYear - startYear + 1 }, (_, i) => startYear + i);
+  
+      const populatedYearlyResults = allYears.map((year) => {
+        return {
+          year,
+          total_hours: 0,
+        };
+      });
+  
+      const monthlyResults = await framework.models.planning_generals.findAll({
+        attributes: [
+          [Sequelize.fn('MONTH', Sequelize.col('start_horary')), 'month'],
+          [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
+          [
+            Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
+            'total_hours',
+          ],
+        ],
+        include: [
+          {
+            model: framework.models.users,
+            as: 'instructorGenerals',
+            attributes: [],
+            include: [
+              {
+                model: framework.models.user_drivingschool,
+                as: 'userDrivingschool',
+                attributes: [],
+              },
+            ],
+          },
+        ],
+        where: {
+          ...where,
+          [Op.and]: [
+            Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('start_horary')), currentYear),
+            Sequelize.where(Sequelize.fn('MONTH', Sequelize.col('start_horary')), { [Op.in]: allMonths }),
+            {
+              status: {
+                [Op.in]: ['absent'],
+              },
+            },
+            {
+              motif: {
+                [Op.eq]: 'Instructeur absent',
+              },
+            },
+          ],
+        },
+        group: ['year', 'month'],
+        order: [
+          [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'DESC'],
+          [Sequelize.fn('MONTH', Sequelize.col('start_horary')), 'DESC'],
+        ],
+        raw: true,
+      });
+  
+      const yearlyResults = await framework.models.planning_generals.findAll({
+        attributes: [
+          [Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'year'],
+          [
+            Sequelize.literal('CAST(SUM(TIMESTAMPDIFF(SECOND, start_horary, end_horary) / 3600) AS SIGNED)'),
+            'total_hours',
+          ],
+        ],
+        include: [
+          {
+            model: framework.models.users,
+            as: 'instructorGenerals',
+            attributes: [],
+            include: [
+              {
+                model: framework.models.user_drivingschool,
+                as: 'userDrivingschool',
+                attributes: [],
+              },
+            ],
+          },
+        ],
+        where: {
+          ...where,
+          [Op.and]: [
+            Sequelize.where(Sequelize.fn('YEAR', Sequelize.col('start_horary')), { [Op.gte]: startYear }),
+            {
+              status: {
+                [Op.in]: ['absent'],
+              },
+            },
+            {
+              motif: {
+                [Op.eq]: 'Instructeur absent',
+              },
+            },
+          ],
+        },
+        group: ['year'],
+        order: [[Sequelize.fn('YEAR', Sequelize.col('start_horary')), 'DESC']],
+        raw: true,
+      });
+  
+      yearlyResults.forEach((yearInfo) => {
+        const yearIndex = yearInfo.year - startYear;
+        if (populatedYearlyResults[yearIndex]) {
+          populatedYearlyResults[yearIndex].total_hours = yearInfo.total_hours;
+        }
+      });
+  
+      return {
+        monthly: monthlyResults,
+        yearly: populatedYearlyResults,
+      };
+    } catch (error) {
+      console.log('Error is ==>', error);
+      return Promise.reject(error);
+    }
+  },
+  
   wishlistInstructorCount: async (user, where = {}) => {
     try {
       if (user?.usersRole?.name === 'Moniteurs') {
@@ -754,7 +878,7 @@ module.exports = {
         group: ['instructor_id'],
       });
 
-      return data[0]
+      return data[0];
     } catch (error) {
       console.log('Error is ==>', error);
       return Promise.reject(error);
@@ -886,8 +1010,7 @@ module.exports = {
           populatedYearlyResults[yearIndex].total_hours = yearInfo.total_hours;
           populatedYearlyResults[yearIndex].total_students = yearInfo.total_students;
           if (yearInfo.total_students > 0) {
-            populatedYearlyResults[yearIndex].hours =
-              yearInfo.total_hours / yearInfo.total_students;
+            populatedYearlyResults[yearIndex].hours = yearInfo.total_hours / yearInfo.total_students;
           }
         }
       });
@@ -898,8 +1021,7 @@ module.exports = {
           populatedMonthlyResults[monthIndex].total_hours = monthInfo.total_hours;
           populatedMonthlyResults[monthIndex].total_students = monthInfo.total_students;
           if (monthInfo.total_students > 0) {
-            populatedMonthlyResults[monthIndex].hours =
-              monthInfo.total_hours / monthInfo.total_students;
+            populatedMonthlyResults[monthIndex].hours = monthInfo.total_hours / monthInfo.total_students;
           }
         }
       });
@@ -926,16 +1048,16 @@ module.exports = {
           'name',
           [
             Sequelize.literal('(SELECT SUM(`amount`) FROM `repairs` WHERE `vehicle_id` = `vehicles`.`id`)'),
-            'total_repair'
+            'total_repair',
           ],
           [
             Sequelize.literal('(SELECT SUM(`amount`) FROM `penalties` WHERE `vehicle_id` = `vehicles`.`id`)'),
-            'total_penalty'
+            'total_penalty',
           ],
           [
             Sequelize.literal('(SELECT SUM(`amount`) FROM `reports` WHERE `vehicle_id` = `vehicles`.`id`)'),
-            'total_report'
-          ]
+            'total_report',
+          ],
         ],
         include: [
           {

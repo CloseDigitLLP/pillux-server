@@ -247,9 +247,32 @@ module.exports = {
   },
   instructorWishlist: async (req, res) => {
     try {
-      let data = await framework.services.statistics.basic.wishlistInstructorCount(req?.user);
+      let instructorId = req?.query?.instructorId;
+      let instructorUser;
+      if (instructorId) {
+        instructorUser = await framework.models.users.findOne({
+          where: {
+            id: instructorId,
+          },
+          attributes: ['email', 'firstname', 'lastname', 'id'],
+          include: [
+            {
+              model: framework.models.roles,
+              as: 'usersRole',
+              attributes: ['name'],
+            },
+            {
+              model: framework.models.user_drivingschool,
+              as: 'userDrivingschool',
+            },
+          ],
+        });
+      }
+      let data = await framework.services.statistics.basic.wishlistInstructorCount(
+        instructorId ? instructorUser : req?.user
+      );
       if (!data) {
-        res.status(400).json({
+        res.status(200).json({
           message: 'Data Not Found',
           error: false,
           data: {},
@@ -272,7 +295,30 @@ module.exports = {
   },
   instructorAverage: async (req, res) => {
     try {
-      let data = await framework.services.statistics.basic.averageInstructorHours(req?.user);
+      let instructorId = req?.query?.instructorId;
+      let instructorUser;
+      if (instructorId) {
+        instructorUser = await framework.models.users.findOne({
+          where: {
+            id: instructorId,
+          },
+          attributes: ['email', 'firstname', 'lastname', 'id'],
+          include: [
+            {
+              model: framework.models.roles,
+              as: 'usersRole',
+              attributes: ['name'],
+            },
+            {
+              model: framework.models.user_drivingschool,
+              as: 'userDrivingschool',
+            },
+          ],
+        });
+      }
+      let data = await framework.services.statistics.basic.averageInstructorHours(
+        instructorId ? instructorUser : req?.user
+      );
       if (!data) {
         res.status(400).json({
           message: 'Data Not Found',
@@ -297,7 +343,30 @@ module.exports = {
   },
   instructorVehicleStats: async (req, res) => {
     try {
-      let data = await framework.services.statistics.basic.vehicleInstructorTotal(req?.user);
+      let instructorId = req?.query?.instructorId;
+      let instructorUser;
+      if (instructorId) {
+        instructorUser = await framework.models.users.findOne({
+          where: {
+            id: instructorId,
+          },
+          attributes: ['email', 'firstname', 'lastname', 'id'],
+          include: [
+            {
+              model: framework.models.roles,
+              as: 'usersRole',
+              attributes: ['name'],
+            },
+            {
+              model: framework.models.user_drivingschool,
+              as: 'userDrivingschool',
+            },
+          ],
+        });
+      }
+      let data = await framework.services.statistics.basic.vehicleInstructorTotal(
+        instructorId ? instructorUser : req?.user
+      );
       if (!data) {
         res.status(400).json({
           message: 'Data Not Found',

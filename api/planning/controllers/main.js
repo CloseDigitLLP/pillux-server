@@ -29,7 +29,6 @@ module.exports = {
   create: async (req, res) => {
     try {
       let planningData = req.body;
-      console.log(planningData);
       let newPlanning = await framework.services.planning.basic.create(planningData);
       if (!newPlanning) {
         res.status(400).json({
@@ -137,6 +136,44 @@ module.exports = {
           data: {},
         });
       } else {
+        let plans = await framework.models.planning_generals.findByPk(id, {
+          include: [
+            {
+              model: framework.models.users,
+              as: 'instructorGenerals',
+              required: true,
+            },
+            {
+              model: framework.models.students,
+              as: 'studentGenerals',
+              attributes: ['id', 'firstname', 'lastname', 'email', 'mobile'],
+            },
+          ],
+        });
+        if (plans && !is_monitor_absent) {
+          const sgMail = require('@sendgrid/mail');
+          sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+          const instructorName = `${plans.instructorGenerals.firstname} ${plans.instructorGenerals.lastname}`;
+          const lessonStatus = plans.status;
+          const msg = {
+            to: plans?.studentGenerals?.email,
+            from: 'rajanvasani9@gmail.com', // NOTE - Change to your verified sender
+            subject: 'Your Scheduled Driving Lesson Info',
+            text: `Hello ${plans?.studentGenerals?.firstname} ${plans?.studentGenerals?.lastname},\n\nWe want to inform you that your scheduled driving lesson with instructor ${instructorName} is confirmed. The lesson is scheduled from ${plans?.start_horary} to ${plans?.end_horary}. The current status is ${plans?.status}. If there are any changes or concerns, please contact us.\n\nThank you for choosing our driving school.\n\nSincerely,\nYour Driving School Team`,
+            html: `<p>Hello ${plans?.studentGenerals?.firstname} ${plans?.studentGenerals?.lastname},</p>
+            <p>We want to inform you that your scheduled driving lesson with instructor ${instructorName} has been marked as ${lessonStatus}. The lesson was scheduled from ${plans?.start_horary} to ${plans?.end_horary}. If you have any questions or need further assistance, please contact us.</p>
+            <p>Thank you for choosing our driving school.</p>
+            <p>Sincerely,<br>Your Driving School Team</p>`,
+          };
+          sgMail
+            .send(msg)
+            .then(() => {
+              console.log('Email sended to student');
+            })
+            .catch((error) => {
+              console.error(error.response.body);
+            });
+        }
         res.status(201).json({
           message: '',
           error: false,
@@ -147,6 +184,31 @@ module.exports = {
       console.log('Error is =>', error);
       res.status(500).json({
         message: error?.message || error,
+        error: true,
+        data: {},
+      });
+    }
+  },
+  studentPlanning: async (req, res) => {
+    try {
+      let { id: studentId } = req?.params;
+      if (!studentId) {
+        res.status(400).json({
+          message: "Can't find student's planning, give valid student data",
+          error: true,
+          data: {},
+        });
+      } else {
+        let planning = await framework.services.planning.basic.studentPlan(studentId);
+        res.status(200).json({
+          message: '',
+          error: false,
+          data: planning,
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        message: error?.message,
         error: true,
         data: {},
       });

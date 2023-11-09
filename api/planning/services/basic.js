@@ -5,17 +5,17 @@ const { Sequelize } = require('sequelize');
 module.exports = {
   fetch: async (id, where = {}, user) => {
     try {
-      let lastDate = moment().subtract(1, "months").format('YYYY-MM-DD HH:mm:ss');
+      let lastDate = moment().subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
       let firstDate = moment().add(1, 'months').startOf('month').format('YYYY-MM-DD HH:mm:ss');
-      if (user?.usersRole?.name === 'Secrétaires'|| user?.usersRole?.name === 'Gérants') {
+      if (user?.usersRole?.name === 'Secrétaires' || user?.usersRole?.name === 'Gérants') {
         where['$studentGenerals.drivingschool_id$'] = {
           [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
-      }else if(user?.usersRole?.name === 'Moniteurs'){
+      } else if (user?.usersRole?.name === 'Moniteurs') {
         where['$studentGenerals.drivingschool_id$'] = {
           [Sequelize.Op.in]: user?.userDrivingschool?.map((drivingSchool) => drivingSchool?.drivingschool_id),
         };
-        where['instructor_id'] = user?.id
+        where['instructor_id'] = user?.id;
       }
 
       if (id) {
@@ -59,24 +59,24 @@ module.exports = {
               {
                 model: framework.models.licences,
                 as: 'licenceStudents',
-                attributes: ['name']
+                attributes: ['name'],
               },
-              (user?.usersRole?.name === 'Moniteurs')
-              ? {
-                  model: framework.models.student_skill,
-                  as: 'studentSkills',
-                  separate: true,
-                  required: false,
-                  order: [['id', 'ASC']],
-                  include: [
-                    {
-                      model: framework.models.skills,
-                      as: 'skillId',
-                      attributes: { exclude: ['created_at', 'updated_at'] },
-                    },
-                  ],
-                }
-              : null,
+              user?.usersRole?.name === 'Moniteurs'
+                ? {
+                    model: framework.models.student_skill,
+                    as: 'studentSkills',
+                    separate: true,
+                    required: false,
+                    order: [['id', 'ASC']],
+                    include: [
+                      {
+                        model: framework.models.skills,
+                        as: 'skillId',
+                        attributes: { exclude: ['created_at', 'updated_at'] },
+                      },
+                    ],
+                  }
+                : null,
             ].filter(Boolean),
           },
         ],
@@ -116,6 +116,62 @@ module.exports = {
       });
     } catch (error) {
       console.log('Error is =>', error);
+      return Promise.reject(error);
+    }
+  },
+  studentPlan: async (id, where = {}) => {
+    try {
+      let lastDate = moment().subtract(1, 'months').format('YYYY-MM-DD HH:mm:ss');
+      let firstDate = moment().add(1, 'months').startOf('month').format('YYYY-MM-DD HH:mm:ss');
+      if (id) {
+        where.student_id = id;
+      }
+      where.start_horary = {
+        [Op.gte]: lastDate,
+        [Op.lte]: firstDate,
+      };
+
+      return await framework.models.planning_generals.findAll({
+        include: [
+          {
+            model: framework.models.users,
+            as: 'instructorGenerals',
+            require: true,
+          },
+          {
+            model: framework.models.vehicles,
+            as: 'planningVehicle',
+            require: true,
+          },
+          {
+            model: framework.models.students,
+            as: 'studentGenerals',
+            attributes: ['id', 'firstname', 'lastname', 'mobile', 'drivingschool_id'],
+            include: [
+              {
+                model: framework.models.driving_schools,
+                as: 'drivingSchoolStudents',
+                attributes: ['name', 'email', 'status', 'start_date', 'valid_date', 'enabled'],
+                include: [
+                  {
+                    model: framework.models.skills,
+                    as: 'drivingSchoolSkills',
+                    attributes: { exclude: ['created_at', 'updated_at'] },
+                  },
+                ],
+              },
+              {
+                model: framework.models.licences,
+                as: 'licenceStudents',
+                attributes: ['name'],
+              },
+            ],
+          },
+        ],
+        where,
+      });
+    } catch (error) {
+      console.log('Error is ==>', error);
       return Promise.reject(error);
     }
   },

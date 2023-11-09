@@ -227,6 +227,17 @@ module.exports = {
             separate: true,
             order: [['id', 'ASC']],
           },
+          {
+            model: framework.models.planning_generals,
+            as: 'studentGenerals',
+            include: [
+              {
+                model: framework.models.users,
+                as: 'instructorGenerals',
+                attributes: ['id', 'firstname', 'lastname']
+              }
+            ]
+          }
         ],
         attributes: [
           'id',
